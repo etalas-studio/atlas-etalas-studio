@@ -1,0 +1,1156 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="light" data-lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Atlas — AI Operator untuk Perusahaan</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+:root,[data-theme="light"]{
+  --bg:#FAFAF7;
+  --bg2:#F3F2ED;
+  --bg3:#ECEAE3;
+  --text:#111110;
+  --text2:#706C61;
+  --text3:#B0AB9E;
+  --gold:#8C6420;
+  --gold-faint:rgba(140,100,32,0.06);
+  --border:#E4E2DA;
+  --border2:#CCCABE;
+  --nav-bg:rgba(250,250,247,0.96);
+  --ease:cubic-bezier(0.16,1,0.3,1);
+}
+[data-theme="dark"]{
+  --bg:#0E0E0C;--bg2:#161614;--bg3:#1E1E1B;
+  --text:#F0EDE6;--text2:#9A9488;--text3:#5A5650;
+  --gold:#C89840;--gold-faint:rgba(200,152,64,0.07);
+  --border:#252420;--border2:#302E28;
+  --nav-bg:rgba(14,14,12,0.96);
+}
+
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;font-size:17px;line-height:1.7;overflow-x:hidden;cursor:none;transition:background 0.5s,color 0.5s}
+
+[data-theme="light"] body::after{content:'';position:fixed;inset:0;background-image:radial-gradient(circle,rgba(140,100,32,0.065) 1px,transparent 1px);background-size:32px 32px;pointer-events:none;z-index:0;mask-image:linear-gradient(to bottom,transparent 0%,black 12%,black 88%,transparent 100%);-webkit-mask-image:linear-gradient(to bottom,transparent 0%,black 12%,black 88%,transparent 100%)}
+body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");pointer-events:none;z-index:1;opacity:0.45}
+nav,section,footer{position:relative;z-index:2}
+
+[data-lang="id"] .en{display:none}[data-lang="en"] .id{display:none}
+
+.cur{width:6px;height:6px;background:var(--text);border-radius:50%;position:fixed;top:0;left:0;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:background 0.3s}
+.cur-ring{width:28px;height:28px;border:1px solid rgba(17,17,16,0.18);border-radius:50%;position:fixed;top:0;left:0;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:transform 0.45s var(--ease),width 0.3s var(--ease),height 0.3s var(--ease)}
+[data-theme="dark"] .cur-ring{border-color:rgba(240,237,230,0.12)}
+
+.container{max-width:720px;margin:0 auto;padding:0 32px}
+.container--wide{max-width:1040px;margin:0 auto;padding:0 40px}
+.reveal{opacity:0;transform:translateY(18px);transition:opacity 0.8s var(--ease),transform 0.8s var(--ease)}
+.reveal.visible{opacity:1;transform:none}
+.d1{transition-delay:0.09s}.d2{transition-delay:0.18s}.d3{transition-delay:0.27s}.d4{transition-delay:0.36s}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 40px;height:62px;display:flex;align-items:center;justify-content:space-between;transition:background 0.4s,border-color 0.4s}
+nav.scrolled{background:var(--nav-bg);backdrop-filter:blur(16px);border-bottom:1px solid var(--border)}
+.nav-logo{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:var(--text);text-decoration:none;letter-spacing:-0.01em}
+.nav-logo em{font-style:normal;color:var(--gold)}
+.nav-right{display:flex;align-items:center;gap:20px}
+.nav-link{font-size:14px;color:var(--text2);text-decoration:none;transition:color 0.2s;cursor:none}
+.nav-link:hover{color:var(--text)}
+.toggle-group{display:flex;align-items:center;gap:4px;background:var(--bg3);border:1px solid var(--border2);border-radius:999px;padding:3px}
+.tog-btn{height:26px;padding:0 11px;border-radius:999px;border:none;background:transparent;cursor:none;font-size:12px;font-weight:500;color:var(--text3);font-family:'DM Sans',sans-serif;transition:background 0.2s,color 0.2s;white-space:nowrap}
+.tog-btn.active{background:var(--bg);color:var(--text);box-shadow:0 1px 2px rgba(0,0,0,0.07)}
+[data-theme="dark"] .tog-btn.active{background:var(--bg2);box-shadow:none}
+.tog-sep{width:1px;height:14px;background:var(--border2);margin:0 2px}
+.nav-cta{font-size:14px;font-weight:500;color:var(--text);text-decoration:none;background:var(--bg3);border:1px solid var(--border2);padding:7px 20px;border-radius:999px;transition:background 0.2s;cursor:none}
+.nav-cta:hover{background:var(--border)}
+
+/* HERO */
+.hero{min-height:100vh;display:flex;align-items:center;padding:120px 0 100px}
+.hero-inner{text-align:center}
+.hero-kicker{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text3);letter-spacing:0.12em;text-transform:uppercase;margin-bottom:36px;display:flex;align-items:center;justify-content:center;gap:16px}
+.hero-kicker::before,.hero-kicker::after{content:'';height:1px;background:var(--border2);width:48px;display:block}
+.hero h1{font-family:'Playfair Display',serif;font-size:clamp(44px,7vw,88px);font-weight:700;line-height:1.05;letter-spacing:-0.035em;color:var(--text);margin-bottom:32px}
+.hero h1 em{font-style:italic;color:var(--gold)}
+.hero-sub{font-size:clamp(16px,1.8vw,19px);color:var(--text2);line-height:1.7;max-width:500px;margin:0 auto 52px;font-weight:300}
+.hero-actions{display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap}
+.btn-primary{background:var(--text);color:var(--bg);padding:13px 32px;border-radius:999px;font-size:15px;font-weight:500;text-decoration:none;cursor:none;transition:opacity 0.2s,transform 0.2s var(--ease);display:inline-block}
+.btn-primary:hover{opacity:0.8;transform:translateY(-1px)}
+.btn-secondary{background:var(--bg);color:var(--text);padding:13px 32px;border-radius:999px;border:1px solid var(--border2);font-size:15px;font-weight:400;text-decoration:none;cursor:none;transition:border-color 0.2s,background 0.2s,transform 0.2s var(--ease);display:inline-block}
+.btn-secondary:hover{border-color:var(--text3);background:var(--bg2);transform:translateY(-1px)}
+.btn-tertiary{font-size:14px;color:var(--text3);text-decoration:none;cursor:none;display:inline-flex;align-items:center;gap:4px;transition:color 0.2s;padding:13px 8px}
+.btn-tertiary:hover{color:var(--text2)}
+.btn-tertiary::after{content:'↗';font-size:11px}
+
+hr{border:none;border-top:1px solid var(--border)}
+section{padding:96px 0}
+.kicker{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:var(--text3);margin-bottom:20px;display:block}
+.s-heading{font-family:'Playfair Display',serif;font-size:clamp(30px,3.5vw,46px);font-weight:600;line-height:1.15;letter-spacing:-0.02em;color:var(--text);margin-bottom:16px}
+.s-heading em{font-style:italic;color:var(--gold)}
+.s-body{font-size:17px;color:var(--text2);line-height:1.75;font-weight:300;max-width:500px}
+
+/* PROBLEM */
+.problem-rows{border-top:1px solid var(--border);margin-top:56px}
+.p-row{display:grid;grid-template-columns:36px 1fr;gap:28px;padding:28px 0;border-bottom:1px solid var(--border);align-items:baseline}
+.p-n{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text3);padding-top:4px;letter-spacing:0.06em}
+.p-text{font-size:16px;color:var(--text2);line-height:1.65;font-weight:300}
+.p-text strong{color:var(--text);font-weight:500}
+
+/* OPENCLAW / CARA KERJA */
+.oc-section{background:var(--bg2);transition:background 0.5s}
+.oc-grid{display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:start}
+.oc-terminal{background:var(--bg);border:1px solid var(--border);border-radius:14px;overflow:hidden;margin-bottom:16px}
+.oc-bar{padding:13px 18px;background:var(--bg3);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:7px}
+.oc-dot{width:9px;height:9px;border-radius:50%}
+.oc-dot:nth-child(1){background:#FF5F57}.oc-dot:nth-child(2){background:#FEBC2E}.oc-dot:nth-child(3){background:#28C840}
+.oc-label{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text3);margin-left:6px}
+.oc-body{padding:20px 22px;font-family:'JetBrains Mono',monospace;font-size:12px;line-height:1.9;color:var(--text3);white-space:pre}
+.oc-body .p{color:var(--gold)}.oc-body .v{color:var(--text2)}.oc-body .ok{color:#4ADE80}
+.oc-cursor{display:inline-block;width:7px;height:12px;background:var(--gold);vertical-align:-2px;animation:blink 1.2s infinite;margin-left:1px}
+@keyframes blink{0%,50%{opacity:1}51%,100%{opacity:0}}
+
+/* tool chips */
+.tool-chips{display:flex;flex-wrap:wrap;gap:7px;margin-top:20px}
+.tool-chip{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text3);background:var(--bg);border:1px solid var(--border);padding:4px 11px;border-radius:6px;transition:border-color 0.2s,color 0.2s}
+.tool-chip:hover{border-color:var(--border2);color:var(--text2)}
+
+/* HOW — 3 cells */
+.how-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:14px;overflow:hidden;margin-top:56px}
+.how-cell{background:var(--bg);padding:36px 32px;transition:background 0.25s}
+.how-cell:hover{background:var(--bg2)}
+.how-n{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text3);margin-bottom:18px;letter-spacing:0.08em}
+.how-title{font-size:16px;font-weight:500;color:var(--text);margin-bottom:8px;line-height:1.35}
+.how-desc{font-size:14px;color:var(--text3);line-height:1.65;font-weight:300}
+
+/* USE CASES — tabbed */
+.uc-section{background:var(--bg2);transition:background 0.5s}
+.uc-tabs{display:flex;gap:4px;margin-bottom:40px;flex-wrap:wrap}
+.uc-tab{padding:9px 18px;border-radius:8px;font-size:13px;color:var(--text3);background:transparent;border:1px solid transparent;cursor:none;transition:background 0.2s,color 0.2s,border-color 0.2s;font-family:'DM Sans',sans-serif;white-space:nowrap}
+.uc-tab.active{background:var(--bg);color:var(--text);border-color:var(--border)}
+.uc-tab:hover:not(.active){color:var(--text2)}
+.uc-pane{display:none}
+.uc-pane.active{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:start}
+.uc-left h3{font-family:'Playfair Display',serif;font-size:28px;font-weight:600;color:var(--text);line-height:1.2;margin-bottom:12px}
+.uc-left p{font-size:15px;color:var(--text2);line-height:1.7;font-weight:300;margin-bottom:20px}
+.uc-steps{list-style:none;display:flex;flex-direction:column;gap:8px}
+.uc-steps li{display:flex;align-items:flex-start;gap:10px;font-size:14px;color:var(--text2);font-weight:300}
+.uc-steps li::before{content:'→';color:var(--gold);flex-shrink:0;margin-top:1px;font-size:13px}
+.uc-demo{background:var(--bg);border:1px solid var(--border);border-radius:12px;overflow:hidden}
+.uc-demo-bar{padding:11px 16px;background:var(--bg3);border-bottom:1px solid var(--border);font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text3);display:flex;align-items:center;gap:7px}
+.uc-demo-bar::before{content:'◉';color:var(--gold);font-size:9px}
+.uc-demo-body{padding:20px 22px;font-family:'JetBrains Mono',monospace;font-size:12px;line-height:1.9;color:var(--text3);white-space:pre-wrap}
+.uc-demo-body .p{color:var(--gold)}.uc-demo-body .tag{color:var(--text3)}.uc-demo-body .ok{color:#4ADE80}.uc-demo-body .v{color:var(--text2)}
+
+/* PHASES */
+.phases-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:14px;overflow:hidden;margin-top:56px}
+.phase-cell{background:var(--bg2);padding:36px 32px;transition:background 0.25s;position:relative}
+.phase-cell:hover{background:var(--bg3)}
+.phase-cell::before{content:'';position:absolute;top:0;left:0;right:0;height:2px}
+.phase-cell:nth-child(1)::before{background:var(--gold)}
+.phase-cell:nth-child(2)::before{background:var(--text3)}
+.phase-cell:nth-child(3)::before{background:var(--text2)}
+.phase-n{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--text3);margin-bottom:12px;letter-spacing:0.1em;text-transform:uppercase}
+.phase-title{font-size:17px;font-weight:500;color:var(--text);margin-bottom:16px;line-height:1.3}
+.phase-list{list-style:none;display:flex;flex-direction:column;gap:7px}
+.phase-list li{font-size:13px;color:var(--text3);font-weight:300;display:flex;align-items:flex-start;gap:8px;line-height:1.5}
+.phase-list li::before{content:'—';color:var(--border2);flex-shrink:0}
+.phase-time{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text3);margin-top:20px;padding-top:16px;border-top:1px solid var(--border)}
+
+/* OFFERINGS — contained box */
+.offerings-section{padding:96px 0}
+.offerings-hd{margin-bottom:48px}
+.offerings-cards{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:20px;
+}
+/* card shell */
+.offer-card{
+  background:#fff;
+  border:1px solid var(--border);
+  border-radius:16px;
+  overflow:hidden;
+  display:flex;flex-direction:column;
+  box-shadow:0 2px 8px rgba(0,0,0,0.04);
+  transition:transform 0.25s var(--ease),box-shadow 0.25s;
+  cursor:none;
+}
+[data-theme="dark"] .offer-card{background:var(--bg2);box-shadow:none}
+.offer-card:hover{
+  transform:translateY(-4px);
+  box-shadow:0 14px 44px rgba(0,0,0,0.09);
+}
+[data-theme="dark"] .offer-card:hover{box-shadow:0 14px 44px rgba(0,0,0,0.4)}
+/* illustration band */
+.offer-illus{
+  width:100%;aspect-ratio:16/9;
+  overflow:hidden;position:relative;
+  display:flex;align-items:center;justify-content:center;
+}
+.card-course .offer-illus{
+  background:linear-gradient(160deg,#C8DCF0 0%,#A8C8E8 35%,#B8D8C8 70%,#C8E0B8 100%);
+}
+[data-theme="dark"] .card-course .offer-illus{
+  background:linear-gradient(160deg,#182438 0%,#1A2E44 50%,#18302A 100%);
+}
+.card-consulting .offer-illus{
+  background:linear-gradient(160deg,#E8D8B8 0%,#D8C098 35%,#C8A870 60%,#D4B880 100%);
+}
+[data-theme="dark"] .card-consulting .offer-illus{
+  background:linear-gradient(160deg,#281E10 0%,#30220C 50%,#201808 100%);
+}
+/* decorative SVG scene inside each card */
+.offer-illus svg{width:100%;height:100%;position:absolute;inset:0}
+/* card body */
+.offer-body{
+  padding:24px 28px 0;
+  flex:1;
+}
+.offer-tag{
+  font-family:'JetBrains Mono',monospace;font-size:10px;
+  letter-spacing:0.14em;text-transform:uppercase;
+  color:var(--text3);margin-bottom:10px;display:block;
+}
+.offer-title{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(19px,2vw,22px);
+  font-style:italic;font-weight:600;
+  color:var(--text);line-height:1.25;margin-bottom:16px;
+}
+.offer-points{
+  list-style:none;display:flex;flex-direction:column;
+  gap:6px;margin-bottom:0;
+}
+.offer-points li{
+  font-size:13px;color:var(--text2);font-weight:300;
+  display:flex;align-items:flex-start;gap:7px;line-height:1.5;
+}
+.offer-points li::before{
+  content:'·';color:var(--text3);flex-shrink:0;
+  font-size:16px;line-height:1.15;
+}
+/* card footer row — label left, arrow right */
+.offer-footer{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:16px 28px;margin-top:20px;
+  border-top:1px solid var(--border);
+}
+.offer-cta{
+  font-size:14px;font-weight:400;
+  font-family:'DM Sans',sans-serif;
+  color:var(--text2);text-decoration:none;cursor:none;
+  transition:color 0.2s;
+}
+.offer-cta:hover{color:var(--text)}
+.offer-arrow{
+  width:28px;height:28px;
+  border:1px solid var(--border2);border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:13px;color:var(--text3);
+  text-decoration:none;cursor:none;
+  transition:border-color 0.2s,transform 0.2s var(--ease);
+  flex-shrink:0;
+}
+.offer-arrow:hover{border-color:var(--text2);transform:translateX(3px)}light" data-lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Atlas — AI Operator untuk Perusahaan</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+:root,[data-theme="light"]{
+  --bg:#FAFAF7;
+  --bg2:#F3F2ED;
+  --bg3:#ECEAE3;
+  --text:#111110;
+  --text2:#706C61;
+  --text3:#B0AB9E;
+  --gold:#8C6420;
+  --gold-faint:rgba(140,100,32,0.06);
+  --border:#E4E2DA;
+  --border2:#CCCABE;
+  --nav-bg:rgba(250,250,247,0.96);
+  --ease:cubic-bezier(0.16,1,0.3,1);
+}
+[data-theme="dark"]{
+  --bg:#0E0E0C;--bg2:#161614;--bg3:#1E1E1B;
+  --text:#F0EDE6;--text2:#9A9488;--text3:#5A5650;
+  --gold:#C89840;--gold-faint:rgba(200,152,64,0.07);
+  --border:#252420;--border2:#302E28;
+  --nav-bg:rgba(14,14,12,0.96);
+}
+
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;font-size:17px;line-height:1.7;overflow-x:hidden;cursor:none;transition:background 0.5s,color 0.5s}
+
+[data-theme="light"] body::after{content:'';position:fixed;inset:0;background-image:radial-gradient(circle,rgba(140,100,32,0.065) 1px,transparent 1px);background-size:32px 32px;pointer-events:none;z-index:0;mask-image:linear-gradient(to bottom,transparent 0%,black 12%,black 88%,transparent 100%);-webkit-mask-image:linear-gradient(to bottom,transparent 0%,black 12%,black 88%,transparent 100%)}
+body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");pointer-events:none;z-index:1;opacity:0.45}
+nav,section,footer{position:relative;z-index:2}
+
+[data-lang="id"] .en{display:none}[data-lang="en"] .id{display:none}
+
+.cur{width:6px;height:6px;background:var(--text);border-radius:50%;position:fixed;top:0;left:0;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:background 0.3s}
+.cur-ring{width:28px;height:28px;border:1px solid rgba(17,17,16,0.18);border-radius:50%;position:fixed;top:0;left:0;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:transform 0.45s var(--ease),width 0.3s var(--ease),height 0.3s var(--ease)}
+[data-theme="dark"] .cur-ring{border-color:rgba(240,237,230,0.12)}
+
+.container{max-width:720px;margin:0 auto;padding:0 32px}
+.container--wide{max-width:1040px;margin:0 auto;padding:0 40px}
+.reveal{opacity:0;transform:translateY(18px);transition:opacity 0.8s var(--ease),transform 0.8s var(--ease)}
+.reveal.visible{opacity:1;transform:none}
+.d1{transition-delay:0.09s}.d2{transition-delay:0.18s}.d3{transition-delay:0.27s}.d4{transition-delay:0.36s}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 40px;height:62px;display:flex;align-items:center;justify-content:space-between;transition:background 0.4s,border-color 0.4s}
+nav.scrolled{background:var(--nav-bg);backdrop-filter:blur(16px);border-bottom:1px solid var(--border)}
+.nav-logo{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:var(--text);text-decoration:none;letter-spacing:-0.01em}
+.nav-logo em{font-style:normal;color:var(--gold)}
+.nav-right{display:flex;align-items:center;gap:20px}
+.nav-link{font-size:14px;color:var(--text2);text-decoration:none;transition:color 0.2s;cursor:none}
+.nav-link:hover{color:var(--text)}
+.toggle-group{display:flex;align-items:center;gap:4px;background:var(--bg3);border:1px solid var(--border2);border-radius:999px;padding:3px}
+.tog-btn{height:26px;padding:0 11px;border-radius:999px;border:none;background:transparent;cursor:none;font-size:12px;font-weight:500;color:var(--text3);font-family:'DM Sans',sans-serif;transition:background 0.2s,color 0.2s;white-space:nowrap}
+.tog-btn.active{background:var(--bg);color:var(--text);box-shadow:0 1px 2px rgba(0,0,0,0.07)}
+[data-theme="dark"] .tog-btn.active{background:var(--bg2);box-shadow:none}
+.tog-sep{width:1px;height:14px;background:var(--border2);margin:0 2px}
+.nav-cta{font-size:14px;font-weight:500;color:var(--text);text-decoration:none;background:var(--bg3);border:1px solid var(--border2);padding:7px 20px;border-radius:999px;transition:background 0.2s;cursor:none}
+.nav-cta:hover{background:var(--border)}
+
+/* HERO */
+.hero{min-height:100vh;display:flex;align-items:center;padding:120px 0 100px}
+.hero-inner{text-align:center}
+.hero-kicker{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text3);letter-spacing:0.12em;text-transform:uppercase;margin-bottom:36px;display:flex;align-items:center;justify-content:center;gap:16px}
+.hero-kicker::before,.hero-kicker::after{content:'';height:1px;background:var(--border2);width:48px;display:block}
+.hero h1{font-family:'Playfair Display',serif;font-size:clamp(44px,7vw,88px);font-weight:700;line-height:1.05;letter-spacing:-0.035em;color:var(--text);margin-bottom:32px}
+.hero h1 em{font-style:italic;color:var(--gold)}
+.hero-sub{font-size:clamp(16px,1.8vw,19px);color:var(--text2);line-height:1.7;max-width:500px;margin:0 auto 52px;font-weight:300}
+.hero-actions{display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap}
+.btn-primary{background:var(--text);color:var(--bg);padding:13px 32px;border-radius:999px;font-size:15px;font-weight:500;text-decoration:none;cursor:none;transition:opacity 0.2s,transform 0.2s var(--ease);display:inline-block}
+.btn-primary:hover{opacity:0.8;transform:translateY(-1px)}
+.btn-secondary{background:var(--bg);color:var(--text);padding:13px 32px;border-radius:999px;border:1px solid var(--border2);font-size:15px;font-weight:400;text-decoration:none;cursor:none;transition:border-color 0.2s,background 0.2s,transform 0.2s var(--ease);display:inline-block}
+.btn-secondary:hover{border-color:var(--text3);background:var(--bg2);transform:translateY(-1px)}
+.btn-tertiary{font-size:14px;color:var(--text3);text-decoration:none;cursor:none;display:inline-flex;align-items:center;gap:4px;transition:color 0.2s;padding:13px 8px}
+.btn-tertiary:hover{color:var(--text2)}
+.btn-tertiary::after{content:'↗';font-size:11px}
+
+hr{border:none;border-top:1px solid var(--border)}
+section{padding:96px 0}
+.kicker{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:var(--text3);margin-bottom:20px;display:block}
+.s-heading{font-family:'Playfair Display',serif;font-size:clamp(30px,3.5vw,46px);font-weight:600;line-height:1.15;letter-spacing:-0.02em;color:var(--text);margin-bottom:16px}
+.s-heading em{font-style:italic;color:var(--gold)}
+.s-body{font-size:17px;color:var(--text2);line-height:1.75;font-weight:300;max-width:500px}
+
+/* PROBLEM */
+.problem-rows{border-top:1px solid var(--border);margin-top:56px}
+.p-row{display:grid;grid-template-columns:36px 1fr;gap:28px;padding:28px 0;border-bottom:1px solid var(--border);align-items:baseline}
+.p-n{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text3);padding-top:4px;letter-spacing:0.06em}
+.p-text{font-size:16px;color:var(--text2);line-height:1.65;font-weight:300}
+.p-text strong{color:var(--text);font-weight:500}
+
+/* OPENCLAW / CARA KERJA */
+.oc-section{background:var(--bg2);transition:background 0.5s}
+.oc-grid{display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:start}
+.oc-terminal{background:var(--bg);border:1px solid var(--border);border-radius:14px;overflow:hidden;margin-bottom:16px}
+.oc-bar{padding:13px 18px;background:var(--bg3);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:7px}
+.oc-dot{width:9px;height:9px;border-radius:50%}
+.oc-dot:nth-child(1){background:#FF5F57}.oc-dot:nth-child(2){background:#FEBC2E}.oc-dot:nth-child(3){background:#28C840}
+.oc-label{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text3);margin-left:6px}
+.oc-body{padding:20px 22px;font-family:'JetBrains Mono',monospace;font-size:12px;line-height:1.9;color:var(--text3);white-space:pre}
+.oc-body .p{color:var(--gold)}.oc-body .v{color:var(--text2)}.oc-body .ok{color:#4ADE80}
+.oc-cursor{display:inline-block;width:7px;height:12px;background:var(--gold);vertical-align:-2px;animation:blink 1.2s infinite;margin-left:1px}
+@keyframes blink{0%,50%{opacity:1}51%,100%{opacity:0}}
+
+/* tool chips */
+.tool-chips{display:flex;flex-wrap:wrap;gap:7px;margin-top:20px}
+.tool-chip{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text3);background:var(--bg);border:1px solid var(--border);padding:4px 11px;border-radius:6px;transition:border-color 0.2s,color 0.2s}
+.tool-chip:hover{border-color:var(--border2);color:var(--text2)}
+
+/* HOW — 3 cells */
+.how-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:14px;overflow:hidden;margin-top:56px}
+.how-cell{background:var(--bg);padding:36px 32px;transition:background 0.25s}
+.how-cell:hover{background:var(--bg2)}
+.how-n{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text3);margin-bottom:18px;letter-spacing:0.08em}
+.how-title{font-size:16px;font-weight:500;color:var(--text);margin-bottom:8px;line-height:1.35}
+.how-desc{font-size:14px;color:var(--text3);line-height:1.65;font-weight:300}
+
+/* USE CASES — tabbed */
+.uc-section{background:var(--bg2);transition:background 0.5s}
+.uc-tabs{display:flex;gap:4px;margin-bottom:40px;flex-wrap:wrap}
+.uc-tab{padding:9px 18px;border-radius:8px;font-size:13px;color:var(--text3);background:transparent;border:1px solid transparent;cursor:none;transition:background 0.2s,color 0.2s,border-color 0.2s;font-family:'DM Sans',sans-serif;white-space:nowrap}
+.uc-tab.active{background:var(--bg);color:var(--text);border-color:var(--border)}
+.uc-tab:hover:not(.active){color:var(--text2)}
+.uc-pane{display:none}
+.uc-pane.active{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:start}
+.uc-left h3{font-family:'Playfair Display',serif;font-size:28px;font-weight:600;color:var(--text);line-height:1.2;margin-bottom:12px}
+.uc-left p{font-size:15px;color:var(--text2);line-height:1.7;font-weight:300;margin-bottom:20px}
+.uc-steps{list-style:none;display:flex;flex-direction:column;gap:8px}
+.uc-steps li{display:flex;align-items:flex-start;gap:10px;font-size:14px;color:var(--text2);font-weight:300}
+.uc-steps li::before{content:'→';color:var(--gold);flex-shrink:0;margin-top:1px;font-size:13px}
+.uc-demo{background:var(--bg);border:1px solid var(--border);border-radius:12px;overflow:hidden}
+.uc-demo-bar{padding:11px 16px;background:var(--bg3);border-bottom:1px solid var(--border);font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text3);display:flex;align-items:center;gap:7px}
+.uc-demo-bar::before{content:'◉';color:var(--gold);font-size:9px}
+.uc-demo-body{padding:20px 22px;font-family:'JetBrains Mono',monospace;font-size:12px;line-height:1.9;color:var(--text3);white-space:pre-wrap}
+.uc-demo-body .p{color:var(--gold)}.uc-demo-body .tag{color:var(--text3)}.uc-demo-body .ok{color:#4ADE80}.uc-demo-body .v{color:var(--text2)}
+
+/* PHASES */
+.phases-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:14px;overflow:hidden;margin-top:56px}
+.phase-cell{background:var(--bg2);padding:36px 32px;transition:background 0.25s;position:relative}
+.phase-cell:hover{background:var(--bg3)}
+.phase-cell::before{content:'';position:absolute;top:0;left:0;right:0;height:2px}
+.phase-cell:nth-child(1)::before{background:var(--gold)}
+.phase-cell:nth-child(2)::before{background:var(--text3)}
+.phase-cell:nth-child(3)::before{background:var(--text2)}
+.phase-n{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--text3);margin-bottom:12px;letter-spacing:0.1em;text-transform:uppercase}
+.phase-title{font-size:17px;font-weight:500;color:var(--text);margin-bottom:16px;line-height:1.3}
+.phase-list{list-style:none;display:flex;flex-direction:column;gap:7px}
+.phase-list li{font-size:13px;color:var(--text3);font-weight:300;display:flex;align-items:flex-start;gap:8px;line-height:1.5}
+.phase-list li::before{content:'—';color:var(--border2);flex-shrink:0}
+.phase-time{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text3);margin-top:20px;padding-top:16px;border-top:1px solid var(--border)}
+
+/* OFFERINGS — contained box */
+.offerings-section{padding:96px 0}
+.offerings-cards{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:16px;margin-top:48px;
+}
+.offer-card{
+  background:var(--bg);
+  border:1px solid var(--border);
+  border-radius:16px;
+  overflow:hidden;
+  display:flex;flex-direction:column;
+  transition:transform 0.25s var(--ease),box-shadow 0.25s;
+  cursor:none;
+}
+.offer-card:hover{
+  transform:translateY(-4px);
+  box-shadow:0 12px 40px rgba(140,100,32,0.09);
+}
+[data-theme="dark"] .offer-card:hover{box-shadow:0 12px 40px rgba(0,0,0,0.35)}
+/* Course card — clean, neutral */
+.offer-card.card-course{background:var(--bg);border-color:var(--border)}
+/* Consulting card — warmer, slightly more presence */
+.offer-card.card-consulting{background:var(--bg2);border-color:var(--border2)}
+
+/* Visual band — like the image illustration area */
+.offer-visual{
+  width:100%;aspect-ratio:16/9;
+  display:flex;align-items:center;justify-content:center;
+  position:relative;overflow:hidden;
+  border-bottom:1px solid var(--border);
+}
+.card-course .offer-visual{
+  background:linear-gradient(135deg, #EEF3F8 0%, #E3EDF5 40%, #D8E8F2 100%);
+}
+[data-theme="dark"] .card-course .offer-visual{
+  background:linear-gradient(135deg,#1A2028 0%,#1E2832 100%);
+}
+.card-consulting .offer-visual{
+  background:linear-gradient(135deg, #F5EFE3 0%, #EDE4D0 40%, #E5D9BE 100%);
+}
+[data-theme="dark"] .card-consulting .offer-visual{
+  background:linear-gradient(135deg,#201C14 0%,#28220E 100%);
+}
+/* Visual illustration — abstract marks */
+.offer-visual-inner{
+  width:80%;height:80%;
+  position:relative;
+  display:flex;align-items:center;justify-content:center;
+}
+/* Course: book/learning motif */
+.card-course .offer-visual-inner::before{
+  content:'';
+  position:absolute;
+  width:72px;height:88px;
+  background:rgba(100,140,180,0.18);
+  border:1.5px solid rgba(100,140,180,0.3);
+  border-radius:4px 10px 10px 4px;
+  transform:rotate(-6deg) translateX(-12px);
+}
+.card-course .offer-visual-inner::after{
+  content:'';
+  position:absolute;
+  width:72px;height:88px;
+  background:rgba(120,160,200,0.12);
+  border:1.5px solid rgba(100,140,180,0.2);
+  border-radius:4px 10px 10px 4px;
+  transform:rotate(4deg) translateX(12px);
+}
+.offer-visual-icon{
+  position:relative;z-index:1;
+  font-size:36px;line-height:1;
+  filter:saturate(0.7);
+}
+/* Consulting: signal/network motif */
+.card-consulting .offer-visual-inner::before{
+  content:'';
+  position:absolute;
+  width:80px;height:80px;
+  border:1.5px solid rgba(140,100,32,0.2);
+  border-radius:50%;
+}
+.card-consulting .offer-visual-inner::after{
+  content:'';
+  position:absolute;
+  width:48px;height:48px;
+  border:1.5px solid rgba(140,100,32,0.3);
+  border-radius:50%;
+}
+
+/* Card body */
+.offer-body{
+  padding:28px 32px 0;
+  flex:1;display:flex;flex-direction:column;
+}
+.offer-tag{
+  font-family:'JetBrains Mono',monospace;font-size:10px;
+  letter-spacing:0.14em;text-transform:uppercase;
+  color:var(--text3);margin-bottom:12px;display:block;
+}
+.offer-title{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(20px,2vw,24px);
+  font-style:italic;font-weight:600;
+  color:var(--text);line-height:1.25;margin-bottom:20px;
+}
+.offer-points{
+  list-style:none;display:flex;flex-direction:column;
+  gap:7px;margin-bottom:0;flex:1;
+}
+.offer-points li{
+  font-size:14px;color:var(--text2);font-weight:300;
+  display:flex;align-items:flex-start;gap:8px;line-height:1.5;
+}
+.offer-points li::before{
+  content:'·';color:var(--gold);flex-shrink:0;
+  font-size:18px;line-height:1.1;
+}
+/* Card footer row — like the image bottom row */
+.offer-footer{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:20px 32px;margin-top:24px;
+  border-top:1px solid var(--border);
+}
+.offer-cta{
+  font-size:14px;font-weight:500;color:var(--text);
+  text-decoration:none;cursor:none;
+  transition:color 0.2s;
+}
+.offer-cta:hover{color:var(--gold)}
+.offer-arrow{
+  width:32px;height:32px;
+  border:1px solid var(--border2);
+  border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:14px;color:var(--text2);
+  transition:border-color 0.2s,background 0.2s,transform 0.2s var(--ease);
+  text-decoration:none;cursor:none;
+}
+.offer-arrow:hover{
+  border-color:var(--text3);
+  background:var(--bg3);
+  transform:translateX(3px);
+}
+
+/* FOOTER */
+footer{border-top:1px solid var(--border);padding:36px 0}
+.footer-inner{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
+.footer-logo{font-family:'Playfair Display',serif;font-size:17px;font-weight:700;color:var(--text);text-decoration:none}
+.footer-logo em{font-style:normal;color:var(--gold)}
+.footer-right{display:flex;align-items:center;gap:20px;flex-wrap:wrap}
+.footer-link{font-size:13px;color:var(--text3);text-decoration:none;transition:color 0.2s;cursor:none}
+.footer-link:hover{color:var(--text2)}
+
+@media(max-width:780px){
+  nav{padding:0 24px}.container,.container--wide{padding:0 24px}
+  .nav-link{display:none}.hero{padding:96px 0 72px}
+  .oc-grid{grid-template-columns:1fr}
+  .how-grid,.phases-grid{grid-template-columns:1fr}
+  .uc-pane.active{grid-template-columns:1fr}
+  .uc-demo{display:none}
+  .offerings-cards{grid-template-columns:1fr}
+  .offer-body{padding:24px 24px 0}
+  .offer-footer{padding:16px 24px}
+  section{padding:64px 0}
+}
+</style>
+</head>
+<body>
+
+<div class="cur" id="cur"></div>
+<div class="cur-ring" id="ring"></div>
+
+<nav id="nav">
+  <a href="#" class="nav-logo">Atlas<em>.</em></a>
+  <div class="nav-right">
+    <a href="#cara-kerja" class="nav-link id">Cara Kerja</a>
+    <a href="#cara-kerja" class="nav-link en">How It Works</a>
+    <a href="#layanan" class="nav-link id">Layanan</a>
+    <a href="#layanan" class="nav-link en">Services</a>
+    <div class="toggle-group">
+      <button class="tog-btn active" id="btnID" onclick="setLang('id')">ID</button>
+      <button class="tog-btn" id="btnEN" onclick="setLang('en')">EN</button>
+      <div class="tog-sep"></div>
+      <button class="tog-btn active" id="btnLight" onclick="setTheme('light')">☀</button>
+      <button class="tog-btn" id="btnDark" onclick="setTheme('dark')">◑</button>
+    </div>
+    <a href="#layanan" class="nav-cta id">Mulai</a>
+    <a href="#layanan" class="nav-cta en">Get Started</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-inner">
+      <div class="hero-kicker reveal">Atlas · Powered by OpenClaw</div>
+      <h1 class="reveal d1">
+        <span class="id">Perusahaanmu butuh<br><em>operator</em>,<br>bukan chatbot.</span>
+        <span class="en">Your company needs<br>an <em>operator</em>,<br>not a chatbot.</span>
+      </h1>
+      <p class="hero-sub reveal d2">
+        <span class="id">Atlas adalah AI agent yang menjalankan operasional perusahaan — membaca konteks, menyimpan knowledge, dan mengeksekusi pekerjaan secara konsisten.</span>
+        <span class="en">Atlas is an AI agent that runs your company's operations — reading context, storing knowledge, and executing work consistently.</span>
+      </p>
+      <div class="hero-actions reveal d3">
+        <a href="#training" class="btn-primary id">Mulai Sekarang</a>
+        <a href="#training" class="btn-primary en">Start Now</a>
+        <a href="#konsultansi" class="btn-secondary id">Hubungi Kami</a>
+        <a href="#konsultansi" class="btn-secondary en">Contact Us</a>
+        <a href="https://atlas.etalas.studio" class="btn-tertiary" target="_blank">atlas.etalas.studio</a>
+  </div>
+</section>
+
+<hr>
+
+<!-- PROBLEM -->
+<section>
+  <div class="container">
+    <span class="kicker reveal id">Masalah</span>
+    <span class="kicker reveal en">The Problem</span>
+    <h2 class="s-heading reveal d1">
+      <span class="id">Chatbot menjawab.<br><em>Operator bekerja.</em></span>
+      <span class="en">Chatbots respond.<br><em>Operators work.</em></span>
+    </h2>
+    <p class="s-body reveal d2">
+      <span class="id">Sebagian besar tools AI hanya merespons — tidak tahu konteks, tidak menyimpan keputusan, tidak bisa bertindak. Perusahaan butuh lebih dari itu.</span>
+      <span class="en">Most AI tools only respond — they don't know context, don't store decisions, and can't take action. Companies need more than that.</span>
+    </p>
+    <div class="problem-rows">
+      <div class="p-row reveal">
+        <span class="p-n">01</span>
+        <p class="p-text">
+          <span class="id"><strong>Tidak ada yang menyimpan konteks.</strong> Setiap sesi dimulai dari nol. Keputusan kemarin tidak diingat hari ini.</span>
+          <span class="en"><strong>Nothing stores context.</strong> Every session starts from scratch. Yesterday's decisions are forgotten today.</span>
+        </p>
+      </div>
+      <div class="p-row reveal d1">
+        <span class="p-n">02</span>
+        <p class="p-text">
+          <span class="id"><strong>Tidak ada yang bisa bertindak.</strong> AI memberi saran, tapi tidak mengirim, tidak mengubah, tidak mendokumentasikan.</span>
+          <span class="en"><strong>Nothing can act.</strong> AI gives advice but doesn't send, change, or document anything.</span>
+        </p>
+      </div>
+      <div class="p-row reveal d2">
+        <span class="p-n">03</span>
+        <p class="p-text">
+          <span class="id"><strong>Operasional bergantung pada orang yang ingat.</strong> SOP hanya berjalan kalau ada seseorang yang tahu dan menjalankannya.</span>
+          <span class="en"><strong>Operations depend on whoever remembers.</strong> SOPs only run when someone knows them and follows through.</span>
+        </p>
+  </div>
+</section>
+
+<hr>
+
+<!-- CARA KERJA -->
+<section class="oc-section" id="cara-kerja">
+  <div class="container--wide">
+    <div class="oc-grid">
+      <div>
+        <span class="kicker reveal id">Cara kerja</span>
+        <span class="kicker reveal en">How it works</span>
+        <h2 class="s-heading reveal d1">
+          <span class="id">Atlas berjalan di atas<br><em>OpenClaw</em>.</span>
+          <span class="en">Atlas runs on<br><em>OpenClaw</em>.</span>
+        </h2>
+        <p class="s-body reveal d2" style="margin-bottom:20px">
+          <span class="id">OpenClaw memberi AI agent tiga kemampuan dasar: konteks yang persisten, memory untuk menyimpan knowledge, dan akses ke tools perusahaan.</span>
+          <span class="en">OpenClaw gives AI agents three core capabilities: persistent context, memory to store knowledge, and access to company tools.</span>
+        </p>
+        <p class="s-body reveal d3" style="margin-bottom:24px">
+          <span class="id">Dengan itu, Atlas bisa benar-benar bekerja — bukan hanya merespons. Tahu apa yang sedang terjadi, ingat apa yang sudah diputuskan, dan langsung bertindak menggunakan tools yang terhubung.</span>
+          <span class="en">With that, Atlas can actually work — not just respond. It knows what's happening, remembers what's been decided, and acts directly using connected tools.</span>
+        </p>
+        <div class="tool-chips reveal d4">
+          <span class="tool-chip">GitHub</span>
+          <span class="tool-chip">Slack</span>
+          <span class="tool-chip">Notion</span>
+          <span class="tool-chip">Gmail</span>
+          <span class="tool-chip">Google Drive</span>
+          <span class="tool-chip">Vercel</span>
+          <span class="tool-chip">Terminal</span>
+          <span class="tool-chip id">+ tools lainnya</span>
+          <span class="tool-chip en">+ more tools</span>
+        </div>
+      </div>
+      <div class="reveal d2">
+        <div class="oc-terminal">
+          <div class="oc-bar">
+            <div class="oc-dot"></div><div class="oc-dot"></div><div class="oc-dot"></div>
+            <span class="oc-label">atlas · openclaw</span>
+          </div>
+          <div class="oc-body"><span class="p">→ </span><span class="v">atlas start</span>
+<span class="v">  context   onboarding-q3</span>
+<span class="v">  memory    12 decisions, 3 SOPs</span>
+<span class="v">  tools     github, notion, slack ✓</span>
+
+<span class="p">→ </span><span class="v">atlas status</span>
+<span class="v">  2 blockers since last session</span>
+<span class="v">  1 client reply pending</span>
+<span class="v">  staging deploy failed</span>
+
+<span class="ok">→ ready.<span class="oc-cursor"></span></span></div>
+        </div>
+  </div>
+</section>
+
+<hr>
+
+<!-- KEMAMPUAN -->
+<section>
+  <div class="container--wide">
+    <div class="container" style="padding:0;margin-bottom:56px">
+      <span class="kicker reveal id">Kemampuan</span>
+      <span class="kicker reveal en">Capabilities</span>
+      <h2 class="s-heading reveal d1">
+        <span class="id">Tiga hal yang membuat<br>operator bisa bekerja.</span>
+        <span class="en">Three things that make<br>an operator work.</span>
+      </h2>
+    </div>
+    <div class="how-grid">
+      <div class="how-cell reveal">
+        <div class="how-n">01 · KNOWLEDGE</div>
+        <div class="how-title id">Tahu apa yang penting</div>
+        <div class="how-title en">Knows what matters</div>
+        <div class="how-desc id">Membaca dan menyerap informasi perusahaan — dari dokumen, chat, meeting notes — lalu menyimpannya sebagai konteks yang bisa diakses kapanpun.</div>
+        <div class="how-desc en">Reads and absorbs company information — from documents, chats, meeting notes — storing it as context that can be accessed anytime.</div>
+      </div>
+      <div class="how-cell reveal d1">
+        <div class="how-n">02 · MEMORY</div>
+        <div class="how-title id">Ingat apa yang sudah diputuskan</div>
+        <div class="how-title en">Remembers what's been decided</div>
+        <div class="how-desc id">Keputusan, aturan, dan SOP tersimpan di workspace OpenClaw. Atlas melanjutkan dari mana yang terakhir — bukan dari nol.</div>
+        <div class="how-desc en">Decisions, rules, and SOPs are stored in the OpenClaw workspace. Atlas continues from where it left off — not from scratch.</div>
+      </div>
+      <div class="how-cell reveal d2">
+        <div class="how-n">03 · ACTION</div>
+        <div class="how-title id">Bisa langsung bertindak</div>
+        <div class="how-title en">Can take real action</div>
+        <div class="how-desc id">Terhubung ke tools perusahaan. Bisa membuat, mengubah, dan mengirim — dengan batas yang jelas kapan harus meminta persetujuan manusia.</div>
+        <div class="how-desc en">Connected to company tools. Can create, change, and send — with clear boundaries on when to ask for human approval.</div>
+  </div>
+</section>
+
+<hr>
+
+<!-- USE CASES -->
+<section class="uc-section">
+  <div class="container--wide">
+    <div class="container" style="padding:0;margin-bottom:40px">
+      <span class="kicker reveal id">Atlas dalam praktik</span>
+      <span class="kicker reveal en">Atlas in practice</span>
+      <h2 class="s-heading reveal d1">
+        <span class="id">Dari operasional harian<br>hingga <em>delivery teknis</em>.</span>
+        <span class="en">From daily operations<br>to <em>technical delivery</em>.</span>
+      </h2>
+    </div>
+
+    <div class="uc-tabs reveal d1">
+      <button class="uc-tab active" onclick="setTab('ops',this)">
+        <span class="id">Operasional</span><span class="en">Operations</span>
+      </button>
+      <button class="uc-tab" onclick="setTab('knowledge',this)">
+        <span class="id">Knowledge</span><span class="en">Knowledge</span>
+      </button>
+      <button class="uc-tab" onclick="setTab('dev',this)">
+        <span class="id">Development & QA</span><span class="en">Development & QA</span>
+      </button>
+    </div>
+
+    <!-- OPS -->
+    <div class="uc-pane active" id="uc-ops">
+      <div class="uc-left reveal">
+        <h3 class="id">Operasional harian yang tidak lupa.</h3>
+        <h3 class="en">Daily operations that don't forget.</h3>
+        <p class="id">Atlas menjaga ritme kerja tim — tahu apa yang berubah, mana yang perlu ditindaklanjuti, dan bisa langsung mendraft atau mengeksekusi pekerjaan yang aman.</p>
+        <p class="en">Atlas keeps the team's work rhythm — knows what changed, what needs follow-up, and can directly draft or execute safe work.</p>
+        <ul class="uc-steps">
+          <li class="id">Load workspace: project aktif, blockers, calendar</li>
+          <li class="en">Load workspace: active projects, blockers, calendar</li>
+          <li class="id">Identifikasi perubahan sejak sesi terakhir</li>
+          <li class="en">Identify changes since last session</li>
+          <li class="id">Draft follow-up, recap, atau agenda meeting</li>
+          <li class="en">Draft follow-ups, recaps, or meeting agendas</li>
+          <li class="id">Flag blocker dengan rekomendasi tindakan</li>
+          <li class="en">Flag blockers with recommended next actions</li>
+          <li class="id">Dokumentasikan hasil ke company memory</li>
+          <li class="en">Document outcomes to company memory</li>
+        </ul>
+      </div>
+      <div class="uc-demo reveal d1">
+        <div class="uc-demo-bar">atlas / daily-ops</div>
+        <div class="uc-demo-body"><span class="p">→ atlas morning-brief</span>
+
+<span class="tag">[context]</span>  <span class="v">3 projects active</span>
+<span class="tag">[email]</span>    <span class="v">1 urgent — client deadline request</span>
+           <span class="v">draft reply prepared, needs review</span>
+<span class="tag">[blocker]</span>  <span class="v">staging deploy failed last night</span>
+           <span class="v">fix candidate ready, 30min est.</span>
+<span class="tag">[meeting]</span>  <span class="v">14:00 client review — brief ready</span>
+
+<span class="ok">→ ready for your review.</span></div>
+
+    <!-- KNOWLEDGE -->
+    <div class="uc-pane" id="uc-knowledge">
+      <div class="uc-left reveal">
+        <h3 class="id">Informasi masuk, knowledge keluar.</h3>
+        <h3 class="en">Information in, knowledge out.</h3>
+        <p class="id">Atlas membaca sumber yang ada — meeting notes, chat history, dokumen — dan mengubahnya menjadi memory terstruktur yang bisa diakses dan dicari kembali.</p>
+        <p class="en">Atlas reads existing sources — meeting notes, chat history, documents — and turns them into structured memory that can be accessed and searched.</p>
+        <ul class="uc-steps">
+          <li class="id">Ingest dari chat, dokumen, email, meeting</li>
+          <li class="en">Ingest from chat, documents, email, meetings</li>
+          <li class="id">Ekstrak keputusan, open questions, risiko</li>
+          <li class="en">Extract decisions, open questions, risks</li>
+          <li class="id">Susun project brief dan decision log</li>
+          <li class="en">Compose project briefs and decision logs</li>
+          <li class="id">Identifikasi SOP candidate dari pola kerja</li>
+          <li class="en">Identify SOP candidates from work patterns</li>
+        </ul>
+      </div>
+      <div class="uc-demo reveal d1">
+        <div class="uc-demo-bar">atlas / knowledge-ingest</div>
+        <div class="uc-demo-body"><span class="p">→ atlas ingest meeting-notes.md</span>
+
+<span class="tag">[entities]</span>  <span class="v">project folio-v2, client PT Nusa</span>
+<span class="tag">[decisions]</span> <span class="v">OAuth2 confirmed, mobile-first approved</span>
+<span class="tag">[open]</span>     <span class="v">CDN budget TBD, go-live date pending</span>
+<span class="tag">[actions]</span>  <span class="v">3 items extracted → assigned</span>
+<span class="tag">[sop]</span>      <span class="v">2 candidates flagged</span>
+
+<span class="ok">→ memory updated.</span></div>
+
+    <!-- DEV -->
+    <div class="uc-pane" id="uc-dev">
+      <div class="uc-left reveal">
+        <h3 class="id">Dari bug report sampai fix terverifikasi.</h3>
+        <h3 class="en">From bug report to verified fix.</h3>
+        <p class="id">Atlas membaca repo, menyusun plan perubahan, mengimplementasi, menjalankan test, dan mendokumentasikan hasilnya — dengan scope yang jelas dari awal.</p>
+        <p class="en">Atlas reads the repo, composes a change plan, implements, runs tests, and documents results — with a clear scope from the start.</p>
+        <ul class="uc-steps">
+          <li class="id">Baca repo dan identifikasi root cause</li>
+          <li class="en">Read repo and identify root cause</li>
+          <li class="id">Susun plan perubahan yang scoped minimal</li>
+          <li class="en">Compose a minimally scoped change plan</li>
+          <li class="id">Implementasi dan jalankan test & build</li>
+          <li class="en">Implement and run tests & build</li>
+          <li class="id">Deploy dan smoke test endpoint kritis</li>
+          <li class="en">Deploy and smoke test critical endpoints</li>
+          <li class="id">Dokumentasikan ke project runbook</li>
+          <li class="en">Document to the project runbook</li>
+        </ul>
+      </div>
+      <div class="uc-demo reveal d1">
+        <div class="uc-demo-bar">atlas / dev / fix-checkout</div>
+        <div class="uc-demo-body"><span class="p">→ atlas fix "checkout timeout on prod"</span>
+
+<span class="tag">[read]</span>    <span class="v">checkout.ts, nginx.conf</span>
+<span class="tag">[found]</span>   <span class="v">timeout=5000ms, p95=4800ms</span>
+           <span class="v">race condition on concurrent req</span>
+<span class="tag">[fix]</span>     <span class="v">timeout → 12000ms + retry backoff</span>
+<span class="tag">[test]</span>    <span class="v">47/47 passing</span>
+<span class="tag">[deploy]</span>  <span class="v">vercel → live in 45s</span>
+
+<span class="ok">→ verified. runbook updated.</span></div>
+
+  </div>
+</section>
+
+<hr>
+
+<!-- PHASES -->
+<section>
+  <div class="container--wide">
+    <div class="container" style="padding:0;margin-bottom:56px">
+      <span class="kicker reveal id">Implementasi</span>
+      <span class="kicker reveal en">Implementation</span>
+      <h2 class="s-heading reveal d1">
+        <span class="id">Tiga fase untuk<br>Atlas siap <em>bekerja</em>.</span>
+        <span class="en">Three phases until<br>Atlas is <em>operational</em>.</span>
+      </h2>
+    </div>
+    <div class="phases-grid">
+      <div class="phase-cell reveal">
+        <div class="phase-n">Fase 01 · Foundation</div>
+        <div class="phase-title id">Instalasi & Konfigurasi</div>
+        <div class="phase-title en">Installation & Configuration</div>
+        <ul class="phase-list">
+          <li class="id">Instalasi OpenClaw framework</li>
+          <li class="en">OpenClaw framework install</li>
+          <li class="id">Agent identity & soul.md</li>
+          <li class="en">Agent identity & soul.md</li>
+          <li class="id">Workspace & memory structure</li>
+          <li class="en">Workspace & memory structure</li>
+          <li class="id">Tool access & escalation rules</li>
+          <li class="en">Tool access & escalation rules</li>
+        </ul>
+        <div class="phase-time id">~1 minggu</div>
+        <div class="phase-time en">~1 week</div>
+      </div>
+      <div class="phase-cell reveal d1">
+        <div class="phase-n">Fase 02 · Knowledge & Integration</div>
+        <div class="phase-title id">Ingestion & Koneksi Tools</div>
+        <div class="phase-title en">Ingestion & Tool Connection</div>
+        <ul class="phase-list">
+          <li class="id">Knowledge ingestion dari sumber yang ada</li>
+          <li class="en">Knowledge ingestion from existing sources</li>
+          <li class="id">Channel setup (Slack, email, chat)</li>
+          <li class="en">Channel setup (Slack, email, chat)</li>
+          <li class="id">Koneksi tools (GitHub, Notion, Drive)</li>
+          <li class="en">Tool connections (GitHub, Notion, Drive)</li>
+          <li class="id">Workflow & SOP pertama</li>
+          <li class="en">First workflows & SOPs</li>
+        </ul>
+        <div class="phase-time id">~1 minggu</div>
+        <div class="phase-time en">~1 week</div>
+      </div>
+      <div class="phase-cell reveal d2">
+        <div class="phase-n">Fase 03 · Execution</div>
+        <div class="phase-title id">Operasional & Otomasi</div>
+        <div class="phase-title en">Operations & Automation</div>
+        <ul class="phase-list">
+          <li class="id">Atlas mulai berjalan di workflow harian</li>
+          <li class="en">Atlas runs in daily workflows</li>
+          <li class="id">Prompt library & playbook tim</li>
+          <li class="en">Team prompt library & playbook</li>
+          <li class="id">Training tim internal</li>
+          <li class="en">Internal team training</li>
+          <li class="id">Iterasi & scale sesuai kebutuhan</li>
+          <li class="en">Iteration & scale as needed</li>
+        </ul>
+        <div class="phase-time id">~2 minggu</div>
+        <div class="phase-time en">~2 weeks</div>
+  </div>
+</section>
+
+<hr>
+
+<!-- OFFERINGS -->
+<section class="offerings-section" id="layanan">
+  <div class="container--wide">
+    <div class="offerings-hd">
+      <span class="kicker reveal id">Apa yang kami tawarkan</span>
+      <span class="kicker reveal en">What we offer</span>
+      <h2 class="s-heading reveal d1">
+        <span class="id">Mulai dengan cara<br>yang paling <em>sesuai</em> untukmu.</span>
+        <span class="en">Start in the way that<br>works best <em>for you</em>.</span>
+      </h2>
+    </div>
+
+    <div class="offerings-cards">
+
+      <div class="offer-card card-course reveal d1" id="training">
+        <div class="offer-illus"><svg viewBox="0 0 480 270" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+  <!-- sky -->
+  <rect width="480" height="270" fill="none"/>
+  <!-- clouds -->
+  <ellipse cx="120" cy="60" rx="55" ry="28" fill="rgba(255,255,255,0.55)"/>
+  <ellipse cx="155" cy="52" rx="38" ry="22" fill="rgba(255,255,255,0.65)"/>
+  <ellipse cx="85"  cy="65" rx="32" ry="18" fill="rgba(255,255,255,0.4)"/>
+  <ellipse cx="340" cy="48" rx="48" ry="24" fill="rgba(255,255,255,0.5)"/>
+  <ellipse cx="375" cy="40" rx="32" ry="18" fill="rgba(255,255,255,0.6)"/>
+  <ellipse cx="310" cy="55" rx="28" ry="16" fill="rgba(255,255,255,0.35)"/>
+  <!-- hills back -->
+  <ellipse cx="240" cy="220" rx="260" ry="90" fill="rgba(80,140,90,0.3)"/>
+  <ellipse cx="80"  cy="230" rx="160" ry="80" fill="rgba(90,150,80,0.35)"/>
+  <ellipse cx="400" cy="235" rx="150" ry="70" fill="rgba(70,130,80,0.28)"/>
+  <!-- ground -->
+  <rect y="210" width="480" height="60" fill="rgba(100,160,100,0.35)"/>
+  <!-- rail tracks -->
+  <rect y="222" x="0" width="480" height="4"  fill="rgba(80,60,40,0.3)"/>
+  <rect y="232" x="0" width="480" height="4"  fill="rgba(80,60,40,0.3)"/>
+  <!-- sleepers -->
+  <rect y="218" x="20"  width="8" height="22" fill="rgba(80,60,40,0.2)" rx="1"/>
+  <rect y="218" x="60"  width="8" height="22" fill="rgba(80,60,40,0.2)" rx="1"/>
+  <rect y="218" x="100" width="8" height="22" fill="rgba(80,60,40,0.2)" rx="1"/>
+  <rect y="218" x="140" width="8" height="22" fill="rgba(80,60,40,0.2)" rx="1"/>
+  <rect y="218" x="180" width="8" height="22" fill="rgba(80,60,40,0.2)" rx="1"/>
+  <rect y="218" x="220" width="8" height="22" fill="rgba(80,60,40,0.2)" rx="1"/>
+  <rect y="218" x="260" width="8" height="22" fill="rgba(80,60,40,0.2)" rx="1"/>
+  <rect y="218" x="300" width="8" height="22" fill="rgba(80,60,40,0.2)" rx="1"/>
+  <rect y="218" x="340" width="8" height="22" fill="rgba(80,60,40,0.2)" rx="1"/>
+  <rect y="218" x="380" width="8" height="22" fill="rgba(80,60,40,0.2)" rx="1"/>
+  <rect y="218" x="420" width="8" height="22" fill="rgba(80,60,40,0.2)" rx="1"/>
+  <rect y="218" x="455" width="8" height="22" fill="rgba(80,60,40,0.2)" rx="1"/>
+  <!-- train body -->
+  <rect x="60" y="170" width="240" height="52" rx="8" fill="rgba(240,242,246,0.85)"/>
+  <!-- train nose -->
+  <path d="M60 178 Q36 186 34 210 L60 210 Z" fill="rgba(220,225,235,0.8)"/>
+  <!-- windows row -->
+  <rect x="80"  y="180" width="26" height="16" rx="3" fill="rgba(160,200,230,0.6)"/>
+  <rect x="116" y="180" width="26" height="16" rx="3" fill="rgba(160,200,230,0.6)"/>
+  <rect x="152" y="180" width="26" height="16" rx="3" fill="rgba(160,200,230,0.6)"/>
+  <rect x="188" y="180" width="26" height="16" rx="3" fill="rgba(160,200,230,0.6)"/>
+  <rect x="224" y="180" width="26" height="16" rx="3" fill="rgba(160,200,230,0.6)"/>
+  <rect x="260" y="180" width="26" height="16" rx="3" fill="rgba(160,200,230,0.6)"/>
+  <!-- red stripe -->
+  <rect x="34" y="205" width="266" height="5" fill="rgba(200,60,50,0.5)"/>
+  <!-- wheels -->
+  <circle cx="90"  cy="220" r="10" fill="rgba(60,60,60,0.5)"/>
+  <circle cx="200" cy="220" r="10" fill="rgba(60,60,60,0.5)"/>
+  <circle cx="280" cy="220" r="10" fill="rgba(60,60,60,0.5)"/>
+  <!-- power line pole -->
+  <rect x="390" y="100" width="4" height="130" fill="rgba(80,80,80,0.3)"/>
+  <rect x="370" y="110" width="44" height="3"  fill="rgba(80,80,80,0.25)"/>
+  <!-- wire -->
+  <path d="M0 115 Q195 108 390 112" stroke="rgba(80,80,80,0.2)" stroke-width="1.5" fill="none"/>
+  <path d="M394 112 Q437 110 480 113" stroke="rgba(80,80,80,0.2)" stroke-width="1.5" fill="none"/>
+</svg></div>
+        <div class="offer-body">
+          <span class="offer-tag">Professional Course</span>
+          <div class="offer-title id">Bangun kemampuan AI agent dari dalam tim.</div>
+          <div class="offer-title en">Build AI agent capability from within your team.</div>
+          <ul class="offer-points">
+            <li><span class="id">Konsep OpenClaw dan desain agent</span><span class="en">OpenClaw concepts and agent design</span></li>
+            <li><span class="id">Membangun memory dan workflow</span><span class="en">Building memory and workflows</span></li>
+            <li><span class="id">Integrasi tools dan channel</span><span class="en">Tool and channel integration</span></li>
+            <li><span class="id">Terbuka untuk tim &amp; individu</span><span class="en">Open for teams &amp; individuals</span></li>
+          </ul>
+        </div>
+        <div class="offer-footer">
+          <a href="mailto:hello@etalas.studio?subject=Professional Course Atlas" class="offer-cta id">Mulai sekarang</a>
+          <a href="mailto:hello@etalas.studio?subject=Professional Course Atlas" class="offer-cta en">Start now</a>
+          <a href="mailto:hello@etalas.studio?subject=Professional Course Atlas" class="offer-arrow">→</a>
+        </div>
+      </div>
+
+      <div class="offer-card card-consulting reveal d2" id="konsultansi">
+        <div class="offer-illus"><svg viewBox="0 0 480 270" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+  <!-- sky gradient -->
+  <rect width="480" height="270" fill="none"/>
+  <!-- clouds -->
+  <ellipse cx="100" cy="55"  rx="60" ry="30" fill="rgba(255,255,255,0.5)"/>
+  <ellipse cx="140" cy="45"  rx="42" ry="25" fill="rgba(255,255,255,0.6)"/>
+  <ellipse cx="70"  cy="62"  rx="35" ry="20" fill="rgba(255,255,255,0.38)"/>
+  <ellipse cx="330" cy="44"  rx="55" ry="28" fill="rgba(255,255,255,0.52)"/>
+  <ellipse cx="370" cy="34"  rx="38" ry="22" fill="rgba(255,255,255,0.62)"/>
+  <ellipse cx="300" cy="52"  rx="30" ry="18" fill="rgba(255,255,255,0.35)"/>
+  <ellipse cx="210" cy="38"  rx="45" ry="22" fill="rgba(255,255,255,0.42)"/>
+  <!-- desert ground -->
+  <rect y="190" width="480" height="80" fill="rgba(180,120,60,0.35)"/>
+  <!-- ground variation -->
+  <ellipse cx="120" cy="195" rx="180" ry="18" fill="rgba(160,100,40,0.18)"/>
+  <ellipse cx="380" cy="198" rx="140" ry="15" fill="rgba(190,130,70,0.15)"/>
+  <!-- scrub bushes -->
+  <ellipse cx="60"  cy="195" rx="22" ry="10" fill="rgba(80,100,40,0.35)"/>
+  <ellipse cx="160" cy="198" rx="16" ry="8"  fill="rgba(80,100,40,0.28)"/>
+  <ellipse cx="400" cy="194" rx="20" ry="9"  fill="rgba(80,100,40,0.32)"/>
+  <ellipse cx="450" cy="197" rx="14" ry="7"  fill="rgba(80,100,40,0.25)"/>
+  <!-- dish support tower -->
+  <rect x="228" y="145" width="8"  height="60"  fill="rgba(80,80,80,0.45)"/>
+  <!-- legs -->
+  <line x1="232" y1="200" x2="200" y2="210" stroke="rgba(80,80,80,0.35)" stroke-width="4"/>
+  <line x1="232" y1="200" x2="264" y2="210" stroke="rgba(80,80,80,0.35)" stroke-width="4"/>
+  <line x1="232" y1="200" x2="232" y2="215" stroke="rgba(80,80,80,0.35)" stroke-width="4"/>
+  <!-- dish bowl — ellipse arc -->
+  <path d="M170 148 Q232 88 294 148" fill="rgba(200,200,210,0.55)" stroke="rgba(120,120,130,0.5)" stroke-width="2"/>
+  <!-- dish ribs -->
+  <line x1="232" y1="88" x2="210" y2="148" stroke="rgba(140,140,150,0.35)" stroke-width="1.5"/>
+  <line x1="232" y1="88" x2="232" y2="148" stroke="rgba(140,140,150,0.35)" stroke-width="1.5"/>
+  <line x1="232" y1="88" x2="254" y2="148" stroke="rgba(140,140,150,0.35)" stroke-width="1.5"/>
+  <!-- signal rings -->
+  <circle cx="232" cy="88" r="20" fill="none" stroke="rgba(140,100,32,0.18)" stroke-width="1.5" stroke-dasharray="4 4"/>
+  <circle cx="232" cy="88" r="35" fill="none" stroke="rgba(140,100,32,0.12)" stroke-width="1"   stroke-dasharray="5 6"/>
+  <circle cx="232" cy="88" r="52" fill="none" stroke="rgba(140,100,32,0.08)" stroke-width="1"   stroke-dasharray="6 8"/>
+  <!-- center focal point -->
+  <circle cx="232" cy="88" r="5" fill="rgba(140,100,32,0.4)"/>
+</svg></div>
+        <div class="offer-body">
+          <span class="offer-tag id">Konsultansi &amp; Do It For You</span>
+          <span class="offer-tag en">Consulting &amp; Do It For You</span>
+          <div class="offer-title id">Kami setup dan jalankan Atlas untuk perusahaanmu.</div>
+          <div class="offer-title en">We set up and run Atlas for your company.</div>
+          <ul class="offer-points">
+            <li><span class="id">Instalasi OpenClaw end-to-end</span><span class="en">End-to-end OpenClaw installation</span></li>
+            <li><span class="id">Knowledge ingestion dari sumber perusahaan</span><span class="en">Knowledge ingestion from company sources</span></li>
+            <li><span class="id">Koneksi tools dan konfigurasi agent</span><span class="en">Tool connections and agent configuration</span></li>
+            <li><span class="id">Training tim internal setelah setup</span><span class="en">Internal team training post-setup</span></li>
+          </ul>
+        </div>
+        <div class="offer-footer">
+          <a href="mailto:hello@etalas.studio?subject=Konsultansi Atlas" class="offer-cta id">Hubungi kami</a>
+          <a href="mailto:hello@etalas.studio?subject=Atlas Consulting" class="offer-cta en">Contact us</a>
+          <a href="mailto:hello@etalas.studio?subject=Konsultansi Atlas" class="offer-arrow">→</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+<footer>
+  <div class="container--wide">
+    <div class="footer-inner">
+      <a href="#" class="footer-logo">Atlas<em>.</em></a>
+      <div class="footer-right">
+        <span class="footer-link" style="cursor:default;color:var(--text3)">AI agent oleh etalas · built on OpenClaw</span>
+        <a href="mailto:hello@etalas.studio" class="footer-link">hello@etalas.studio</a>
+        <a href="https://atlas.etalas.studio" class="footer-link" target="_blank">atlas.etalas.studio ↗</a>
+  </div>
+</footer>
+
+<script>
+const cur=document.getElementById('cur'),ring=document.getElementById('ring');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.transform=`translate(${mx}px,${my}px) translate(-50%,-50%)`});
+(function l(){rx+=(mx-rx)*0.1;ry+=(my-ry)*0.1;ring.style.transform=`translate(${rx}px,${ry}px) translate(-50%,-50%)`;requestAnimationFrame(l)})();
+document.querySelectorAll('a,button').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{ring.style.width='44px';ring.style.height='44px'});
+  el.addEventListener('mouseleave',()=>{ring.style.width='28px';ring.style.height='28px'});
+});
+
+const nav=document.getElementById('nav');
+window.addEventListener('scroll',()=>nav.classList.toggle('scrolled',scrollY>20));
+
+const io=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');io.unobserve(e.target)}})},{threshold:0.08});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+document.querySelectorAll('.hero .reveal').forEach((el,i)=>setTimeout(()=>el.classList.add('visible'),80+i*100));
+
+function setTheme(t){
+  document.documentElement.setAttribute('data-theme',t);
+  localStorage.setItem('atlas-theme',t);
+  document.getElementById('btnLight').classList.toggle('active',t==='light');
+  document.getElementById('btnDark').classList.toggle('active',t==='dark');
+}
+function setLang(l){
+  document.documentElement.setAttribute('data-lang',l);
+  document.documentElement.setAttribute('lang',l);
+  localStorage.setItem('atlas-lang',l);
+  document.getElementById('btnID').classList.toggle('active',l==='id');
+  document.getElementById('btnEN').classList.toggle('active',l==='en');
+}
+function setTab(id,btn){
+  document.querySelectorAll('.uc-tab').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.uc-pane').forEach(p=>p.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('uc-'+id).classList.add('active');
+}
+
+setTheme(localStorage.getItem('atlas-theme')||'light');
+setLang(localStorage.getItem('atlas-lang')||'id');
+</script>
+</body>
+</html>
