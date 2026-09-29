@@ -1,1156 +1,1310 @@
 <!DOCTYPE html>
-<html lang="id" data-theme="light" data-lang="id">
+<html lang="en" data-lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Atlas — AI Operator untuk Perusahaan</title>
+<title>Atlas — AI Operator for Enterprise</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&family=Caveat:wght@500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-
-:root,[data-theme="light"]{
-  --bg:#FAFAF7;
-  --bg2:#F3F2ED;
-  --bg3:#ECEAE3;
-  --text:#111110;
-  --text2:#706C61;
-  --text3:#B0AB9E;
-  --gold:#8C6420;
-  --gold-faint:rgba(140,100,32,0.06);
-  --border:#E4E2DA;
-  --border2:#CCCABE;
-  --nav-bg:rgba(250,250,247,0.96);
-  --ease:cubic-bezier(0.16,1,0.3,1);
-}
-[data-theme="dark"]{
-  --bg:#0E0E0C;--bg2:#161614;--bg3:#1E1E1B;
-  --text:#F0EDE6;--text2:#9A9488;--text3:#5A5650;
-  --gold:#C89840;--gold-faint:rgba(200,152,64,0.07);
-  --border:#252420;--border2:#302E28;
-  --nav-bg:rgba(14,14,12,0.96);
-}
-
-html{scroll-behavior:smooth}
-body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;font-size:17px;line-height:1.7;overflow-x:hidden;cursor:none;transition:background 0.5s,color 0.5s}
-
-[data-theme="light"] body::after{content:'';position:fixed;inset:0;background-image:radial-gradient(circle,rgba(140,100,32,0.065) 1px,transparent 1px);background-size:32px 32px;pointer-events:none;z-index:0;mask-image:linear-gradient(to bottom,transparent 0%,black 12%,black 88%,transparent 100%);-webkit-mask-image:linear-gradient(to bottom,transparent 0%,black 12%,black 88%,transparent 100%)}
-body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");pointer-events:none;z-index:1;opacity:0.45}
-nav,section,footer{position:relative;z-index:2}
-
-[data-lang="id"] .en{display:none}[data-lang="en"] .id{display:none}
-
-.cur{width:6px;height:6px;background:var(--text);border-radius:50%;position:fixed;top:0;left:0;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:background 0.3s}
-.cur-ring{width:28px;height:28px;border:1px solid rgba(17,17,16,0.18);border-radius:50%;position:fixed;top:0;left:0;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:transform 0.45s var(--ease),width 0.3s var(--ease),height 0.3s var(--ease)}
-[data-theme="dark"] .cur-ring{border-color:rgba(240,237,230,0.12)}
-
-.container{max-width:720px;margin:0 auto;padding:0 32px}
-.container--wide{max-width:1040px;margin:0 auto;padding:0 40px}
-.reveal{opacity:0;transform:translateY(18px);transition:opacity 0.8s var(--ease),transform 0.8s var(--ease)}
-.reveal.visible{opacity:1;transform:none}
-.d1{transition-delay:0.09s}.d2{transition-delay:0.18s}.d3{transition-delay:0.27s}.d4{transition-delay:0.36s}
-
-/* NAV */
-nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 40px;height:62px;display:flex;align-items:center;justify-content:space-between;transition:background 0.4s,border-color 0.4s}
-nav.scrolled{background:var(--nav-bg);backdrop-filter:blur(16px);border-bottom:1px solid var(--border)}
-.nav-logo{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:var(--text);text-decoration:none;letter-spacing:-0.01em}
-.nav-logo em{font-style:normal;color:var(--gold)}
-.nav-right{display:flex;align-items:center;gap:20px}
-.nav-link{font-size:14px;color:var(--text2);text-decoration:none;transition:color 0.2s;cursor:none}
-.nav-link:hover{color:var(--text)}
-.toggle-group{display:flex;align-items:center;gap:4px;background:var(--bg3);border:1px solid var(--border2);border-radius:999px;padding:3px}
-.tog-btn{height:26px;padding:0 11px;border-radius:999px;border:none;background:transparent;cursor:none;font-size:12px;font-weight:500;color:var(--text3);font-family:'DM Sans',sans-serif;transition:background 0.2s,color 0.2s;white-space:nowrap}
-.tog-btn.active{background:var(--bg);color:var(--text);box-shadow:0 1px 2px rgba(0,0,0,0.07)}
-[data-theme="dark"] .tog-btn.active{background:var(--bg2);box-shadow:none}
-.tog-sep{width:1px;height:14px;background:var(--border2);margin:0 2px}
-.nav-cta{font-size:14px;font-weight:500;color:var(--text);text-decoration:none;background:var(--bg3);border:1px solid var(--border2);padding:7px 20px;border-radius:999px;transition:background 0.2s;cursor:none}
-.nav-cta:hover{background:var(--border)}
-
-/* HERO */
-.hero{min-height:100vh;display:flex;align-items:center;padding:120px 0 100px}
-.hero-inner{text-align:center}
-.hero-kicker{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text3);letter-spacing:0.12em;text-transform:uppercase;margin-bottom:36px;display:flex;align-items:center;justify-content:center;gap:16px}
-.hero-kicker::before,.hero-kicker::after{content:'';height:1px;background:var(--border2);width:48px;display:block}
-.hero h1{font-family:'Playfair Display',serif;font-size:clamp(44px,7vw,88px);font-weight:700;line-height:1.05;letter-spacing:-0.035em;color:var(--text);margin-bottom:32px}
-.hero h1 em{font-style:italic;color:var(--gold)}
-.hero-sub{font-size:clamp(16px,1.8vw,19px);color:var(--text2);line-height:1.7;max-width:500px;margin:0 auto 52px;font-weight:300}
-.hero-actions{display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap}
-.btn-primary{background:var(--text);color:var(--bg);padding:13px 32px;border-radius:999px;font-size:15px;font-weight:500;text-decoration:none;cursor:none;transition:opacity 0.2s,transform 0.2s var(--ease);display:inline-block}
-.btn-primary:hover{opacity:0.8;transform:translateY(-1px)}
-.btn-secondary{background:var(--bg);color:var(--text);padding:13px 32px;border-radius:999px;border:1px solid var(--border2);font-size:15px;font-weight:400;text-decoration:none;cursor:none;transition:border-color 0.2s,background 0.2s,transform 0.2s var(--ease);display:inline-block}
-.btn-secondary:hover{border-color:var(--text3);background:var(--bg2);transform:translateY(-1px)}
-.btn-tertiary{font-size:14px;color:var(--text3);text-decoration:none;cursor:none;display:inline-flex;align-items:center;gap:4px;transition:color 0.2s;padding:13px 8px}
-.btn-tertiary:hover{color:var(--text2)}
-.btn-tertiary::after{content:'↗';font-size:11px}
-
-hr{border:none;border-top:1px solid var(--border)}
-section{padding:96px 0}
-.kicker{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:var(--text3);margin-bottom:20px;display:block}
-.s-heading{font-family:'Playfair Display',serif;font-size:clamp(30px,3.5vw,46px);font-weight:600;line-height:1.15;letter-spacing:-0.02em;color:var(--text);margin-bottom:16px}
-.s-heading em{font-style:italic;color:var(--gold)}
-.s-body{font-size:17px;color:var(--text2);line-height:1.75;font-weight:300;max-width:500px}
-
-/* PROBLEM */
-.problem-rows{border-top:1px solid var(--border);margin-top:56px}
-.p-row{display:grid;grid-template-columns:36px 1fr;gap:28px;padding:28px 0;border-bottom:1px solid var(--border);align-items:baseline}
-.p-n{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text3);padding-top:4px;letter-spacing:0.06em}
-.p-text{font-size:16px;color:var(--text2);line-height:1.65;font-weight:300}
-.p-text strong{color:var(--text);font-weight:500}
-
-/* OPENCLAW / CARA KERJA */
-.oc-section{background:var(--bg2);transition:background 0.5s}
-.oc-grid{display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:start}
-.oc-terminal{background:var(--bg);border:1px solid var(--border);border-radius:14px;overflow:hidden;margin-bottom:16px}
-.oc-bar{padding:13px 18px;background:var(--bg3);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:7px}
-.oc-dot{width:9px;height:9px;border-radius:50%}
-.oc-dot:nth-child(1){background:#FF5F57}.oc-dot:nth-child(2){background:#FEBC2E}.oc-dot:nth-child(3){background:#28C840}
-.oc-label{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text3);margin-left:6px}
-.oc-body{padding:20px 22px;font-family:'JetBrains Mono',monospace;font-size:12px;line-height:1.9;color:var(--text3);white-space:pre}
-.oc-body .p{color:var(--gold)}.oc-body .v{color:var(--text2)}.oc-body .ok{color:#4ADE80}
-.oc-cursor{display:inline-block;width:7px;height:12px;background:var(--gold);vertical-align:-2px;animation:blink 1.2s infinite;margin-left:1px}
-@keyframes blink{0%,50%{opacity:1}51%,100%{opacity:0}}
-
-/* tool chips */
-.tool-chips{display:flex;flex-wrap:wrap;gap:7px;margin-top:20px}
-.tool-chip{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text3);background:var(--bg);border:1px solid var(--border);padding:4px 11px;border-radius:6px;transition:border-color 0.2s,color 0.2s}
-.tool-chip:hover{border-color:var(--border2);color:var(--text2)}
-
-/* HOW — 3 cells */
-.how-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:14px;overflow:hidden;margin-top:56px}
-.how-cell{background:var(--bg);padding:36px 32px;transition:background 0.25s}
-.how-cell:hover{background:var(--bg2)}
-.how-n{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text3);margin-bottom:18px;letter-spacing:0.08em}
-.how-title{font-size:16px;font-weight:500;color:var(--text);margin-bottom:8px;line-height:1.35}
-.how-desc{font-size:14px;color:var(--text3);line-height:1.65;font-weight:300}
-
-/* USE CASES — tabbed */
-.uc-section{background:var(--bg2);transition:background 0.5s}
-.uc-tabs{display:flex;gap:4px;margin-bottom:40px;flex-wrap:wrap}
-.uc-tab{padding:9px 18px;border-radius:8px;font-size:13px;color:var(--text3);background:transparent;border:1px solid transparent;cursor:none;transition:background 0.2s,color 0.2s,border-color 0.2s;font-family:'DM Sans',sans-serif;white-space:nowrap}
-.uc-tab.active{background:var(--bg);color:var(--text);border-color:var(--border)}
-.uc-tab:hover:not(.active){color:var(--text2)}
-.uc-pane{display:none}
-.uc-pane.active{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:start}
-.uc-left h3{font-family:'Playfair Display',serif;font-size:28px;font-weight:600;color:var(--text);line-height:1.2;margin-bottom:12px}
-.uc-left p{font-size:15px;color:var(--text2);line-height:1.7;font-weight:300;margin-bottom:20px}
-.uc-steps{list-style:none;display:flex;flex-direction:column;gap:8px}
-.uc-steps li{display:flex;align-items:flex-start;gap:10px;font-size:14px;color:var(--text2);font-weight:300}
-.uc-steps li::before{content:'→';color:var(--gold);flex-shrink:0;margin-top:1px;font-size:13px}
-.uc-demo{background:var(--bg);border:1px solid var(--border);border-radius:12px;overflow:hidden}
-.uc-demo-bar{padding:11px 16px;background:var(--bg3);border-bottom:1px solid var(--border);font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text3);display:flex;align-items:center;gap:7px}
-.uc-demo-bar::before{content:'◉';color:var(--gold);font-size:9px}
-.uc-demo-body{padding:20px 22px;font-family:'JetBrains Mono',monospace;font-size:12px;line-height:1.9;color:var(--text3);white-space:pre-wrap}
-.uc-demo-body .p{color:var(--gold)}.uc-demo-body .tag{color:var(--text3)}.uc-demo-body .ok{color:#4ADE80}.uc-demo-body .v{color:var(--text2)}
-
-/* PHASES */
-.phases-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:14px;overflow:hidden;margin-top:56px}
-.phase-cell{background:var(--bg2);padding:36px 32px;transition:background 0.25s;position:relative}
-.phase-cell:hover{background:var(--bg3)}
-.phase-cell::before{content:'';position:absolute;top:0;left:0;right:0;height:2px}
-.phase-cell:nth-child(1)::before{background:var(--gold)}
-.phase-cell:nth-child(2)::before{background:var(--text3)}
-.phase-cell:nth-child(3)::before{background:var(--text2)}
-.phase-n{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--text3);margin-bottom:12px;letter-spacing:0.1em;text-transform:uppercase}
-.phase-title{font-size:17px;font-weight:500;color:var(--text);margin-bottom:16px;line-height:1.3}
-.phase-list{list-style:none;display:flex;flex-direction:column;gap:7px}
-.phase-list li{font-size:13px;color:var(--text3);font-weight:300;display:flex;align-items:flex-start;gap:8px;line-height:1.5}
-.phase-list li::before{content:'—';color:var(--border2);flex-shrink:0}
-.phase-time{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text3);margin-top:20px;padding-top:16px;border-top:1px solid var(--border)}
-
-/* OFFERINGS — contained box */
-.offerings-section{padding:96px 0}
-.offerings-hd{margin-bottom:48px}
-.offerings-cards{
-  display:grid;grid-template-columns:1fr 1fr;
-  gap:20px;
-}
-/* card shell */
-.offer-card{
-  background:#fff;
-  border:1px solid var(--border);
-  border-radius:16px;
-  overflow:hidden;
-  display:flex;flex-direction:column;
-  box-shadow:0 2px 8px rgba(0,0,0,0.04);
-  transition:transform 0.25s var(--ease),box-shadow 0.25s;
-  cursor:none;
-}
-[data-theme="dark"] .offer-card{background:var(--bg2);box-shadow:none}
-.offer-card:hover{
-  transform:translateY(-4px);
-  box-shadow:0 14px 44px rgba(0,0,0,0.09);
-}
-[data-theme="dark"] .offer-card:hover{box-shadow:0 14px 44px rgba(0,0,0,0.4)}
-/* illustration band */
-.offer-illus{
-  width:100%;aspect-ratio:16/9;
-  overflow:hidden;position:relative;
-  display:flex;align-items:center;justify-content:center;
-}
-.card-course .offer-illus{
-  background:linear-gradient(160deg,#C8DCF0 0%,#A8C8E8 35%,#B8D8C8 70%,#C8E0B8 100%);
-}
-[data-theme="dark"] .card-course .offer-illus{
-  background:linear-gradient(160deg,#182438 0%,#1A2E44 50%,#18302A 100%);
-}
-.card-consulting .offer-illus{
-  background:linear-gradient(160deg,#E8D8B8 0%,#D8C098 35%,#C8A870 60%,#D4B880 100%);
-}
-[data-theme="dark"] .card-consulting .offer-illus{
-  background:linear-gradient(160deg,#281E10 0%,#30220C 50%,#201808 100%);
-}
-/* decorative SVG scene inside each card */
-.offer-illus svg{width:100%;height:100%;position:absolute;inset:0}
-/* card body */
-.offer-body{
-  padding:24px 28px 0;
-  flex:1;
-}
-.offer-tag{
-  font-family:'JetBrains Mono',monospace;font-size:10px;
-  letter-spacing:0.14em;text-transform:uppercase;
-  color:var(--text3);margin-bottom:10px;display:block;
-}
-.offer-title{
-  font-family:'Playfair Display',serif;
-  font-size:clamp(19px,2vw,22px);
-  font-style:italic;font-weight:600;
-  color:var(--text);line-height:1.25;margin-bottom:16px;
-}
-.offer-points{
-  list-style:none;display:flex;flex-direction:column;
-  gap:6px;margin-bottom:0;
-}
-.offer-points li{
-  font-size:13px;color:var(--text2);font-weight:300;
-  display:flex;align-items:flex-start;gap:7px;line-height:1.5;
-}
-.offer-points li::before{
-  content:'·';color:var(--text3);flex-shrink:0;
-  font-size:16px;line-height:1.15;
-}
-/* card footer row — label left, arrow right */
-.offer-footer{
-  display:flex;align-items:center;justify-content:space-between;
-  padding:16px 28px;margin-top:20px;
-  border-top:1px solid var(--border);
-}
-.offer-cta{
-  font-size:14px;font-weight:400;
-  font-family:'DM Sans',sans-serif;
-  color:var(--text2);text-decoration:none;cursor:none;
-  transition:color 0.2s;
-}
-.offer-cta:hover{color:var(--text)}
-.offer-arrow{
-  width:28px;height:28px;
-  border:1px solid var(--border2);border-radius:50%;
-  display:flex;align-items:center;justify-content:center;
-  font-size:13px;color:var(--text3);
-  text-decoration:none;cursor:none;
-  transition:border-color 0.2s,transform 0.2s var(--ease);
-  flex-shrink:0;
-}
-.offer-arrow:hover{border-color:var(--text2);transform:translateX(3px)}light" data-lang="id">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Atlas — AI Operator untuk Perusahaan</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
-<style>
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-
-:root,[data-theme="light"]{
-  --bg:#FAFAF7;
-  --bg2:#F3F2ED;
-  --bg3:#ECEAE3;
-  --text:#111110;
-  --text2:#706C61;
-  --text3:#B0AB9E;
-  --gold:#8C6420;
-  --gold-faint:rgba(140,100,32,0.06);
-  --border:#E4E2DA;
-  --border2:#CCCABE;
-  --nav-bg:rgba(250,250,247,0.96);
-  --ease:cubic-bezier(0.16,1,0.3,1);
-}
-[data-theme="dark"]{
-  --bg:#0E0E0C;--bg2:#161614;--bg3:#1E1E1B;
-  --text:#F0EDE6;--text2:#9A9488;--text3:#5A5650;
-  --gold:#C89840;--gold-faint:rgba(200,152,64,0.07);
-  --border:#252420;--border2:#302E28;
-  --nav-bg:rgba(14,14,12,0.96);
-}
-
-html{scroll-behavior:smooth}
-body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;font-size:17px;line-height:1.7;overflow-x:hidden;cursor:none;transition:background 0.5s,color 0.5s}
-
-[data-theme="light"] body::after{content:'';position:fixed;inset:0;background-image:radial-gradient(circle,rgba(140,100,32,0.065) 1px,transparent 1px);background-size:32px 32px;pointer-events:none;z-index:0;mask-image:linear-gradient(to bottom,transparent 0%,black 12%,black 88%,transparent 100%);-webkit-mask-image:linear-gradient(to bottom,transparent 0%,black 12%,black 88%,transparent 100%)}
-body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");pointer-events:none;z-index:1;opacity:0.45}
-nav,section,footer{position:relative;z-index:2}
-
-[data-lang="id"] .en{display:none}[data-lang="en"] .id{display:none}
-
-.cur{width:6px;height:6px;background:var(--text);border-radius:50%;position:fixed;top:0;left:0;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:background 0.3s}
-.cur-ring{width:28px;height:28px;border:1px solid rgba(17,17,16,0.18);border-radius:50%;position:fixed;top:0;left:0;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:transform 0.45s var(--ease),width 0.3s var(--ease),height 0.3s var(--ease)}
-[data-theme="dark"] .cur-ring{border-color:rgba(240,237,230,0.12)}
-
-.container{max-width:720px;margin:0 auto;padding:0 32px}
-.container--wide{max-width:1040px;margin:0 auto;padding:0 40px}
-.reveal{opacity:0;transform:translateY(18px);transition:opacity 0.8s var(--ease),transform 0.8s var(--ease)}
-.reveal.visible{opacity:1;transform:none}
-.d1{transition-delay:0.09s}.d2{transition-delay:0.18s}.d3{transition-delay:0.27s}.d4{transition-delay:0.36s}
-
-/* NAV */
-nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 40px;height:62px;display:flex;align-items:center;justify-content:space-between;transition:background 0.4s,border-color 0.4s}
-nav.scrolled{background:var(--nav-bg);backdrop-filter:blur(16px);border-bottom:1px solid var(--border)}
-.nav-logo{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:var(--text);text-decoration:none;letter-spacing:-0.01em}
-.nav-logo em{font-style:normal;color:var(--gold)}
-.nav-right{display:flex;align-items:center;gap:20px}
-.nav-link{font-size:14px;color:var(--text2);text-decoration:none;transition:color 0.2s;cursor:none}
-.nav-link:hover{color:var(--text)}
-.toggle-group{display:flex;align-items:center;gap:4px;background:var(--bg3);border:1px solid var(--border2);border-radius:999px;padding:3px}
-.tog-btn{height:26px;padding:0 11px;border-radius:999px;border:none;background:transparent;cursor:none;font-size:12px;font-weight:500;color:var(--text3);font-family:'DM Sans',sans-serif;transition:background 0.2s,color 0.2s;white-space:nowrap}
-.tog-btn.active{background:var(--bg);color:var(--text);box-shadow:0 1px 2px rgba(0,0,0,0.07)}
-[data-theme="dark"] .tog-btn.active{background:var(--bg2);box-shadow:none}
-.tog-sep{width:1px;height:14px;background:var(--border2);margin:0 2px}
-.nav-cta{font-size:14px;font-weight:500;color:var(--text);text-decoration:none;background:var(--bg3);border:1px solid var(--border2);padding:7px 20px;border-radius:999px;transition:background 0.2s;cursor:none}
-.nav-cta:hover{background:var(--border)}
-
-/* HERO */
-.hero{min-height:100vh;display:flex;align-items:center;padding:120px 0 100px}
-.hero-inner{text-align:center}
-.hero-kicker{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text3);letter-spacing:0.12em;text-transform:uppercase;margin-bottom:36px;display:flex;align-items:center;justify-content:center;gap:16px}
-.hero-kicker::before,.hero-kicker::after{content:'';height:1px;background:var(--border2);width:48px;display:block}
-.hero h1{font-family:'Playfair Display',serif;font-size:clamp(44px,7vw,88px);font-weight:700;line-height:1.05;letter-spacing:-0.035em;color:var(--text);margin-bottom:32px}
-.hero h1 em{font-style:italic;color:var(--gold)}
-.hero-sub{font-size:clamp(16px,1.8vw,19px);color:var(--text2);line-height:1.7;max-width:500px;margin:0 auto 52px;font-weight:300}
-.hero-actions{display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap}
-.btn-primary{background:var(--text);color:var(--bg);padding:13px 32px;border-radius:999px;font-size:15px;font-weight:500;text-decoration:none;cursor:none;transition:opacity 0.2s,transform 0.2s var(--ease);display:inline-block}
-.btn-primary:hover{opacity:0.8;transform:translateY(-1px)}
-.btn-secondary{background:var(--bg);color:var(--text);padding:13px 32px;border-radius:999px;border:1px solid var(--border2);font-size:15px;font-weight:400;text-decoration:none;cursor:none;transition:border-color 0.2s,background 0.2s,transform 0.2s var(--ease);display:inline-block}
-.btn-secondary:hover{border-color:var(--text3);background:var(--bg2);transform:translateY(-1px)}
-.btn-tertiary{font-size:14px;color:var(--text3);text-decoration:none;cursor:none;display:inline-flex;align-items:center;gap:4px;transition:color 0.2s;padding:13px 8px}
-.btn-tertiary:hover{color:var(--text2)}
-.btn-tertiary::after{content:'↗';font-size:11px}
-
-hr{border:none;border-top:1px solid var(--border)}
-section{padding:96px 0}
-.kicker{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:var(--text3);margin-bottom:20px;display:block}
-.s-heading{font-family:'Playfair Display',serif;font-size:clamp(30px,3.5vw,46px);font-weight:600;line-height:1.15;letter-spacing:-0.02em;color:var(--text);margin-bottom:16px}
-.s-heading em{font-style:italic;color:var(--gold)}
-.s-body{font-size:17px;color:var(--text2);line-height:1.75;font-weight:300;max-width:500px}
-
-/* PROBLEM */
-.problem-rows{border-top:1px solid var(--border);margin-top:56px}
-.p-row{display:grid;grid-template-columns:36px 1fr;gap:28px;padding:28px 0;border-bottom:1px solid var(--border);align-items:baseline}
-.p-n{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text3);padding-top:4px;letter-spacing:0.06em}
-.p-text{font-size:16px;color:var(--text2);line-height:1.65;font-weight:300}
-.p-text strong{color:var(--text);font-weight:500}
-
-/* OPENCLAW / CARA KERJA */
-.oc-section{background:var(--bg2);transition:background 0.5s}
-.oc-grid{display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:start}
-.oc-terminal{background:var(--bg);border:1px solid var(--border);border-radius:14px;overflow:hidden;margin-bottom:16px}
-.oc-bar{padding:13px 18px;background:var(--bg3);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:7px}
-.oc-dot{width:9px;height:9px;border-radius:50%}
-.oc-dot:nth-child(1){background:#FF5F57}.oc-dot:nth-child(2){background:#FEBC2E}.oc-dot:nth-child(3){background:#28C840}
-.oc-label{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text3);margin-left:6px}
-.oc-body{padding:20px 22px;font-family:'JetBrains Mono',monospace;font-size:12px;line-height:1.9;color:var(--text3);white-space:pre}
-.oc-body .p{color:var(--gold)}.oc-body .v{color:var(--text2)}.oc-body .ok{color:#4ADE80}
-.oc-cursor{display:inline-block;width:7px;height:12px;background:var(--gold);vertical-align:-2px;animation:blink 1.2s infinite;margin-left:1px}
-@keyframes blink{0%,50%{opacity:1}51%,100%{opacity:0}}
-
-/* tool chips */
-.tool-chips{display:flex;flex-wrap:wrap;gap:7px;margin-top:20px}
-.tool-chip{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text3);background:var(--bg);border:1px solid var(--border);padding:4px 11px;border-radius:6px;transition:border-color 0.2s,color 0.2s}
-.tool-chip:hover{border-color:var(--border2);color:var(--text2)}
-
-/* HOW — 3 cells */
-.how-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:14px;overflow:hidden;margin-top:56px}
-.how-cell{background:var(--bg);padding:36px 32px;transition:background 0.25s}
-.how-cell:hover{background:var(--bg2)}
-.how-n{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text3);margin-bottom:18px;letter-spacing:0.08em}
-.how-title{font-size:16px;font-weight:500;color:var(--text);margin-bottom:8px;line-height:1.35}
-.how-desc{font-size:14px;color:var(--text3);line-height:1.65;font-weight:300}
-
-/* USE CASES — tabbed */
-.uc-section{background:var(--bg2);transition:background 0.5s}
-.uc-tabs{display:flex;gap:4px;margin-bottom:40px;flex-wrap:wrap}
-.uc-tab{padding:9px 18px;border-radius:8px;font-size:13px;color:var(--text3);background:transparent;border:1px solid transparent;cursor:none;transition:background 0.2s,color 0.2s,border-color 0.2s;font-family:'DM Sans',sans-serif;white-space:nowrap}
-.uc-tab.active{background:var(--bg);color:var(--text);border-color:var(--border)}
-.uc-tab:hover:not(.active){color:var(--text2)}
-.uc-pane{display:none}
-.uc-pane.active{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:start}
-.uc-left h3{font-family:'Playfair Display',serif;font-size:28px;font-weight:600;color:var(--text);line-height:1.2;margin-bottom:12px}
-.uc-left p{font-size:15px;color:var(--text2);line-height:1.7;font-weight:300;margin-bottom:20px}
-.uc-steps{list-style:none;display:flex;flex-direction:column;gap:8px}
-.uc-steps li{display:flex;align-items:flex-start;gap:10px;font-size:14px;color:var(--text2);font-weight:300}
-.uc-steps li::before{content:'→';color:var(--gold);flex-shrink:0;margin-top:1px;font-size:13px}
-.uc-demo{background:var(--bg);border:1px solid var(--border);border-radius:12px;overflow:hidden}
-.uc-demo-bar{padding:11px 16px;background:var(--bg3);border-bottom:1px solid var(--border);font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text3);display:flex;align-items:center;gap:7px}
-.uc-demo-bar::before{content:'◉';color:var(--gold);font-size:9px}
-.uc-demo-body{padding:20px 22px;font-family:'JetBrains Mono',monospace;font-size:12px;line-height:1.9;color:var(--text3);white-space:pre-wrap}
-.uc-demo-body .p{color:var(--gold)}.uc-demo-body .tag{color:var(--text3)}.uc-demo-body .ok{color:#4ADE80}.uc-demo-body .v{color:var(--text2)}
-
-/* PHASES */
-.phases-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:14px;overflow:hidden;margin-top:56px}
-.phase-cell{background:var(--bg2);padding:36px 32px;transition:background 0.25s;position:relative}
-.phase-cell:hover{background:var(--bg3)}
-.phase-cell::before{content:'';position:absolute;top:0;left:0;right:0;height:2px}
-.phase-cell:nth-child(1)::before{background:var(--gold)}
-.phase-cell:nth-child(2)::before{background:var(--text3)}
-.phase-cell:nth-child(3)::before{background:var(--text2)}
-.phase-n{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--text3);margin-bottom:12px;letter-spacing:0.1em;text-transform:uppercase}
-.phase-title{font-size:17px;font-weight:500;color:var(--text);margin-bottom:16px;line-height:1.3}
-.phase-list{list-style:none;display:flex;flex-direction:column;gap:7px}
-.phase-list li{font-size:13px;color:var(--text3);font-weight:300;display:flex;align-items:flex-start;gap:8px;line-height:1.5}
-.phase-list li::before{content:'—';color:var(--border2);flex-shrink:0}
-.phase-time{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text3);margin-top:20px;padding-top:16px;border-top:1px solid var(--border)}
-
-/* OFFERINGS — contained box */
-.offerings-section{padding:96px 0}
-.offerings-cards{
-  display:grid;grid-template-columns:1fr 1fr;
-  gap:16px;margin-top:48px;
-}
-.offer-card{
-  background:var(--bg);
-  border:1px solid var(--border);
-  border-radius:16px;
-  overflow:hidden;
-  display:flex;flex-direction:column;
-  transition:transform 0.25s var(--ease),box-shadow 0.25s;
-  cursor:none;
-}
-.offer-card:hover{
-  transform:translateY(-4px);
-  box-shadow:0 12px 40px rgba(140,100,32,0.09);
-}
-[data-theme="dark"] .offer-card:hover{box-shadow:0 12px 40px rgba(0,0,0,0.35)}
-/* Course card — clean, neutral */
-.offer-card.card-course{background:var(--bg);border-color:var(--border)}
-/* Consulting card — warmer, slightly more presence */
-.offer-card.card-consulting{background:var(--bg2);border-color:var(--border2)}
-
-/* Visual band — like the image illustration area */
-.offer-visual{
-  width:100%;aspect-ratio:16/9;
-  display:flex;align-items:center;justify-content:center;
-  position:relative;overflow:hidden;
-  border-bottom:1px solid var(--border);
-}
-.card-course .offer-visual{
-  background:linear-gradient(135deg, #EEF3F8 0%, #E3EDF5 40%, #D8E8F2 100%);
-}
-[data-theme="dark"] .card-course .offer-visual{
-  background:linear-gradient(135deg,#1A2028 0%,#1E2832 100%);
-}
-.card-consulting .offer-visual{
-  background:linear-gradient(135deg, #F5EFE3 0%, #EDE4D0 40%, #E5D9BE 100%);
-}
-[data-theme="dark"] .card-consulting .offer-visual{
-  background:linear-gradient(135deg,#201C14 0%,#28220E 100%);
-}
-/* Visual illustration — abstract marks */
-.offer-visual-inner{
-  width:80%;height:80%;
-  position:relative;
-  display:flex;align-items:center;justify-content:center;
-}
-/* Course: book/learning motif */
-.card-course .offer-visual-inner::before{
-  content:'';
-  position:absolute;
-  width:72px;height:88px;
-  background:rgba(100,140,180,0.18);
-  border:1.5px solid rgba(100,140,180,0.3);
-  border-radius:4px 10px 10px 4px;
-  transform:rotate(-6deg) translateX(-12px);
-}
-.card-course .offer-visual-inner::after{
-  content:'';
-  position:absolute;
-  width:72px;height:88px;
-  background:rgba(120,160,200,0.12);
-  border:1.5px solid rgba(100,140,180,0.2);
-  border-radius:4px 10px 10px 4px;
-  transform:rotate(4deg) translateX(12px);
-}
-.offer-visual-icon{
-  position:relative;z-index:1;
-  font-size:36px;line-height:1;
-  filter:saturate(0.7);
-}
-/* Consulting: signal/network motif */
-.card-consulting .offer-visual-inner::before{
-  content:'';
-  position:absolute;
-  width:80px;height:80px;
-  border:1.5px solid rgba(140,100,32,0.2);
-  border-radius:50%;
-}
-.card-consulting .offer-visual-inner::after{
-  content:'';
-  position:absolute;
-  width:48px;height:48px;
-  border:1.5px solid rgba(140,100,32,0.3);
-  border-radius:50%;
-}
-
-/* Card body */
-.offer-body{
-  padding:28px 32px 0;
-  flex:1;display:flex;flex-direction:column;
-}
-.offer-tag{
-  font-family:'JetBrains Mono',monospace;font-size:10px;
-  letter-spacing:0.14em;text-transform:uppercase;
-  color:var(--text3);margin-bottom:12px;display:block;
-}
-.offer-title{
-  font-family:'Playfair Display',serif;
-  font-size:clamp(20px,2vw,24px);
-  font-style:italic;font-weight:600;
-  color:var(--text);line-height:1.25;margin-bottom:20px;
-}
-.offer-points{
-  list-style:none;display:flex;flex-direction:column;
-  gap:7px;margin-bottom:0;flex:1;
-}
-.offer-points li{
-  font-size:14px;color:var(--text2);font-weight:300;
-  display:flex;align-items:flex-start;gap:8px;line-height:1.5;
-}
-.offer-points li::before{
-  content:'·';color:var(--gold);flex-shrink:0;
-  font-size:18px;line-height:1.1;
-}
-/* Card footer row — like the image bottom row */
-.offer-footer{
-  display:flex;align-items:center;justify-content:space-between;
-  padding:20px 32px;margin-top:24px;
-  border-top:1px solid var(--border);
-}
-.offer-cta{
-  font-size:14px;font-weight:500;color:var(--text);
-  text-decoration:none;cursor:none;
-  transition:color 0.2s;
-}
-.offer-cta:hover{color:var(--gold)}
-.offer-arrow{
-  width:32px;height:32px;
-  border:1px solid var(--border2);
-  border-radius:50%;
-  display:flex;align-items:center;justify-content:center;
-  font-size:14px;color:var(--text2);
-  transition:border-color 0.2s,background 0.2s,transform 0.2s var(--ease);
-  text-decoration:none;cursor:none;
-}
-.offer-arrow:hover{
-  border-color:var(--text3);
-  background:var(--bg3);
-  transform:translateX(3px);
-}
-
-/* FOOTER */
-footer{border-top:1px solid var(--border);padding:36px 0}
-.footer-inner{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
-.footer-logo{font-family:'Playfair Display',serif;font-size:17px;font-weight:700;color:var(--text);text-decoration:none}
-.footer-logo em{font-style:normal;color:var(--gold)}
-.footer-right{display:flex;align-items:center;gap:20px;flex-wrap:wrap}
-.footer-link{font-size:13px;color:var(--text3);text-decoration:none;transition:color 0.2s;cursor:none}
-.footer-link:hover{color:var(--text2)}
-
-@media(max-width:780px){
-  nav{padding:0 24px}.container,.container--wide{padding:0 24px}
-  .nav-link{display:none}.hero{padding:96px 0 72px}
-  .oc-grid{grid-template-columns:1fr}
-  .how-grid,.phases-grid{grid-template-columns:1fr}
-  .uc-pane.active{grid-template-columns:1fr}
-  .uc-demo{display:none}
-  .offerings-cards{grid-template-columns:1fr}
-  .offer-body{padding:24px 24px 0}
-  .offer-footer{padding:16px 24px}
-  section{padding:64px 0}
-}
+[data-lang="id"] .en { display: none; }
+[data-lang="en"] .id { display: none; }
 </style>
 </head>
-<body>
+<body id="top" class="bg-[#ececea] text-[#111111] antialiased overflow-x-hidden" style="font-family:'Inter',sans-serif">
 
-<div class="cur" id="cur"></div>
-<div class="cur-ring" id="ring"></div>
-
-<nav id="nav">
-  <a href="#" class="nav-logo">Atlas<em>.</em></a>
-  <div class="nav-right">
-    <a href="#cara-kerja" class="nav-link id">Cara Kerja</a>
-    <a href="#cara-kerja" class="nav-link en">How It Works</a>
-    <a href="#layanan" class="nav-link id">Layanan</a>
-    <a href="#layanan" class="nav-link en">Services</a>
-    <div class="toggle-group">
-      <button class="tog-btn active" id="btnID" onclick="setLang('id')">ID</button>
-      <button class="tog-btn" id="btnEN" onclick="setLang('en')">EN</button>
-      <div class="tog-sep"></div>
-      <button class="tog-btn active" id="btnLight" onclick="setTheme('light')">☀</button>
-      <button class="tog-btn" id="btnDark" onclick="setTheme('dark')">◑</button>
+  <!-- ================= HEADER ================= -->
+  <header class="relative z-40 max-w-[1240px] mx-auto px-6 pt-6 flex items-center justify-between">
+    <a href="#top" class="text-2xl text-[#ff5a3d] font-semibold tracking-tight" style="font-family:'Urbanist',sans-serif">
+      Atlas.
+    </a>
+    <nav class="hidden md:flex items-center gap-8 text-sm text-[#555]">
+      <a href="#cara-kerja" class="hover:text-[#111] transition-colors">
+        <span class="en">How It Works</span>
+        <span class="id">Cara Kerja</span>
+      </a>
+      <a href="#kemampuan" class="hover:text-[#111] transition-colors">
+        <span class="en">Capabilities</span>
+        <span class="id">Kemampuan</span>
+      </a>
+      <a href="#showcase" class="hover:text-[#111] transition-colors">
+        <span class="en">Use Cases</span>
+        <span class="id">Use Case</span>
+      </a>
+      <a href="#layanan" class="hover:text-[#111] transition-colors">
+        <span class="en">Services</span>
+        <span class="id">Layanan</span>
+      </a>
+      <a href="#faq" class="hover:text-[#111] transition-colors">FAQ</a>
+    </nav>
+    <div class="flex items-center gap-4">
+      <div class="flex items-center bg-[#d8d8d4] rounded-full p-1.5 shadow-sm">
+        <button class="tog-btn active" id="btnEN" onclick="setLang('en')">EN</button>
+        <button class="tog-btn" id="btnID" onclick="setLang('id')">ID</button>
+      </div>
+      <a href="#layanan" class="bg-[#111111] text-white text-sm font-medium px-5 py-2.5 rounded-full shadow-lg shadow-black/20 hover:bg-black transition-all duration-300 hover:scale-105 active:scale-95 hover:shadow-xl hover:shadow-[#ff5a3d]/30">
+        <span class="en">Get Started</span>
+        <span class="id">Mulai Sekarang</span>
+      </a>
     </div>
-    <a href="#layanan" class="nav-cta id">Mulai</a>
-    <a href="#layanan" class="nav-cta en">Get Started</a>
-  </div>
-</nav>
+  </header>
 
-<!-- HERO -->
-<section class="hero">
-  <div class="container">
-    <div class="hero-inner">
-      <div class="hero-kicker reveal">Atlas · Powered by OpenClaw</div>
-      <h1 class="reveal d1">
-        <span class="id">Perusahaanmu butuh<br><em>operator</em>,<br>bukan chatbot.</span>
-        <span class="en">Your company needs<br>an <em>operator</em>,<br>not a chatbot.</span>
-      </h1>
-      <p class="hero-sub reveal d2">
-        <span class="id">Atlas adalah AI agent yang menjalankan operasional perusahaan — membaca konteks, menyimpan knowledge, dan mengeksekusi pekerjaan secara konsisten.</span>
-        <span class="en">Atlas is an AI agent that runs your company's operations — reading context, storing knowledge, and executing work consistently.</span>
+  <!-- status badge -->
+  <div class="relative z-30 flex justify-center -mb-4 mt-8">
+    <div class="bg-[#0a0a0a] text-white text-xs font-medium pl-3 pr-4 py-2 rounded-full flex items-center gap-2 shadow-xl shadow-black/20">
+      <span class="w-1.5 h-1.5 rounded-full bg-emerald-400" style="box-shadow:0 0 8px rgba(52,211,153,.9)"></span>
+      <span class="en">Powered by OpenClaw</span>
+      <span class="id">Powered by OpenClaw</span>
+    </div>
+  </div>
+
+  <!-- ================= HERO ================= -->
+  <section class="relative max-w-[1240px] mx-auto px-6 pt-16 pb-10 text-center">
+    <div class="flex items-center justify-center gap-3 mb-8" data-reveal="">
+      <div class="flex -space-x-2">
+        <span class="w-7 h-7 rounded-full border-2 border-[#ececea] bg-[#CC785C] text-white flex items-center justify-center text-sm">
+          <iconify-icon icon="simple-icons:anthropic" width="13"></iconify-icon>
+        </span>
+        <span class="w-7 h-7 rounded-full border-2 border-[#ececea] bg-[#111] text-white flex items-center justify-center text-sm">
+          <iconify-icon icon="simple-icons:openai" width="13"></iconify-icon>
+        </span>
+        <span class="w-7 h-7 rounded-full border-2 border-[#ececea] bg-[#333] text-white flex items-center justify-center text-sm">
+          <iconify-icon icon="solar:code-2-linear" width="14" stroke-width="1.5"></iconify-icon>
+        </span>
+      </div>
+      <p class="text-base text-[#6f6f6f]">
+        <span class="en">Connected to Claude, Codex, and OpenCode.</span>
+        <span class="id">Terhubung dengan Claude, Codex, dan OpenCode.</span>
       </p>
-      <div class="hero-actions reveal d3">
-        <a href="#training" class="btn-primary id">Mulai Sekarang</a>
-        <a href="#training" class="btn-primary en">Start Now</a>
-        <a href="#konsultansi" class="btn-secondary id">Hubungi Kami</a>
-        <a href="#konsultansi" class="btn-secondary en">Contact Us</a>
-        <a href="https://atlas.etalas.studio" class="btn-tertiary" target="_blank">atlas.etalas.studio</a>
-  </div>
-</section>
+    </div>
 
-<hr>
+    <h1 class="font-semibold tracking-tight mx-auto max-w-5xl" style="line-height:.98;font-family:'Urbanist',sans-serif">
+      <span class="block text-[3rem] sm:text-7xl lg:text-[5.5rem] font-semibold tracking-tight">
+        AI
+        <span class="inline-flex align-middle items-center justify-center gap-1.5 w-28 h-9 sm:w-36 sm:h-12 lg:w-40 lg:h-14 rounded-full mx-1 overflow-hidden relative -translate-y-1" style="background:linear-gradient(135deg,#ff5a3d,#c22f16)">
+          <iconify-icon icon="mdi:paw" class="text-white" width="14"></iconify-icon>
+          <span class="text-white text-xs font-semibold tracking-tight" style="font-family:'JetBrains Mono',monospace">
+            OpenClaw
+          </span>
+        </span>
+        <span class="text-[#ff5a3d] font-semibold tracking-tight">
+          <span class="en">Operator</span>
+          <span class="id">Operator</span>
+        </span>
+      </span>
+      <span class="block text-[3rem] sm:text-7xl lg:text-[5.5rem] mt-1 font-semibold tracking-tight">
+        <span class="text-[#9a9a9a] font-semibold tracking-tight">
+          <span class="en">that</span>
+          <span class="id">yang</span>
+        </span>
+        <span class="en">Remembers</span>
+        <span class="id">Mengingat</span>
+      </span>
+      <span class="block text-[3rem] sm:text-7xl lg:text-[5.5rem] mt-1 font-semibold tracking-tight">
+        <span class="text-[#9a9a9a] font-semibold tracking-tight">
+          <span class="en">and</span>
+          <span class="id">dan</span>
+        </span>
+        <span class="en">Acts</span>
+        <span class="id">Bertindak</span>
+      </span>
+    </h1>
 
-<!-- PROBLEM -->
-<section>
-  <div class="container">
-    <span class="kicker reveal id">Masalah</span>
-    <span class="kicker reveal en">The Problem</span>
-    <h2 class="s-heading reveal d1">
-      <span class="id">Chatbot menjawab.<br><em>Operator bekerja.</em></span>
-      <span class="en">Chatbots respond.<br><em>Operators work.</em></span>
-    </h2>
-    <p class="s-body reveal d2">
-      <span class="id">Sebagian besar tools AI hanya merespons — tidak tahu konteks, tidak menyimpan keputusan, tidak bisa bertindak. Perusahaan butuh lebih dari itu.</span>
-      <span class="en">Most AI tools only respond — they don't know context, don't store decisions, and can't take action. Companies need more than that.</span>
+    <p class="mt-8 text-base sm:text-lg text-[#6f6f6f] max-w-xl mx-auto leading-relaxed" data-reveal="">
+      <span class="en">Atlas reads your company context, stores decisions as memory, and directly executes work through connected tools, not just answering questions.</span>
+      <span class="id">Atlas membaca konteks perusahaan, menyimpan keputusan sebagai memory, dan langsung mengeksekusi pekerjaan lewat tools yang sudah terhubung, bukan sekadar menjawab pertanyaan.</span>
     </p>
-    <div class="problem-rows">
-      <div class="p-row reveal">
-        <span class="p-n">01</span>
-        <p class="p-text">
-          <span class="id"><strong>Tidak ada yang menyimpan konteks.</strong> Setiap sesi dimulai dari nol. Keputusan kemarin tidak diingat hari ini.</span>
-          <span class="en"><strong>Nothing stores context.</strong> Every session starts from scratch. Yesterday's decisions are forgotten today.</span>
-        </p>
-      </div>
-      <div class="p-row reveal d1">
-        <span class="p-n">02</span>
-        <p class="p-text">
-          <span class="id"><strong>Tidak ada yang bisa bertindak.</strong> AI memberi saran, tapi tidak mengirim, tidak mengubah, tidak mendokumentasikan.</span>
-          <span class="en"><strong>Nothing can act.</strong> AI gives advice but doesn't send, change, or document anything.</span>
-        </p>
-      </div>
-      <div class="p-row reveal d2">
-        <span class="p-n">03</span>
-        <p class="p-text">
-          <span class="id"><strong>Operasional bergantung pada orang yang ingat.</strong> SOP hanya berjalan kalau ada seseorang yang tahu dan menjalankannya.</span>
-          <span class="en"><strong>Operations depend on whoever remembers.</strong> SOPs only run when someone knows them and follows through.</span>
-        </p>
-  </div>
-</section>
 
-<hr>
+    <div class="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3" data-reveal="">
+      <a href="#layanan" class="group bg-[#111111] text-white text-sm font-medium px-6 py-3.5 rounded-full shadow-xl shadow-black/25 flex items-center gap-2 hover:bg-black transition-all duration-300 hover:scale-105 active:scale-95 hover:-translate-y-0.5 hover:shadow-2xl hover:shadow-[#ff5a3d]/40">
+        <span class="en">Get Started</span>
+        <span class="id">Mulai Sekarang</span>
+        <iconify-icon icon="solar:arrow-right-linear" class="text-base group-hover:translate-x-0.5 transition-transform" stroke-width="1.5"></iconify-icon>
+      </a>
+      <a href="#showcase" class="text-sm font-medium text-[#111] bg-white/60 px-6 py-3.5 rounded-full hover:bg-white transition-all duration-300 hover:scale-105 active:scale-95 hover:shadow-lg hover:shadow-black/10">
+        <span class="en">See Use Cases</span>
+        <span class="id">Lihat Use Case</span>
+      </a>
+    </div>
+  </section>
 
-<!-- CARA KERJA -->
-<section class="oc-section" id="cara-kerja">
-  <div class="container--wide">
-    <div class="oc-grid">
-      <div>
-        <span class="kicker reveal id">Cara kerja</span>
-        <span class="kicker reveal en">How it works</span>
-        <h2 class="s-heading reveal d1">
-          <span class="id">Atlas berjalan di atas<br><em>OpenClaw</em>.</span>
-          <span class="en">Atlas runs on<br><em>OpenClaw</em>.</span>
-        </h2>
-        <p class="s-body reveal d2" style="margin-bottom:20px">
-          <span class="id">OpenClaw memberi AI agent tiga kemampuan dasar: konteks yang persisten, memory untuk menyimpan knowledge, dan akses ke tools perusahaan.</span>
-          <span class="en">OpenClaw gives AI agents three core capabilities: persistent context, memory to store knowledge, and access to company tools.</span>
-        </p>
-        <p class="s-body reveal d3" style="margin-bottom:24px">
-          <span class="id">Dengan itu, Atlas bisa benar-benar bekerja — bukan hanya merespons. Tahu apa yang sedang terjadi, ingat apa yang sudah diputuskan, dan langsung bertindak menggunakan tools yang terhubung.</span>
-          <span class="en">With that, Atlas can actually work — not just respond. It knows what's happening, remembers what's been decided, and acts directly using connected tools.</span>
-        </p>
-        <div class="tool-chips reveal d4">
-          <span class="tool-chip">GitHub</span>
-          <span class="tool-chip">Slack</span>
-          <span class="tool-chip">Notion</span>
-          <span class="tool-chip">Gmail</span>
-          <span class="tool-chip">Google Drive</span>
-          <span class="tool-chip">Vercel</span>
-          <span class="tool-chip">Terminal</span>
-          <span class="tool-chip id">+ tools lainnya</span>
-          <span class="tool-chip en">+ more tools</span>
-        </div>
-      </div>
-      <div class="reveal d2">
-        <div class="oc-terminal">
-          <div class="oc-bar">
-            <div class="oc-dot"></div><div class="oc-dot"></div><div class="oc-dot"></div>
-            <span class="oc-label">atlas · openclaw</span>
+  <!-- hero collage card -->
+  <section class="max-w-[1240px] mx-auto px-6" data-reveal="">
+    <div class="relative rounded-[28px] overflow-hidden h-[380px] sm:h-[480px] lg:h-[560px]" style="background: radial-gradient(at 50% 120%, rgb(58, 24, 16) 0%, rgb(10, 10, 10) 55%, rgb(5, 5, 5) 100%)" data-parallax="">
+      <div class="absolute inset-0" style="background:radial-gradient(circle at 70% 20%,rgba(255,90,61,.14),transparent 55%)"></div>
+
+      <!-- floating interface fragments -->
+      <div class="absolute left-[4%] top-[12%] w-56 sm:w-72 rounded-2xl p-[1px] shadow-2xl shadow-black/60" style="background:linear-gradient(135deg,rgba(255,90,61,.7),rgba(255,255,255,.18),rgba(255,90,61,.25));transform:rotate(-4deg)">
+        <div class="rounded-2xl overflow-hidden bg-[#0c0c0c]">
+          <div class="px-4 py-3 flex items-center gap-1.5 border-b border-white/10">
+            <span class="w-2 h-2 rounded-full bg-[#FF5F57]"></span>
+            <span class="w-2 h-2 rounded-full bg-[#FEBC2E]"></span>
+            <span class="w-2 h-2 rounded-full bg-[#28C840]"></span>
+            <span class="text-white/40 text-[10px] ml-2" style="font-family:'JetBrains Mono',monospace">atlas · openclaw</span>
           </div>
-          <div class="oc-body"><span class="p">→ </span><span class="v">atlas start</span>
-<span class="v">  context   onboarding-q3</span>
-<span class="v">  memory    12 decisions, 3 SOPs</span>
-<span class="v">  tools     github, notion, slack ✓</span>
-
-<span class="p">→ </span><span class="v">atlas status</span>
-<span class="v">  2 blockers since last session</span>
-<span class="v">  1 client reply pending</span>
-<span class="v">  staging deploy failed</span>
-
-<span class="ok">→ ready.<span class="oc-cursor"></span></span></div>
+          <div class="px-4 py-3 text-[10px] leading-relaxed text-white/50" style="font-family:'JetBrains Mono',monospace">
+            <span class="text-[#ff5a3d]">→</span> context&nbsp; onboarding-q3<br>
+            <span class="text-[#ff5a3d]">→</span> memory&nbsp;&nbsp; 12 decisions
+          </div>
+          <div class="px-4 py-3 flex items-center justify-between border-t border-white/10">
+            <span class="text-white/50 text-xs" style="font-family:'JetBrains Mono',monospace">workspace</span>
+            <span class="text-[#ff5a3d] text-xs font-medium">
+              <span class="en">Loaded</span>
+              <span class="id">Loaded</span>
+            </span>
+          </div>
         </div>
-  </div>
-</section>
+      </div>
 
-<hr>
+      <div class="absolute right-[6%] top-[8%] w-64 sm:w-80 rounded-2xl p-[1px] shadow-2xl shadow-black/60" style="background:linear-gradient(160deg,rgba(255,255,255,.35),rgba(255,255,255,.08),rgba(255,90,61,.55));transform:rotate(3deg)">
+        <div class="rounded-2xl overflow-hidden bg-black">
+          <div class="px-4 py-4 text-[11px] leading-relaxed text-white/60" style="font-family:'JetBrains Mono',monospace">
+            <span class="text-[#ff5a3d]">→</span> atlas fix "checkout timeout"<br>
+            <span class="text-white/40">47/47 tests passing</span>
+          </div>
+          <div class="bg-black/60 backdrop-blur px-4 py-2.5 flex items-center justify-between">
+            <span class="text-white/50 text-xs">
+              <span class="en">Generated action</span>
+              <span class="id">Generated action</span>
+            </span>
+            <span class="text-[#ff5a3d] text-xs font-medium">
+              <span class="en">Executed</span>
+              <span class="id">Executed</span>
+            </span>
+          </div>
+        </div>
+      </div>
 
-<!-- KEMAMPUAN -->
-<section>
-  <div class="container--wide">
-    <div class="container" style="padding:0;margin-bottom:56px">
-      <span class="kicker reveal id">Kemampuan</span>
-      <span class="kicker reveal en">Capabilities</span>
-      <h2 class="s-heading reveal d1">
-        <span class="id">Tiga hal yang membuat<br>operator bisa bekerja.</span>
-        <span class="en">Three things that make<br>an operator work.</span>
+      <div class="absolute left-[26%] bottom-[10%] w-64 sm:w-96 rounded-2xl bg-white/[.05] backdrop-blur-md p-4" style="border:1px solid rgba(255,255,255,.08);transform:rotate(-2deg)">
+        <div class="flex items-center justify-between mb-3">
+          <p class="text-white/60 text-xs font-medium">
+            <span class="en">Connected tools</span>
+            <span class="id">Tools terhubung</span>
+          </p>
+          <span class="text-white/30 text-xs">7 / 7
+            <span class="en">active</span>
+            <span class="id">aktif</span>
+          </span>
+        </div>
+        <div class="grid grid-cols-4 gap-2">
+          <span class="h-9 rounded-lg bg-white/10 flex items-center justify-center text-white/60 text-[9px] font-medium" style="font-family:'JetBrains Mono',monospace">GH</span>
+          <span class="h-9 rounded-lg bg-white/10 flex items-center justify-center text-white/60 text-[9px] font-medium" style="font-family:'JetBrains Mono',monospace">SL</span>
+          <span class="h-9 rounded-lg bg-white/10 flex items-center justify-center text-white/60 text-[9px] font-medium" style="font-family:'JetBrains Mono',monospace">NT</span>
+          <span class="h-9 rounded-lg bg-[#ff5a3d]/20 flex items-center justify-center text-[#ff5a3d] text-[9px] font-medium" style="font-family:'JetBrains Mono',monospace">+4</span>
+        </div>
+      </div>
+
+      <div class="absolute right-[5%] bottom-[14%] hidden sm:flex flex-col gap-2" style="transform:rotate(2deg)">
+        <span class="bg-white text-black text-xs font-medium px-4 py-2 rounded-full flex items-center gap-2">
+          <iconify-icon icon="solar:folder-open-linear" stroke-width="1.5"></iconify-icon>
+          <span class="en">Open Workspace</span>
+          <span class="id">Buka Workspace</span>
+        </span>
+        <span class="bg-white/10 text-white text-xs font-medium px-4 py-2 rounded-full backdrop-blur flex items-center gap-2" style="border: 1px solid rgba(255, 255, 255, 0.15);">
+          <iconify-icon icon="solar:document-text-linear" stroke-width="1.5"></iconify-icon>
+          <span class="en">Send Report</span>
+          <span class="id">Kirim Laporan</span>
+        </span>
+        <span class="bg-white/10 text-white text-xs font-medium px-4 py-2 rounded-full backdrop-blur flex items-center gap-2" style="border: 1px solid rgba(255, 255, 255, 0.15);">
+          <iconify-icon icon="solar:play-circle-linear" stroke-width="1.5"></iconify-icon>
+          <span class="en">Run Task</span>
+          <span class="id">Jalankan Task</span>
+        </span>
+      </div>
+      <div class="absolute inset-x-0 bottom-0 h-32" style="background:linear-gradient(to top,rgba(255,90,61,.18),transparent)"></div>
+    </div>
+  </section>
+
+  <!-- ================= TRUST STRIP ================= -->
+  <section class="max-w-[1240px] mx-auto px-6 py-14">
+    <div class="flex flex-wrap items-center justify-center gap-x-10 gap-y-4 text-sm font-medium text-[#9a9a9a]" data-reveal="">
+      <span style="font-family:'JetBrains Mono',monospace" class="text-xs sm:text-sm">OPENCLAW</span>
+      <span class="tracking-tight">
+        <span class="en">Persistent Context</span>
+        <span class="id">Persistent Context</span>
+      </span>
+      <span class="tracking-tight">
+        <span class="en">Memory</span>
+        <span class="id">Memory</span>
+      </span>
+      <span class="tracking-tight">
+        <span class="en">Tool Access</span>
+        <span class="id">Tool Access</span>
+      </span>
+      <span class="tracking-tight">
+        <span class="en">Real Action</span>
+        <span class="id">Real Action</span>
+      </span>
+    </div>
+  </section>
+
+  <!-- ================= DIAGONAL MARQUEES ================= -->
+  <section class="relative overflow-hidden py-24 sm:py-36 bg-[#e4e4e1]">
+    <div class="absolute left-[-10%] right-[-10%] top-1/2 -translate-y-8" style="transform:rotate(-6deg) translateY(-2rem)">
+      <div class="bg-[#ff5a3d] py-3 sm:py-4 overflow-hidden whitespace-nowrap shadow-lg shadow-[#ff5a3d]/20">
+        <div class="inline-flex marquee-a">
+          <span class="text-white text-base sm:text-xl font-semibold tracking-tight px-4 en">
+            Company Context — Memory — Real Action — Company Context — Memory — Real Action — Company Context — Memory — Real Action —&nbsp;
+          </span>
+          <span class="text-white text-base sm:text-xl font-semibold tracking-tight px-4 en">
+            Company Context — Memory — Real Action — Company Context — Memory — Real Action — Company Context — Memory — Real Action —&nbsp;
+          </span>
+          <span class="text-white text-base sm:text-xl font-semibold tracking-tight px-4 id">
+            Konteks Perusahaan — Memory — Aksi Nyata — Konteks Perusahaan — Memory — Aksi Nyata — Konteks Perusahaan — Memory — Aksi Nyata —&nbsp;
+          </span>
+          <span class="text-white text-base sm:text-xl font-semibold tracking-tight px-4 id">
+            Konteks Perusahaan — Memory — Aksi Nyata — Konteks Perusahaan — Memory — Aksi Nyata — Konteks Perusahaan — Memory — Aksi Nyata —&nbsp;
+          </span>
+        </div>
+      </div>
+    </div>
+    <div class="absolute left-[-10%] right-[-10%] top-1/2" style="transform:rotate(5deg) translateY(1rem)">
+      <div class="bg-[#0a0a0a] py-3 sm:py-4 overflow-hidden whitespace-nowrap shadow-lg shadow-black/20">
+        <div class="inline-flex marquee-b">
+          <span class="text-white text-base sm:text-xl font-semibold tracking-tight px-4 en">
+            Read — Remember — Execute — Repeat — Read — Remember — Execute — Repeat — Read — Remember — Execute — Repeat —&nbsp;
+          </span>
+          <span class="text-white text-base sm:text-xl font-semibold tracking-tight px-4 en">
+            Read — Remember — Execute — Repeat — Read — Remember — Execute — Repeat — Read — Remember — Execute — Repeat —&nbsp;
+          </span>
+          <span class="text-white text-base sm:text-xl font-semibold tracking-tight px-4 id">
+            Baca — Ingat — Eksekusi — Ulangi — Baca — Ingat — Eksekusi — Ulangi — Baca — Ingat — Eksekusi — Ulangi —&nbsp;
+          </span>
+          <span class="text-white text-base sm:text-xl font-semibold tracking-tight px-4 id">
+            Baca — Ingat — Eksekusi — Ulangi — Baca — Ingat — Eksekusi — Ulangi — Baca — Ingat — Eksekusi — Ulangi —&nbsp;
+          </span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= INTRO ================= -->
+  <section class="max-w-[840px] mx-auto px-6 py-28 sm:py-40 text-center">
+    <p class="text-[#ff5a3d] text-lg mb-6" style="font-family:'Caveat',cursive" data-reveal="">
+      <span class="en">( from context to action )</span>
+      <span class="id">( dari konteks ke aksi )</span>
+    </p>
+    <p class="text-3xl sm:text-5xl leading-snug font-semibold tracking-tight" style="font-family:'Urbanist',sans-serif" data-reveal="">
+      <span class="en">Atlas helps companies move from simply recording to actually executing work with context, memory, and connected tools.</span>
+      <span class="id">Atlas membantu perusahaan berpindah dari sekadar mencatat menjadi benar-benar menjalankan pekerjaan dengan konteks, memory, dan tools yang sudah terhubung.</span>
+    </p>
+  </section>
+
+  <!-- ================= PROOF ================= -->
+  <section class="relative max-w-[1240px] mx-auto px-6 pb-28 overflow-hidden">
+    <p class="absolute left-1/2 -translate-x-1/2 top-0 text-[6rem] sm:text-[12rem] lg:text-[16rem] text-[#111]/[.04] select-none whitespace-nowrap pointer-events-none font-semibold tracking-tight" style="font-family:'Urbanist',sans-serif">
+      <span class="en">Context</span>
+      <span class="id">Konteks</span>
+    </p>
+    <p class="relative text-[#ff5a3d] text-lg text-center mb-14" style="font-family:'Caveat',cursive" data-reveal="">
+      <span class="en">( Why companies use Atlas )</span>
+      <span class="id">( Kenapa perusahaan pakai Atlas )</span>
+    </p>
+
+    <div class="relative grid lg:grid-cols-[320px_1fr] gap-5">
+      <!-- stats card -->
+      <div class="rounded-[28px] p-8 flex flex-col justify-between gap-8 text-white" style="background:radial-gradient(ellipse at 50% 120%,#33150d 0%,#0a0a0a 60%)" data-reveal="">
+        <div>
+          <p class="text-5xl font-semibold tracking-tight" style="font-family:'Urbanist',sans-serif" data-count="1">0</p>
+          <p class="text-sm text-white/50 mt-1">
+            <span class="en">OpenClaw Foundation</span>
+            <span class="id">Fondasi OpenClaw</span>
+          </p>
+        </div>
+        <div class="h-px bg-white/10"></div>
+        <div>
+          <p class="text-5xl font-semibold tracking-tight" style="font-family:'Urbanist',sans-serif" data-count="7">0</p>
+          <p class="text-sm text-white/50 mt-1">
+            <span class="en">Tools directly connected</span>
+            <span class="id">Tools terhubung langsung</span>
+          </p>
+        </div>
+        <div class="h-px bg-white/10"></div>
+        <div>
+          <p class="text-5xl font-semibold tracking-tight" style="font-family:'Urbanist',sans-serif" data-count="3">0</p>
+          <p class="text-sm text-white/50 mt-1">
+            <span class="en">Implementation phases</span>
+            <span class="id">Fase implementasi</span>
+          </p>
+        </div>
+      </div>
+
+      <!-- testimonial card -->
+      <div class="relative rounded-[28px] overflow-hidden min-h-[420px] flex flex-col justify-end p-8 sm:p-10" style="background:radial-gradient(circle at 70% 20%,#2c2c2c 0%,#0b0b0b 55%)" data-reveal="">
+        <div class="absolute right-[8%] top-[10%] w-52 sm:w-64 rounded-xl p-4 opacity-90" style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);transform:rotate(4deg)">
+          <div class="h-2 w-16 rounded bg-[#ff5a3d]/70 mb-2"></div>
+          <div class="h-2 w-full rounded bg-white/20 mb-1.5"></div>
+          <div class="h-2 w-2/3 rounded bg-white/20"></div>
+        </div>
+        <span class="absolute top-8 left-8 sm:left-10 text-xs text-white/40 font-medium">1 / 01</span>
+        <!-- NOTE: Replace with a real customer quote before publishing. -->
+        <blockquote class="relative max-w-md">
+          <p class="text-white text-2xl sm:text-3xl leading-snug font-semibold tracking-tight" style="font-family:'Urbanist',sans-serif">
+            <span class="en">"Atlas keeps our team from starting from scratch each session — every decision and context gets used again."</span>
+            <span class="id">"Atlas bikin tim kami nggak lagi mulai dari nol tiap sesi — semua keputusan dan konteks kepakai lagi."</span>
+          </p>
+          <div class="mt-5 flex items-center gap-3">
+            <span class="w-10 h-10 rounded-full bg-[#ff5a3d] text-white flex items-center justify-center text-sm font-semibold" style="box-shadow:0 0 0 2px rgba(255,90,61,.6),0 8px 24px rgba(0,0,0,.5)">N</span>
+            <div>
+              <p class="text-sm text-white font-medium">
+                <span class="en">Nadia Putri</span>
+                <span class="id">Nadia Putri</span>
+              </p>
+              <p class="text-xs text-white/40">
+                <span class="en">COO, PT Nusantara Digital</span>
+                <span class="id">COO, PT Nusantara Digital</span>
+              </p>
+            </div>
+          </div>
+        </blockquote>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= SHOWCASE ================= -->
+  <section id="showcase" class="relative max-w-[1240px] mx-auto px-6 pb-24">
+    <p class="absolute left-1/2 -translate-x-1/2 -top-6 text-[5rem] sm:text-[11rem] lg:text-[15rem] text-[#111]/[.04] select-none whitespace-nowrap pointer-events-none font-semibold tracking-tight" style="font-family:'Urbanist',sans-serif">
+      <span class="en">Use Case</span>
+      <span class="id">Use Case</span>
+    </p>
+    <p class="relative text-[#ff5a3d] text-lg text-center mb-14" style="font-family:'Caveat',cursive" data-reveal="">
+      <span class="en">( Atlas in practice )</span>
+      <span class="id">( Atlas dalam praktik )</span>
+    </p>
+
+    <!-- Card 01 -->
+    <div class="min-h-[115vh] relative">
+      <div class="sticky top-24 rounded-[32px] overflow-hidden p-8 sm:p-12 text-white" data-stack="" style="background:radial-gradient(ellipse at 50% 110%,#2a1208 0%,#060606 60%);transition:transform .1s linear,filter .1s linear,opacity .1s linear">
+        <div class="grid lg:grid-cols-[1fr_1.3fr_1fr] gap-8 items-center min-h-[440px]">
+          <p class="text-base text-white/60 leading-relaxed max-w-xs">
+            <span class="en">Daily work rhythm that doesn't forget — from morning brief to automatic documentation to memory.</span>
+            <span class="id">Ritme kerja harian yang tidak lupa — dari morning brief sampai dokumentasi otomatis ke memory.</span>
+          </p>
+          <div class="mx-auto w-full max-w-sm rounded-2xl p-[1px] shadow-2xl shadow-black/60" style="background:linear-gradient(140deg,rgba(255,90,61,.7),rgba(255,255,255,.18),rgba(61,90,140,.6));transform:rotate(-3deg)">
+            <div class="rounded-2xl overflow-hidden bg-[#0b0d12]">
+              <div class="px-5 py-3.5 flex items-center gap-1.5 border-b border-white/10">
+                <span class="w-2 h-2 rounded-full bg-[#FF5F57]"></span><span class="w-2 h-2 rounded-full bg-[#FEBC2E]"></span><span class="w-2 h-2 rounded-full bg-[#28C840]"></span>
+                <span class="text-white/40 text-[10px] ml-2" style="font-family:'JetBrains Mono',monospace">atlas / daily-ops</span>
+              </div>
+              <div class="px-5 py-4 text-[11px] leading-relaxed text-white/60" style="font-family:'JetBrains Mono',monospace">
+                <span class="text-[#ff5a3d]">[email]</span> urgent — client deadline request<br>
+                <span class="text-[#ff5a3d]">[blocker]</span> staging deploy failed<br>
+                <span class="text-emerald-400">→ ready for review.</span>
+              </div>
+            </div>
+          </div>
+          <div class="space-y-4 text-sm lg:text-right">
+            <div>
+              <p class="text-white/35 text-xs uppercase tracking-widest mb-0.5">
+                <span class="en">Input</span>
+                <span class="id">Input</span>
+              </p>
+              <p class="text-white/85">
+                <span class="en">Workspace + calendar</span>
+                <span class="id">Workspace + calendar</span>
+              </p>
+            </div>
+            <div>
+              <p class="text-white/35 text-xs uppercase tracking-widest mb-0.5">
+                <span class="en">Process</span>
+                <span class="id">Proses</span>
+              </p>
+              <p class="text-white/85">
+                <span class="en">Draft & flag blocker</span>
+                <span class="id">Draft & flag blocker</span>
+              </p>
+            </div>
+            <div>
+              <p class="text-white/35 text-xs uppercase tracking-widest mb-0.5">
+                <span class="en">Output</span>
+                <span class="id">Output</span>
+              </p>
+              <p class="text-white/85">
+                <span class="en">Recap to company memory</span>
+                <span class="id">Recap ke company memory</span>
+              </p>
+            </div>
+          </div>
+        </div>
+        <div>
+          <span class="text-white/25 text-sm font-medium">01</span>
+          <span class="text-3xl sm:text-5xl font-semibold tracking-tight" style="font-family:'Urbanist',sans-serif">
+            <span class="en">Operations</span>
+            <span class="id">Operasional</span>
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 02 -->
+    <div class="min-h-[115vh] relative -mt-[35vh]">
+      <div class="sticky top-24 rounded-[32px] overflow-hidden p-8 sm:p-12 text-white" data-stack="" style="background:radial-gradient(ellipse at 50% 110%,#5a1c0c 0%,#1a0805 55%,#0a0404 100%);transition:transform .1s linear,filter .1s linear,opacity .1s linear">
+        <div class="grid lg:grid-cols-[1fr_1.3fr_1fr] gap-8 items-center min-h-[440px]">
+          <p class="text-base text-white/60 leading-relaxed max-w-xs">
+            <span class="en">Information in, knowledge out — meeting notes and chat turned into structured memory.</span>
+            <span class="id">Informasi masuk, knowledge keluar — meeting notes dan chat diubah jadi memory terstruktur.</span>
+          </p>
+          <div class="mx-auto w-full max-w-xs rounded-2xl p-[1px] shadow-2xl shadow-black/60 relative" style="background:linear-gradient(150deg,rgba(255,255,255,.35),rgba(255,90,61,.6));transform:rotate(2deg)">
+            <div class="rounded-2xl overflow-hidden bg-[#0c0c0c] p-5">
+              <p class="text-white/40 text-[10px] mb-2" style="font-family:'JetBrains Mono',monospace">atlas / knowledge-ingest</p>
+              <div class="text-[11px] leading-relaxed text-white/60" style="font-family:'JetBrains Mono',monospace">
+                <span class="text-[#ff5a3d]">[decisions]</span> OAuth2 confirmed<br>
+                <span class="text-[#ff5a3d]">[sop]</span> 2 candidates flagged<br>
+                <span class="text-emerald-400">→ memory updated.</span>
+              </div>
+            </div>
+          </div>
+          <div class="space-y-4 text-sm lg:text-right">
+            <div>
+              <p class="text-white/35 text-xs uppercase tracking-widest mb-0.5">
+                <span class="en">Input</span>
+                <span class="id">Input</span>
+              </p>
+              <p class="text-white/85">
+                <span class="en">Meeting notes + chat + email</span>
+                <span class="id">Meeting notes + chat + email</span>
+              </p>
+            </div>
+            <div>
+              <p class="text-white/35 text-xs uppercase tracking-widest mb-0.5">
+                <span class="en">Process</span>
+                <span class="id">Proses</span>
+              </p>
+              <p class="text-white/85">
+                <span class="en">Extract decisions & SOPs</span>
+                <span class="id">Ekstrak keputusan & SOP</span>
+              </p>
+            </div>
+            <div>
+              <p class="text-white/35 text-xs uppercase tracking-widest mb-0.5">
+                <span class="en">Output</span>
+                <span class="id">Output</span>
+              </p>
+              <p class="text-white/85">
+                <span class="en">Structured memory</span>
+                <span class="id">Memory terstruktur</span>
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="flex items-end gap-4 mt-6">
+          <span class="text-white/25 text-sm font-medium">02</span>
+          <span class="text-4xl sm:text-6xl font-semibold tracking-tight" style="font-family:'Urbanist',sans-serif">
+            <span class="en">Knowledge</span>
+            <span class="id">Knowledge</span>
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 03 -->
+    <div class="min-h-[115vh] relative -mt-[35vh]">
+      <div class="sticky top-24 rounded-[32px] overflow-hidden p-8 sm:p-12 text-white" data-stack="" style="background:radial-gradient(ellipse at 30% 110%,#1b3324 0%,#0a0f0b 55%),radial-gradient(ellipse at 90% 0%,#3a150c 0%,transparent 50%),#080a08;transition:transform .1s linear,filter .1s linear,opacity .1s linear">
+        <div class="grid lg:grid-cols-[1fr_1.3fr_1fr] gap-8 items-center min-h-[440px]">
+          <p class="text-base text-white/60 leading-relaxed max-w-xs">
+            <span class="en">From bug report to verified fix — with clear scope from the start.</span>
+            <span class="id">Dari bug report sampai fix terverifikasi — dengan scope yang jelas dari awal.</span>
+          </p>
+          <div class="mx-auto w-full max-w-sm rounded-2xl p-[1px] shadow-2xl shadow-black/60" style="background:linear-gradient(140deg,rgba(47,90,61,.8),rgba(255,255,255,.18),rgba(255,90,61,.6));transform:rotate(-2deg)">
+            <div class="rounded-2xl overflow-hidden bg-[#080c09]">
+              <div class="px-5 py-3.5 flex items-center gap-1.5 border-b border-white/10">
+                <span class="w-2 h-2 rounded-full bg-[#FF5F57]"></span><span class="w-2 h-2 rounded-full bg-[#FEBC2E]"></span><span class="w-2 h-2 rounded-full bg-[#28C840]"></span>
+                <span class="text-white/40 text-[10px] ml-2" style="font-family:'JetBrains Mono',monospace">atlas / fix-checkout</span>
+              </div>
+              <div class="px-5 py-4 text-[11px] leading-relaxed text-white/60" style="font-family:'JetBrains Mono',monospace">
+                <span class="text-[#ff5a3d]">[found]</span> race condition, p95=4800ms<br>
+                <span class="text-[#ff5a3d]">[test]</span> 47/47 passing<br>
+                <span class="text-emerald-400">→ verified. runbook updated.</span>
+              </div>
+            </div>
+          </div>
+          <div class="space-y-4 text-sm lg:text-right">
+            <div>
+              <p class="text-white/35 text-xs uppercase tracking-widest mb-0.5">
+                <span class="en">Input</span>
+                <span class="id">Input</span>
+              </p>
+              <p class="text-white/85">
+                <span class="en">Bug report + repo access</span>
+                <span class="id">Bug report + repo access</span>
+              </p>
+            </div>
+            <div>
+              <p class="text-white/35 text-xs uppercase tracking-widest mb-0.5">
+                <span class="en">Process</span>
+                <span class="id">Proses</span>
+              </p>
+              <p class="text-white/85">
+                <span class="en">Plan, implement, test</span>
+                <span class="id">Plan, implement, test</span>
+              </p>
+            </div>
+            <div>
+              <p class="text-white/35 text-xs uppercase tracking-widest mb-0.5">
+                <span class="en">Output</span>
+                <span class="id">Output</span>
+              </p>
+              <p class="text-white/85">
+                <span class="en">Deploy + runbook</span>
+                <span class="id">Deploy + runbook</span>
+              </p>
+            </div>
+          </div>
+        </div>
+        <div>
+          <span class="text-white/25 text-sm font-medium">03</span>
+          <span class="text-3xl sm:text-5xl font-semibold tracking-tight" style="font-family:'Urbanist',sans-serif">
+            Dev &amp; QA
+          </span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= WORKFLOW ================= -->
+  <section id="kemampuan" class="pt-16 pb-8">
+    <div class="max-w-[1240px] mx-auto px-6">
+      <p class="text-[#ff5a3d] text-lg text-center mb-6" style="font-family:'Caveat',cursive" data-reveal="">
+        <span class="en">( Capabilities )</span>
+        <span class="id">( Kemampuan )</span>
+      </p>
+      <h2 class="text-center text-5xl sm:text-7xl font-semibold tracking-tight" style="font-family:'Urbanist',sans-serif" data-reveal="">
+        <span class="aura-word en" style="animation-delay: 0s;">What</span>
+        <span class="aura-word id" style="animation-delay: 0s;">Apa</span>
+        <span class="aura-word en" style="animation-delay: 0.06s;">Atlas</span>
+        <span class="aura-word id" style="animation-delay: 0.06s;">yang</span>
+        <span data-smudge="" class="inline-block font-semibold tracking-tight" style="font-family:'Urbanist',sans-serif;letter-spacing:-0.025em">
+          <span class="aura-word en" style="animation-delay: 0.12s;">delivers</span>
+          <span class="aura-word id" style="animation-delay: 0.12s;">Atlas</span>
+          <span class="aura-word en" style="animation-delay: 0.18s; display:none">_</span>
+          <span class="aura-word id" style="animation-delay: 0.18s;">jalankan</span>
+        </span>
       </h2>
+      <div class="h-px bg-[#111]/10 mt-14 mb-8"></div>
+      <div class="flex flex-wrap items-center justify-between gap-6 text-sm font-medium" data-reveal="">
+        <span class="text-[#9a9a9a]">
+          <span class="en">Context</span>
+          <span class="id">Konteks</span>
+        </span>
+        <span class="text-[#ff5a3d] flex items-center gap-2">
+          <span class="w-1.5 h-1.5 rounded-full bg-[#ff5a3d]"></span>
+          <span class="en">Memory</span>
+          <span class="id">Memory</span>
+        </span>
+        <span class="text-[#9a9a9a]">
+          <span class="en">Action</span>
+          <span class="id">Aksi</span>
+        </span>
+      </div>
     </div>
-    <div class="how-grid">
-      <div class="how-cell reveal">
-        <div class="how-n">01 · KNOWLEDGE</div>
-        <div class="how-title id">Tahu apa yang penting</div>
-        <div class="how-title en">Knows what matters</div>
-        <div class="how-desc id">Membaca dan menyerap informasi perusahaan — dari dokumen, chat, meeting notes — lalu menyimpannya sebagai konteks yang bisa diakses kapanpun.</div>
-        <div class="how-desc en">Reads and absorbs company information — from documents, chats, meeting notes — storing it as context that can be accessed anytime.</div>
+    <div class="overflow-hidden mt-10 whitespace-nowrap">
+      <div class="inline-flex marquee-a">
+        <span class="text-[#ff5a3d] text-[4rem] sm:text-[8rem] lg:text-[11rem] leading-none px-6 font-semibold tracking-tight" style="font-family:'Urbanist',sans-serif">
+          <span class="en">OpenClaw ✳ Memory ✳ Real Action ✳&nbsp;</span>
+          <span class="id">OpenClaw ✳ Memory ✳ Aksi Nyata ✳&nbsp;</span>
+        </span>
+        <span class="text-[#ff5a3d] text-[4rem] sm:text-[8rem] lg:text-[11rem] leading-none px-6 font-semibold tracking-tight" style="font-family:'Urbanist',sans-serif">
+          <span class="en">OpenClaw ✳ Memory ✳ Real Action ✳&nbsp;</span>
+          <span class="id">OpenClaw ✳ Memory ✳ Aksi Nyata ✳&nbsp;</span>
+        </span>
       </div>
-      <div class="how-cell reveal d1">
-        <div class="how-n">02 · MEMORY</div>
-        <div class="how-title id">Ingat apa yang sudah diputuskan</div>
-        <div class="how-title en">Remembers what's been decided</div>
-        <div class="how-desc id">Keputusan, aturan, dan SOP tersimpan di workspace OpenClaw. Atlas melanjutkan dari mana yang terakhir — bukan dari nol.</div>
-        <div class="how-desc en">Decisions, rules, and SOPs are stored in the OpenClaw workspace. Atlas continues from where it left off — not from scratch.</div>
+    </div>
+  </section>
+
+  <!-- ================= INSIDE ATLAS ================= -->
+  <section id="cara-kerja" class="relative max-w-[1240px] mx-auto px-6 py-28 overflow-hidden">
+    <p class="absolute left-1/2 -translate-x-1/2 top-8 text-[4.5rem] sm:text-[10rem] lg:text-[13rem] text-[#111]/[.04] select-none whitespace-nowrap pointer-events-none font-semibold tracking-tight" style="font-family:'Urbanist',sans-serif">
+      <span class="en">How It Works</span>
+      <span class="id">Cara Kerja</span>
+    </p>
+    <p class="relative text-[#ff5a3d] text-lg text-center mb-16" style="font-family:'Caveat',cursive" data-reveal="">
+      <span class="en">( Inside Atlas )</span>
+      <span class="id">( Di dalam Atlas )</span>
+    </p>
+
+    <div class="relative grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+      <!-- product card -->
+      <div class="relative rounded-[26px] p-6 sm:p-8" style="background:linear-gradient(160deg,#ff6a4d,#c23a1e)" data-reveal="">
+        <div class="rounded-2xl p-[1px] shadow-2xl shadow-black/40" style="background:linear-gradient(150deg,rgba(255,255,255,.5),rgba(255,255,255,.12),rgba(0,0,0,.4))">
+          <div class="rounded-2xl overflow-hidden bg-[#0c0c0c]">
+            <div class="px-5 py-4 flex items-center justify-between border-b border-white/10">
+              <p class="text-white/60 text-xs font-medium">atlas / operator</p>
+              <span class="text-emerald-400 text-xs flex items-center gap-1.5">
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+                <span class="en">Running</span>
+                <span class="id">Running</span>
+              </span>
+            </div>
+            <div class="px-5 py-5 text-[12px] leading-relaxed text-white/60" style="font-family:'JetBrains Mono',monospace">
+              <span class="text-[#ff5a3d]">→ </span>atlas start<br>
+              &nbsp;&nbsp;context&nbsp;&nbsp; onboarding-q3<br>
+              &nbsp;&nbsp;memory&nbsp;&nbsp;&nbsp; 12 decisions, 3 SOPs<br>
+              &nbsp;&nbsp;tools&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; github, notion, slack ✓<br><br>
+              <span class="text-emerald-400">→ ready.</span>
+            </div>
+          </div>
+        </div>
+        <div class="flex gap-2 mt-5">
+          <span class="w-9 h-9 rounded-full bg-black/25 flex items-center justify-center text-white">
+            <iconify-icon icon="solar:document-text-linear" stroke-width="1.5"></iconify-icon>
+          </span>
+          <span class="w-9 h-9 rounded-full bg-black/25 flex items-center justify-center text-white">
+            <iconify-icon icon="solar:folder-linear" stroke-width="1.5"></iconify-icon>
+          </span>
+          <span class="w-9 h-9 rounded-full bg-black/25 flex items-center justify-center text-white">
+            <iconify-icon icon="solar:link-round-angle-linear" stroke-width="1.5"></iconify-icon>
+          </span>
+          <span class="w-9 h-9 rounded-full bg-black/25 flex items-center justify-center text-white">
+            <iconify-icon icon="solar:bolt-linear" stroke-width="1.5"></iconify-icon>
+          </span>
+        </div>
+        <!-- stamp -->
+        <div class="absolute -bottom-6 -right-4 sm:-right-6 w-24 h-24 sm:w-28 sm:h-28 rounded-full bg-[#0a0a0a] text-white flex items-center justify-center shadow-xl shadow-black/30" data-stamp="">
+          <svg viewBox="0 0 100 100" class="absolute inset-0 w-full h-full">
+            <defs>
+              <path id="circ" d="M50,50 m-36,0 a36,36 0 1,1 72,0 a36,36 0 1,1 -72,0"></path>
+            </defs>
+            <text style="font-size:11px;letter-spacing:2.5px;fill:#fff;font-weight:500">
+              <textPath href="#circ">
+                <span class="en">CONTEXT FIRST • ATLAS •</span>
+                <span class="id">CONTEXT FIRST • ATLAS •</span>
+              </textPath>
+            </text>
+          </svg>
+          <iconify-icon icon="solar:star-linear" class="text-[#ff5a3d] text-xl" stroke-width="1.5"></iconify-icon>
+        </div>
       </div>
-      <div class="how-cell reveal d2">
-        <div class="how-n">03 · ACTION</div>
-        <div class="how-title id">Bisa langsung bertindak</div>
-        <div class="how-title en">Can take real action</div>
-        <div class="how-desc id">Terhubung ke tools perusahaan. Bisa membuat, mengubah, dan mengirim — dengan batas yang jelas kapan harus meminta persetujuan manusia.</div>
-        <div class="how-desc en">Connected to company tools. Can create, change, and send — with clear boundaries on when to ask for human approval.</div>
-  </div>
-</section>
 
-<hr>
+      <!-- copy -->
+      <div data-reveal="">
+        <h3 class="text-4xl sm:text-6xl mb-6 font-semibold tracking-tight" style="font-family:'Urbanist',sans-serif">
+          <span class="aura-word en" style="animation-delay: 0s;">From</span>
+          <span class="aura-word id" style="animation-delay: 0s;">Dari</span>
+          <span class="aura-word en" style="animation-delay: 0.06s;">Context</span>
+          <span class="aura-word id" style="animation-delay: 0.06s;">Konteks</span>
+          <span class="aura-word en" style="animation-delay: 0.12s;">to</span>
+          <span class="aura-word id" style="animation-delay: 0.12s;">ke</span>
+          <span class="aura-word en" style="animation-delay: 0.18s;">Execution</span>
+          <span class="aura-word id" style="animation-delay: 0.18s;">Eksekusi</span>
+        </h3>
+        <p class="text-base sm:text-lg text-[#6f6f6f] leading-relaxed max-w-md">
+          <span class="en">Atlas is given real context before work: company documents, team decisions, connected tools, and authorization boundaries. The result isn't a one-time response — it's work you can continue, verify, and document.</span>
+          <span class="id">Atlas diberi konteks nyata sebelum bekerja: dokumen perusahaan, keputusan tim, tools yang terhubung, dan batas otorisasi. Hasilnya bukan respons satu kali — tapi pekerjaan yang bisa dilanjutkan, diverifikasi, dan didokumentasikan.</span>
+        </p>
+        <div class="mt-10 divide-y divide-[#111]/10">
+          <div class="flex items-center justify-between py-4">
+            <span class="font-medium text-sm sm:text-base">
+              <span class="en">Import company knowledge</span>
+              <span class="id">Import knowledge perusahaan</span>
+            </span>
+            <span class="text-xs text-[#9a9a9a]">Step 01</span>
+          </div>
+          <div class="flex items-center justify-between py-4">
+            <span class="font-medium text-sm sm:text-base">
+              <span class="en">Compose action plan</span>
+              <span class="id">Susun rencana tindakan</span>
+            </span>
+            <span class="text-xs text-[#9a9a9a]">Step 02</span>
+          </div>
+          <div class="flex items-center justify-between py-4">
+            <span class="font-medium text-sm sm:text-base">
+              <span class="en">Execute via connected tools</span>
+              <span class="id">Eksekusi via tools terhubung</span>
+            </span>
+            <span class="text-xs text-[#9a9a9a]">Step 03</span>
+          </div>
+          <div class="flex items-center justify-between py-4">
+            <span class="font-medium text-sm sm:text-base">
+              <span class="en">Document to memory</span>
+              <span class="id">Dokumentasikan ke memory</span>
+            </span>
+            <span class="text-xs text-[#9a9a9a]">Step 04</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-<!-- USE CASES -->
-<section class="uc-section">
-  <div class="container--wide">
-    <div class="container" style="padding:0;margin-bottom:40px">
-      <span class="kicker reveal id">Atlas dalam praktik</span>
-      <span class="kicker reveal en">Atlas in practice</span>
-      <h2 class="s-heading reveal d1">
-        <span class="id">Dari operasional harian<br>hingga <em>delivery teknis</em>.</span>
-        <span class="en">From daily operations<br>to <em>technical delivery</em>.</span>
-      </h2>
+  <!-- ================= OUTPUTS TABLE ================= -->
+  <section class="max-w-[1080px] mx-auto px-6 py-20">
+    <p class="text-[#ff5a3d] text-lg text-center mb-6" style="font-family:'Caveat',cursive" data-reveal="">
+      <span class="en">( Results )</span>
+      <span class="id">( Hasil )</span>
+    </p>
+    <h2 class="text-center text-5xl sm:text-6xl mb-14 font-semibold tracking-tight" style="font-family:'Urbanist',sans-serif" data-reveal="">
+      <span class="aura-word en" style="animation-delay: 0s;">Ready</span>
+      <span class="aura-word id" style="animation-delay: 0s;">Siap</span>
+      <span class="aura-word en" style="animation-delay: 0.06s;">to</span>
+      <span class="aura-word id" style="animation-delay: 0.06s;">Dioperasikan</span>
+      <span class="aura-word en" style="animation-delay: 0.12s;">Run</span>
+    </h2>
+    <div class="divide-y divide-[#111]/10 border-t border-b border-[#111]/10" data-reveal="">
+      <div class="grid grid-cols-[1fr_auto] sm:grid-cols-3 items-center gap-4 py-6">
+        <span class="text-xs sm:text-sm text-[#9a9a9a]">
+          <span class="en">Knowledge</span>
+          <span class="id">Knowledge</span>
+        </span>
+        <span class="col-span-2 sm:col-span-1 text-lg sm:text-2xl sm:text-center order-last sm:order-none font-semibold tracking-tight" style="font-family:'Urbanist',sans-serif">
+          <span class="en">Reusable memory foundation</span>
+          <span class="id">Fondasi memory yang bisa dipakai ulang</span>
+        </span>
+        <span class="text-xs sm:text-sm text-[#9a9a9a] sm:text-right">
+          <span class="en">Source of truth</span>
+          <span class="id">Sumber kebenaran</span>
+        </span>
+      </div>
+      <div class="grid grid-cols-[1fr_auto] sm:grid-cols-3 items-center gap-4 py-6">
+        <span class="text-xs sm:text-sm text-[#9a9a9a]">
+          <span class="en">Memory</span>
+          <span class="id">Memory</span>
+        </span>
+        <span class="col-span-2 sm:col-span-1 text-lg sm:text-2xl sm:text-center order-last sm:order-none font-semibold tracking-tight" style="font-family:'Urbanist',sans-serif">
+          <span class="en">Context and decisions stored</span>
+          <span class="id">Konteks dan keputusan tersimpan</span>
+        </span>
+        <span class="text-xs sm:text-sm text-[#9a9a9a] sm:text-right">
+          <span class="en">Operational asset</span>
+          <span class="id">Aset operasional</span>
+        </span>
+      </div>
+      <div class="grid grid-cols-[1fr_auto] sm:grid-cols-3 items-center gap-4 py-6 opacity-80">
+        <span class="text-xs sm:text-sm text-[#9a9a9a]">
+          <span class="en">Action</span>
+          <span class="id">Action</span>
+        </span>
+        <span class="col-span-2 sm:col-span-1 text-lg sm:text-2xl sm:text-center order-last sm:order-none font-semibold tracking-tight" style="font-family:'Urbanist',sans-serif">
+          <span class="en">Execution through connected tools</span>
+          <span class="id">Eksekusi lewat tools terhubung</span>
+        </span>
+        <span class="text-xs sm:text-sm text-[#9a9a9a] sm:text-right">
+          <span class="en">Handoff</span>
+          <span class="id">Handoff</span>
+        </span>
+      </div>
+      <div class="grid grid-cols-[1fr_auto] sm:grid-cols-3 items-center gap-4 py-6 opacity-60">
+        <span class="text-xs sm:text-sm text-[#9a9a9a]">
+          <span class="en">Monitoring</span>
+          <span class="id">Monitoring</span>
+        </span>
+        <span class="col-span-2 sm:col-span-1 text-lg sm:text-2xl sm:text-center order-last sm:order-none font-semibold tracking-tight" style="font-family:'Urbanist',sans-serif">
+          <span class="en">Always-updated reports & status</span>
+          <span class="id">Laporan &amp; status yang selalu update</span>
+        </span>
+        <span class="text-xs sm:text-sm text-[#9a9a9a] sm:text-right">
+          <span class="en">Live review</span>
+          <span class="id">Live review</span>
+        </span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= LAYANAN ================= -->
+  <section id="layanan" class="max-w-[640px] mx-auto px-6 py-20">
+    <h2 class="text-center text-5xl sm:text-6xl mb-14 font-semibold tracking-tight" style="font-family:'Urbanist',sans-serif" data-reveal="">
+      <span class="aura-word en" style="animation-delay: 0s;">Choose</span>
+      <span class="aura-word id" style="animation-delay: 0s;">Pilih</span>
+      <span class="aura-word en" style="animation-delay: 0.06s;">Your</span>
+      <span class="aura-word id" style="animation-delay: 0.06s;">Cara</span>
+      <span class="aura-word en" style="animation-delay: 0.12s;">Path</span>
+      <span class="aura-word id" style="animation-delay: 0.12s;">Mulaimu</span>
+    </h2>
+
+    <div class="bg-white rounded-[26px] p-8 sm:p-10 shadow-xl shadow-[#111]/10" data-reveal="" style="border:1px solid transparent;background:linear-gradient(#fff,#fff) padding-box,linear-gradient(140deg,rgba(255,90,61,.5),rgba(17,17,17,.08)) border-box">
+      <span class="inline-flex w-10 h-10 rounded-xl bg-[#111] items-center justify-center text-white mb-6">
+        <iconify-icon icon="solar:widget-2-linear" stroke-width="1.5"></iconify-icon>
+      </span>
+      <h3 class="text-2xl font-semibold tracking-tight" style="font-family:'Urbanist',sans-serif">
+        <span class="en">Professional Course</span>
+        <span class="id">Professional Course</span>
+      </h3>
+      <p class="mt-3 text-sm text-[#9a9a9a] font-medium uppercase tracking-widest">
+        <span class="en">For teams & individuals</span>
+        <span class="id">Untuk tim &amp; individu</span>
+      </p>
+      <p class="mt-4 text-base text-[#6f6f6f] leading-relaxed">
+        <span class="en">Build AI agent capability from within your team — OpenClaw concepts, agent design, memory, and workflows.</span>
+        <span class="id">Bangun kemampuan AI agent dari dalam tim — konsep OpenClaw, desain agent, memory, dan workflow.</span>
+      </p>
+      <ul class="mt-6 space-y-3 text-base">
+        <li class="flex items-center gap-2.5">
+          <iconify-icon icon="solar:check-circle-linear" class="text-[#ff5a3d] text-lg" stroke-width="1.5"></iconify-icon>
+          <span class="en">OpenClaw concepts and agent design</span>
+          <span class="id">Konsep OpenClaw dan desain agent</span>
+        </li>
+        <li class="flex items-center gap-2.5">
+          <iconify-icon icon="solar:check-circle-linear" class="text-[#ff5a3d] text-lg" stroke-width="1.5"></iconify-icon>
+          <span class="en">Building memory and workflows</span>
+          <span class="id">Membangun memory dan workflow</span>
+        </li>
+        <li class="flex items-center gap-2.5">
+          <iconify-icon icon="solar:check-circle-linear" class="text-[#ff5a3d] text-lg" stroke-width="1.5"></iconify-icon>
+          <span class="en">Tool and channel integration</span>
+          <span class="id">Integrasi tools dan channel</span>
+        </li>
+        <li class="flex items-center gap-2.5">
+          <iconify-icon icon="solar:check-circle-linear" class="text-[#ff5a3d] text-lg" stroke-width="1.5"></iconify-icon>
+          <span class="en">Open for teams & individuals</span>
+          <span class="id">Terbuka untuk tim &amp; individu</span>
+        </li>
+      </ul>
+      <div class="mt-8 pt-6 border-t border-[#111]/10 flex items-center justify-between">
+        <div>
+          <p class="text-xs text-[#9a9a9a]">
+            <span class="en">Best For</span>
+            <span class="id">Best For</span>
+          </p>
+          <p class="text-sm font-medium">
+            <span class="en">Solo projects & small teams</span>
+            <span class="id">Proyek solo &amp; internal</span>
+          </p>
+        </div>
+        <a href="mailto:hello@etalas.studio?subject=Professional Course Atlas" class="group bg-[#111] text-white text-sm font-medium px-5 py-3 rounded-full flex items-center gap-2 hover:bg-black transition-all duration-300 hover:scale-105 active:scale-95 hover:shadow-xl hover:shadow-[#ff5a3d]/30">
+          <span class="en">Get Started</span>
+          <span class="id">Mulai Sekarang</span>
+          <iconify-icon icon="solar:arrow-right-linear" class="group-hover:translate-x-0.5 transition-transform" stroke-width="1.5"></iconify-icon>
+        </a>
+      </div>
     </div>
 
-    <div class="uc-tabs reveal d1">
-      <button class="uc-tab active" onclick="setTab('ops',this)">
-        <span class="id">Operasional</span><span class="en">Operations</span>
-      </button>
-      <button class="uc-tab" onclick="setTab('knowledge',this)">
-        <span class="id">Knowledge</span><span class="en">Knowledge</span>
-      </button>
-      <button class="uc-tab" onclick="setTab('dev',this)">
-        <span class="id">Development & QA</span><span class="en">Development & QA</span>
-      </button>
+    <div class="relative rounded-[26px] p-8 sm:p-10 mt-6 text-white overflow-hidden" style="background:radial-gradient(ellipse at 50% 130%,#7a2b16 0%,#2a0e06 40%,#0a0a0a 75%);border:1px solid rgba(255,90,61,.35);box-shadow:0 30px 70px -20px rgba(255,90,61,.4)" data-reveal="">
+      <span class="inline-flex w-10 h-10 rounded-xl bg-white/10 items-center justify-center text-white mb-6" style="border:1px solid rgba(255,255,255,.15)">
+        <iconify-icon icon="solar:layers-linear" stroke-width="1.5"></iconify-icon>
+      </span>
+      <h3 class="text-2xl font-semibold tracking-tight" style="font-family:'Urbanist',sans-serif">
+        <span class="en">Consulting & Done For You</span>
+        <span class="id">Konsultansi &amp; Do It For You</span>
+      </h3>
+      <p class="mt-3 text-sm text-white/50 font-medium uppercase tracking-widest">
+        <span class="en">For enterprises</span>
+        <span class="id">Untuk perusahaan</span>
+      </p>
+      <p class="mt-4 text-base text-white/60 leading-relaxed">
+        <span class="en">We set up and run Atlas for your company — end-to-end, from installation to team training.</span>
+        <span class="id">Kami setup dan jalankan Atlas untuk perusahaanmu — end-to-end, dari instalasi sampai training tim.</span>
+      </p>
+      <ul class="mt-6 space-y-3 text-base">
+        <li class="flex items-center gap-2.5">
+          <iconify-icon icon="solar:check-circle-linear" class="text-[#ff5a3d] text-lg" stroke-width="1.5"></iconify-icon>
+          <span class="en">End-to-end OpenClaw installation</span>
+          <span class="id">Instalasi OpenClaw end-to-end</span>
+        </li>
+        <li class="flex items-center gap-2.5">
+          <iconify-icon icon="solar:check-circle-linear" class="text-[#ff5a3d] text-lg" stroke-width="1.5"></iconify-icon>
+          <span class="en">Knowledge ingestion from company sources</span>
+          <span class="id">Knowledge ingestion dari sumber perusahaan</span>
+        </li>
+        <li class="flex items-center gap-2.5">
+          <iconify-icon icon="solar:check-circle-linear" class="text-[#ff5a3d] text-lg" stroke-width="1.5"></iconify-icon>
+          <span class="en">Tool connections and agent configuration</span>
+          <span class="id">Koneksi tools dan konfigurasi agent</span>
+        </li>
+        <li class="flex items-center gap-2.5">
+          <iconify-icon icon="solar:check-circle-linear" class="text-[#ff5a3d] text-lg" stroke-width="1.5"></iconify-icon>
+          <span class="en">Internal team training post-setup</span>
+          <span class="id">Training tim internal setelah setup</span>
+        </li>
+      </ul>
+      <div class="mt-8 pt-6 flex items-center justify-between" style="border-top:1px solid rgba(255,255,255,.12)">
+        <div>
+          <p class="text-xs text-white/40">
+            <span class="en">Best For</span>
+            <span class="id">Best For</span>
+          </p>
+          <p class="text-sm font-medium">
+            <span class="en">Teams ready to go live immediately</span>
+            <span class="id">Tim yang ingin langsung jalan</span>
+          </p>
+        </div>
+        <a href="mailto:hello@etalas.studio?subject=Atlas Consulting" class="group bg-white/10 text-white text-sm font-medium px-5 py-3 rounded-full flex items-center gap-2 hover:bg-white/20 transition-all duration-300 hover:scale-105 active:scale-95 hover:shadow-xl hover:shadow-[#ff5a3d]/30" style="border: 1px solid rgba(255, 255, 255, 0.15);">
+          <span class="en">Contact Us</span>
+          <span class="id">Hubungi Kami</span>
+          <iconify-icon icon="solar:arrow-right-linear" class="group-hover:translate-x-0.5 transition-transform" stroke-width="1.5"></iconify-icon>
+        </a>
+      </div>
     </div>
+  </section>
 
-    <!-- OPS -->
-    <div class="uc-pane active" id="uc-ops">
-      <div class="uc-left reveal">
-        <h3 class="id">Operasional harian yang tidak lupa.</h3>
-        <h3 class="en">Daily operations that don't forget.</h3>
-        <p class="id">Atlas menjaga ritme kerja tim — tahu apa yang berubah, mana yang perlu ditindaklanjuti, dan bisa langsung mendraft atau mengeksekusi pekerjaan yang aman.</p>
-        <p class="en">Atlas keeps the team's work rhythm — knows what changed, what needs follow-up, and can directly draft or execute safe work.</p>
-        <ul class="uc-steps">
-          <li class="id">Load workspace: project aktif, blockers, calendar</li>
-          <li class="en">Load workspace: active projects, blockers, calendar</li>
-          <li class="id">Identifikasi perubahan sejak sesi terakhir</li>
-          <li class="en">Identify changes since last session</li>
-          <li class="id">Draft follow-up, recap, atau agenda meeting</li>
-          <li class="en">Draft follow-ups, recaps, or meeting agendas</li>
-          <li class="id">Flag blocker dengan rekomendasi tindakan</li>
-          <li class="en">Flag blockers with recommended next actions</li>
-          <li class="id">Dokumentasikan hasil ke company memory</li>
-          <li class="en">Document outcomes to company memory</li>
-        </ul>
+  <!-- ================= FAQ ================= -->
+  <section class="max-w-[1080px] mx-auto px-6 py-20" id="faq">
+    <p class="text-[#ff5a3d] text-lg text-center mb-6" style="font-family:'Caveat',cursive" data-reveal="">
+      <span class="en">( FAQs )</span>
+      <span class="id">( FAQs )</span>
+    </p>
+    <h2 class="text-center text-4xl sm:text-6xl font-medium tracking-tight" style="font-family:'Urbanist',sans-serif" data-reveal="">
+      <span class="aura-word en" style="animation-delay: 0s;">Your Questions,</span>
+      <span class="aura-word id" style="animation-delay: 0s;">Pertanyaanmu,</span>
+      <span data-smudge="" class="inline-block font-medium tracking-tight" style="font-family:'Urbanist',sans-serif;letter-spacing:-0.025em">
+        <span class="aura-word en" style="animation-delay: 0.12s;">Answered</span>
+        <span class="aura-word id" style="animation-delay: 0.12s;">Terjawab</span>
+      </span>
+    </h2>
+    <p class="text-center text-sm sm:text-base text-[#6f6f6f] mt-4 mb-12 max-w-md mx-auto" data-reveal="">
+      <span class="en">A quick guide to how Atlas turns context into action.</span>
+      <span class="id">Panduan singkat bagaimana Atlas mengubah konteks jadi aksi.</span>
+    </p>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6" data-reveal="">
+      <div class="faq-item bg-white rounded-2xl p-5 sm:p-6 cursor-pointer self-start border border-[#111]/5 hover:border-[#ff5a3d]/20 transition-all duration-300 shadow-sm hover:shadow-md">
+        <div class="flex items-center justify-between gap-4 w-full text-left">
+          <p class="font-medium text-sm sm:text-base tracking-tight text-[#111111]">
+            <span class="en">Does Atlas replace our existing tools?</span>
+            <span class="id">Apakah Atlas menggantikan tools yang sudah kami pakai?</span>
+          </p>
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="faq-icon w-5 h-5 text-[#9a9a9a] shrink-0 transition-all duration-300"><circle cx="12" cy="12" r="10"></circle><path d="M12 8v8"></path><path d="M8 12h8"></path></svg>
+        </div>
+        <div class="faq-body text-xs sm:text-sm text-[#6f6f6f] leading-relaxed pt-3" style="max-height:0;transition:max-height .35s ease;overflow:hidden">
+          <p class="text-xs sm:text-sm text-[#6f6f6f] leading-relaxed">
+            <span class="en">No. Atlas connects to GitHub, Slack, Notion, Gmail, Drive, and other tools you already use — it replaces nothing.</span>
+            <span class="id">Tidak. Atlas terhubung ke GitHub, Slack, Notion, Gmail, Drive, dan tools lain yang sudah kamu pakai — bukan menggantikannya.</span>
+          </p>
+        </div>
       </div>
-      <div class="uc-demo reveal d1">
-        <div class="uc-demo-bar">atlas / daily-ops</div>
-        <div class="uc-demo-body"><span class="p">→ atlas morning-brief</span>
 
-<span class="tag">[context]</span>  <span class="v">3 projects active</span>
-<span class="tag">[email]</span>    <span class="v">1 urgent — client deadline request</span>
-           <span class="v">draft reply prepared, needs review</span>
-<span class="tag">[blocker]</span>  <span class="v">staging deploy failed last night</span>
-           <span class="v">fix candidate ready, 30min est.</span>
-<span class="tag">[meeting]</span>  <span class="v">14:00 client review — brief ready</span>
-
-<span class="ok">→ ready for your review.</span></div>
-
-    <!-- KNOWLEDGE -->
-    <div class="uc-pane" id="uc-knowledge">
-      <div class="uc-left reveal">
-        <h3 class="id">Informasi masuk, knowledge keluar.</h3>
-        <h3 class="en">Information in, knowledge out.</h3>
-        <p class="id">Atlas membaca sumber yang ada — meeting notes, chat history, dokumen — dan mengubahnya menjadi memory terstruktur yang bisa diakses dan dicari kembali.</p>
-        <p class="en">Atlas reads existing sources — meeting notes, chat history, documents — and turns them into structured memory that can be accessed and searched.</p>
-        <ul class="uc-steps">
-          <li class="id">Ingest dari chat, dokumen, email, meeting</li>
-          <li class="en">Ingest from chat, documents, email, meetings</li>
-          <li class="id">Ekstrak keputusan, open questions, risiko</li>
-          <li class="en">Extract decisions, open questions, risks</li>
-          <li class="id">Susun project brief dan decision log</li>
-          <li class="en">Compose project briefs and decision logs</li>
-          <li class="id">Identifikasi SOP candidate dari pola kerja</li>
-          <li class="en">Identify SOP candidates from work patterns</li>
-        </ul>
+      <div class="faq-item bg-white rounded-2xl p-5 sm:p-6 cursor-pointer self-start border border-[#111]/5 hover:border-[#ff5a3d]/20 transition-all duration-300 shadow-sm hover:shadow-md">
+        <div class="flex items-center justify-between gap-4 w-full text-left">
+          <p class="font-medium text-sm sm:text-base tracking-tight text-[#111111]">
+            <span class="en">Is company data secure?</span>
+            <span class="id">Apakah data perusahaan aman?</span>
+          </p>
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="faq-icon w-5 h-5 text-[#9a9a9a] shrink-0 transition-all duration-300"><circle cx="12" cy="12" r="10"></circle><path d="M12 8v8"></path><path d="M8 12h8"></path></svg>
+        </div>
+        <div class="faq-body text-xs sm:text-sm text-[#6f6f6f] leading-relaxed pt-3" style="max-height:0;transition:max-height .35s ease;overflow:hidden">
+          <p class="text-xs sm:text-sm text-[#6f6f6f] leading-relaxed">
+            <span class="en">Yes. Atlas tool access and actions are governed by escalation rules set from the start — clear boundaries on when human approval is required.</span>
+            <span class="id">Ya. Akses tools dan tindakan Atlas diatur lewat escalation rules yang jelas — batas kapan harus meminta persetujuan manusia ditentukan dari awal.</span>
+          </p>
+        </div>
       </div>
-      <div class="uc-demo reveal d1">
-        <div class="uc-demo-bar">atlas / knowledge-ingest</div>
-        <div class="uc-demo-body"><span class="p">→ atlas ingest meeting-notes.md</span>
 
-<span class="tag">[entities]</span>  <span class="v">project folio-v2, client PT Nusa</span>
-<span class="tag">[decisions]</span> <span class="v">OAuth2 confirmed, mobile-first approved</span>
-<span class="tag">[open]</span>     <span class="v">CDN budget TBD, go-live date pending</span>
-<span class="tag">[actions]</span>  <span class="v">3 items extracted → assigned</span>
-<span class="tag">[sop]</span>      <span class="v">2 candidates flagged</span>
-
-<span class="ok">→ memory updated.</span></div>
-
-    <!-- DEV -->
-    <div class="uc-pane" id="uc-dev">
-      <div class="uc-left reveal">
-        <h3 class="id">Dari bug report sampai fix terverifikasi.</h3>
-        <h3 class="en">From bug report to verified fix.</h3>
-        <p class="id">Atlas membaca repo, menyusun plan perubahan, mengimplementasi, menjalankan test, dan mendokumentasikan hasilnya — dengan scope yang jelas dari awal.</p>
-        <p class="en">Atlas reads the repo, composes a change plan, implements, runs tests, and documents results — with a clear scope from the start.</p>
-        <ul class="uc-steps">
-          <li class="id">Baca repo dan identifikasi root cause</li>
-          <li class="en">Read repo and identify root cause</li>
-          <li class="id">Susun plan perubahan yang scoped minimal</li>
-          <li class="en">Compose a minimally scoped change plan</li>
-          <li class="id">Implementasi dan jalankan test & build</li>
-          <li class="en">Implement and run tests & build</li>
-          <li class="id">Deploy dan smoke test endpoint kritis</li>
-          <li class="en">Deploy and smoke test critical endpoints</li>
-          <li class="id">Dokumentasikan ke project runbook</li>
-          <li class="en">Document to the project runbook</li>
-        </ul>
+      <div class="faq-item bg-white rounded-2xl p-5 sm:p-6 cursor-pointer self-start border border-[#ff5a3d]/20 transition-all duration-300 shadow-md" data-open="">
+        <div class="flex items-center justify-between gap-4 w-full text-left">
+          <p class="font-medium text-sm sm:text-base tracking-tight text-[#111111]">
+            <span class="en">How long is implementation?</span>
+            <span class="id">Berapa lama implementasinya?</span>
+          </p>
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="faq-icon w-5 h-5 text-[#ff5a3d] shrink-0 transition-all duration-300"><circle cx="12" cy="12" r="10"></circle><path d="M8 12h8"></path></svg>
+        </div>
+        <div class="faq-body text-xs sm:text-sm text-[#6f6f6f] leading-relaxed pt-3" style="max-height:0;transition:max-height .35s ease;overflow:hidden">
+          <p class="text-xs sm:text-sm text-[#6f6f6f] leading-relaxed">
+            <span class="en">About 4 weeks across 3 phases: Foundation (~1 week), Knowledge & Integration (~1 week), then Execution (~2 weeks).</span>
+            <span class="id">Sekitar 4 minggu lewat 3 fase: Foundation (~1 minggu), Knowledge & Integration (~1 minggu), lalu Execution (~2 minggu).</span>
+          </p>
+        </div>
       </div>
-      <div class="uc-demo reveal d1">
-        <div class="uc-demo-bar">atlas / dev / fix-checkout</div>
-        <div class="uc-demo-body"><span class="p">→ atlas fix "checkout timeout on prod"</span>
 
-<span class="tag">[read]</span>    <span class="v">checkout.ts, nginx.conf</span>
-<span class="tag">[found]</span>   <span class="v">timeout=5000ms, p95=4800ms</span>
-           <span class="v">race condition on concurrent req</span>
-<span class="tag">[fix]</span>     <span class="v">timeout → 12000ms + retry backoff</span>
-<span class="tag">[test]</span>    <span class="v">47/47 passing</span>
-<span class="tag">[deploy]</span>  <span class="v">vercel → live in 45s</span>
+      <div class="faq-item bg-white rounded-2xl p-5 sm:p-6 cursor-pointer self-start border border-[#111]/5 hover:border-[#ff5a3d]/20 transition-all duration-300 shadow-sm hover:shadow-md">
+        <div class="flex items-center justify-between gap-4 w-full text-left">
+          <p class="font-medium text-sm sm:text-base tracking-tight text-[#111111]">
+            <span class="en">Can small teams use Atlas?</span>
+            <span class="id">Apakah Atlas bisa dipakai tim kecil?</span>
+          </p>
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="faq-icon w-5 h-5 text-[#9a9a9a] shrink-0 transition-all duration-300"><circle cx="12" cy="12" r="10"></circle><path d="M12 8v8"></path><path d="M8 12h8"></path></svg>
+        </div>
+        <div class="faq-body text-xs sm:text-sm text-[#6f6f6f] leading-relaxed pt-3" style="max-height:0;transition:max-height .35s ease;overflow:hidden">
+          <p class="text-xs sm:text-sm text-[#6f6f6f] leading-relaxed">
+            <span class="en">Yes. Start with one workflow — e.g., daily operations or knowledge ingestion — then scale as needed.</span>
+            <span class="id">Ya. Mulai dari satu workflow — misalnya operasional harian atau knowledge ingestion — lalu discale sesuai kebutuhan tim.</span>
+          </p>
+        </div>
+      </div>
 
-<span class="ok">→ verified. runbook updated.</span></div>
+      <div class="faq-item bg-white rounded-2xl p-5 sm:p-6 cursor-pointer self-start border border-[#111]/5 hover:border-[#ff5a3d]/20 transition-all duration-300 shadow-sm hover:shadow-md">
+        <div class="flex items-center justify-between gap-4 w-full text-left">
+          <p class="font-medium text-sm sm:text-base tracking-tight text-[#111111]">
+            <span class="en">How is Atlas different from a regular chatbot?</span>
+            <span class="id">Apa bedanya dengan chatbot AI biasa?</span>
+          </p>
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="faq-icon w-5 h-5 text-[#9a9a9a] shrink-0 transition-all duration-300"><circle cx="12" cy="12" r="10"></circle><path d="M12 8v8"></path><path d="M8 12h8"></path></svg>
+        </div>
+        <div class="faq-body text-xs sm:text-sm text-[#6f6f6f] leading-relaxed pt-3" style="max-height:0;transition:max-height .35s ease;overflow:hidden">
+          <p class="text-xs sm:text-sm text-[#6f6f6f] leading-relaxed">
+            <span class="en">Chatbots respond to questions. Atlas remembers context across sessions and directly executes actions through connected tools — it doesn't just give advice.</span>
+            <span class="id">Chatbot merespons pertanyaan. Atlas mengingat konteks lintas sesi dan langsung bertindak lewat tools yang terhubung — bukan cuma memberi saran.</span>
+          </p>
+        </div>
+      </div>
 
-  </div>
-</section>
-
-<hr>
-
-<!-- PHASES -->
-<section>
-  <div class="container--wide">
-    <div class="container" style="padding:0;margin-bottom:56px">
-      <span class="kicker reveal id">Implementasi</span>
-      <span class="kicker reveal en">Implementation</span>
-      <h2 class="s-heading reveal d1">
-        <span class="id">Tiga fase untuk<br>Atlas siap <em>bekerja</em>.</span>
-        <span class="en">Three phases until<br>Atlas is <em>operational</em>.</span>
-      </h2>
+      <div class="faq-item bg-white rounded-2xl p-5 sm:p-6 cursor-pointer self-start border border-[#111]/5 hover:border-[#ff5a3d]/20 transition-all duration-300 shadow-sm hover:shadow-md">
+        <div class="flex items-center justify-between gap-4 w-full text-left">
+          <p class="font-medium text-sm sm:text-base tracking-tight text-[#111111]">
+            <span class="en">How do I get started?</span>
+            <span class="id">Bagaimana cara mulai?</span>
+          </p>
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="faq-icon w-5 h-5 text-[#9a9a9a] shrink-0 transition-all duration-300"><circle cx="12" cy="12" r="10"></circle><path d="M12 8v8"></path><path d="M8 12h8"></path></svg>
+        </div>
+        <div class="faq-body text-xs sm:text-sm text-[#6f6f6f] leading-relaxed pt-3" style="max-height:0;transition:max-height .35s ease;overflow:hidden">
+          <p class="text-xs sm:text-sm text-[#6f6f6f] leading-relaxed">
+            <span class="en">Choose Professional Course to learn and build yourself, or Consulting & Done For You to have us set up Atlas for you immediately.</span>
+            <span class="id">Pilih Professional Course untuk belajar membangun sendiri, atau Konsultansi & Do It For You kalau ingin Atlas langsung disiapkan tim kami.</span>
+          </p>
+        </div>
+      </div>
     </div>
-    <div class="phases-grid">
-      <div class="phase-cell reveal">
-        <div class="phase-n">Fase 01 · Foundation</div>
-        <div class="phase-title id">Instalasi & Konfigurasi</div>
-        <div class="phase-title en">Installation & Configuration</div>
-        <ul class="phase-list">
-          <li class="id">Instalasi OpenClaw framework</li>
-          <li class="en">OpenClaw framework install</li>
-          <li class="id">Agent identity & soul.md</li>
-          <li class="en">Agent identity & soul.md</li>
-          <li class="id">Workspace & memory structure</li>
-          <li class="en">Workspace & memory structure</li>
-          <li class="id">Tool access & escalation rules</li>
-          <li class="en">Tool access & escalation rules</li>
-        </ul>
-        <div class="phase-time id">~1 minggu</div>
-        <div class="phase-time en">~1 week</div>
-      </div>
-      <div class="phase-cell reveal d1">
-        <div class="phase-n">Fase 02 · Knowledge & Integration</div>
-        <div class="phase-title id">Ingestion & Koneksi Tools</div>
-        <div class="phase-title en">Ingestion & Tool Connection</div>
-        <ul class="phase-list">
-          <li class="id">Knowledge ingestion dari sumber yang ada</li>
-          <li class="en">Knowledge ingestion from existing sources</li>
-          <li class="id">Channel setup (Slack, email, chat)</li>
-          <li class="en">Channel setup (Slack, email, chat)</li>
-          <li class="id">Koneksi tools (GitHub, Notion, Drive)</li>
-          <li class="en">Tool connections (GitHub, Notion, Drive)</li>
-          <li class="id">Workflow & SOP pertama</li>
-          <li class="en">First workflows & SOPs</li>
-        </ul>
-        <div class="phase-time id">~1 minggu</div>
-        <div class="phase-time en">~1 week</div>
-      </div>
-      <div class="phase-cell reveal d2">
-        <div class="phase-n">Fase 03 · Execution</div>
-        <div class="phase-title id">Operasional & Otomasi</div>
-        <div class="phase-title en">Operations & Automation</div>
-        <ul class="phase-list">
-          <li class="id">Atlas mulai berjalan di workflow harian</li>
-          <li class="en">Atlas runs in daily workflows</li>
-          <li class="id">Prompt library & playbook tim</li>
-          <li class="en">Team prompt library & playbook</li>
-          <li class="id">Training tim internal</li>
-          <li class="en">Internal team training</li>
-          <li class="id">Iterasi & scale sesuai kebutuhan</li>
-          <li class="en">Iteration & scale as needed</li>
-        </ul>
-        <div class="phase-time id">~2 minggu</div>
-        <div class="phase-time en">~2 weeks</div>
-  </div>
-</section>
+  </section>
 
-<hr>
-
-<!-- OFFERINGS -->
-<section class="offerings-section" id="layanan">
-  <div class="container--wide">
-    <div class="offerings-hd">
-      <span class="kicker reveal id">Apa yang kami tawarkan</span>
-      <span class="kicker reveal en">What we offer</span>
-      <h2 class="s-heading reveal d1">
-        <span class="id">Mulai dengan cara<br>yang paling <em>sesuai</em> untukmu.</span>
-        <span class="en">Start in the way that<br>works best <em>for you</em>.</span>
-      </h2>
+  <!-- ================= FINAL CTA ================= -->
+  <section id="cta" class="max-w-[1240px] mx-auto px-6 py-16">
+    <div class="rounded-[32px] overflow-hidden text-white relative" style="background:radial-gradient(ellipse at 20% 110%,#3a160c 0%,#0a0a0a 55%,#050505 100%)" data-reveal="">
+      <div class="grid lg:grid-cols-2 gap-12 p-8 sm:p-14 relative">
+        <div class="absolute right-10 top-10 hidden lg:block w-64 rounded-xl bg-white/[.04] p-4 opacity-40" style="border:1px solid rgba(255,255,255,.08);transform:rotate(3deg);filter:blur(1px)">
+          <div class="h-2 w-20 rounded bg-[#ff5a3d]/70 mb-2"></div>
+          <div class="h-2 w-full rounded bg-white/20 mb-1.5"></div>
+          <div class="h-2 w-2/3 rounded bg-white/20"></div>
+        </div>
+        <div class="mt-6 text-base sm:text-lg text-white/55 leading-relaxed max-w-sm">
+          <h2 class="text-5xl sm:text-6xl lg:text-7xl leading-[1.02] font-semibold tracking-tight" style="font-family:'Urbanist',sans-serif">
+            <span class="aura-word en" style="animation-delay: 0s;">Turn</span>
+            <span class="aura-word id" style="animation-delay: 0s;">Ubah</span>
+            <span class="aura-word en" style="animation-delay: 0.06s;">Context</span>
+            <span class="aura-word id" style="animation-delay: 0.06s;">Konteks</span>
+            <span class="aura-word en" style="animation-delay: 0.12s;">Into</span>
+            <span class="aura-word id" style="animation-delay: 0.12s;">Jadi</span>
+            <span class="aura-word en" style="animation-delay: 0.18s;">Real</span>
+            <span class="aura-word id" style="animation-delay: 0.18s;">Aksi</span>
+            <span class="aura-word en" style="animation-delay: 0.24s;">Action</span>
+            <span class="aura-word id" style="animation-delay: 0.24s;">Nyata</span>
+          </h2>
+          <p class="mt-6 text-sm sm:text-base text-white/55 leading-relaxed max-w-sm">
+            <span class="en">Tell us about your company operations, tools you use, and execution goals. Atlas helps design the workflow.</span>
+            <span class="id">Ceritakan operasional perusahaanmu, tools yang dipakai, dan target eksekusi. Atlas akan membantu merancang alur kerjanya.</span>
+          </p>
+        </div>
+        <form class="relative space-y-5" onsubmit="event.preventDefault()">
+          <div>
+            <label class="block text-xs font-medium text-white/50 mb-2 uppercase tracking-widest">
+              <span class="en">Company Name</span>
+              <span class="id">Nama Perusahaan</span>
+            </label>
+            <input type="text" class="w-full bg-white/[.06] rounded-xl px-4 py-3.5 text-sm text-white placeholder-white/30 outline-none focus:bg-white/10 transition-colors" style="border:1px solid rgba(255,255,255,.12)" placeholder="Your company name">
+          </div>
+          <div>
+            <label class="block text-xs font-medium text-white/50 mb-2 uppercase tracking-widest">
+              <span class="en">Primary Goal</span>
+              <span class="id">Tujuan Utama</span>
+            </label>
+            <input type="text" class="w-full bg-white/[.06] rounded-xl px-4 py-3.5 text-sm text-white placeholder-white/30 outline-none focus:bg-white/10 transition-colors" style="border:1px solid rgba(255,255,255,.12)" placeholder="Automate ops, ingest knowledge, dev & QA...">
+          </div>
+          <div>
+            <label class="block text-xs font-medium text-white/50 mb-2 uppercase tracking-widest">
+              <span class="en">Tools You Use</span>
+              <span class="id">Tools yang Digunakan</span>
+            </label>
+            <textarea rows="3" class="w-full bg-white/[.06] rounded-xl px-4 py-3.5 text-sm text-white placeholder-white/30 outline-none focus:bg-white/10 transition-colors resize-none" style="border:1px solid rgba(255,255,255,.12)" placeholder="GitHub, Notion, Slack, Gmail..."></textarea>
+          </div>
+          <button class="w-full bg-white text-black text-sm font-semibold py-4 rounded-full hover:bg-[#ff5a3d] hover:text-white transition-all duration-300 hover:scale-[1.02] active:scale-95 hover:shadow-2xl hover:shadow-[#ff5a3d]/40 flex items-center justify-center gap-2">
+            <span class="en">Start Discussion</span>
+            <span class="id">Mulai Diskusi</span>
+            <iconify-icon icon="solar:magic-stick-3-linear" stroke-width="1.5"></iconify-icon>
+          </button>
+        </form>
+      </div>
+      <div class="overflow-hidden whitespace-nowrap py-4" style="border-top:1px solid rgba(255,255,255,.1)">
+        <div class="inline-flex marquee-b">
+          <span class="text-white/35 text-sm font-medium px-4 en">
+            OpenClaw ✳ Memory ✳ Real Action ✳ AI Operator ✳ OpenClaw ✳ Memory ✳ Real Action ✳ AI Operator ✳&nbsp;
+          </span>
+          <span class="text-white/35 text-sm font-medium px-4 en">
+            OpenClaw ✳ Memory ✳ Real Action ✳ AI Operator ✳ OpenClaw ✳ Memory ✳ Real Action ✳ AI Operator ✳&nbsp;
+          </span>
+          <span class="text-white/35 text-sm font-medium px-4 id">
+            OpenClaw ✳ Memory ✳ Aksi Nyata ✳ Operator AI ✳ OpenClaw ✳ Memory ✳ Aksi Nyata ✳ Operator AI ✳&nbsp;
+          </span>
+          <span class="text-white/35 text-sm font-medium px-4 id">
+            OpenClaw ✳ Memory ✳ Aksi Nyata ✳ Operator AI ✳ OpenClaw ✳ Memory ✳ Aksi Nyata ✳ Operator AI ✳&nbsp;
+          </span>
+        </div>
+      </div>
     </div>
+  </section>
 
-    <div class="offerings-cards">
-
-      <div class="offer-card card-course reveal d1" id="training">
-        <div class="offer-illus"><svg viewBox="0 0 480 270" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
-  <!-- sky -->
-  <rect width="480" height="270" fill="none"/>
-  <!-- clouds -->
-  <ellipse cx="120" cy="60" rx="55" ry="28" fill="rgba(255,255,255,0.55)"/>
-  <ellipse cx="155" cy="52" rx="38" ry="22" fill="rgba(255,255,255,0.65)"/>
-  <ellipse cx="85"  cy="65" rx="32" ry="18" fill="rgba(255,255,255,0.4)"/>
-  <ellipse cx="340" cy="48" rx="48" ry="24" fill="rgba(255,255,255,0.5)"/>
-  <ellipse cx="375" cy="40" rx="32" ry="18" fill="rgba(255,255,255,0.6)"/>
-  <ellipse cx="310" cy="55" rx="28" ry="16" fill="rgba(255,255,255,0.35)"/>
-  <!-- hills back -->
-  <ellipse cx="240" cy="220" rx="260" ry="90" fill="rgba(80,140,90,0.3)"/>
-  <ellipse cx="80"  cy="230" rx="160" ry="80" fill="rgba(90,150,80,0.35)"/>
-  <ellipse cx="400" cy="235" rx="150" ry="70" fill="rgba(70,130,80,0.28)"/>
-  <!-- ground -->
-  <rect y="210" width="480" height="60" fill="rgba(100,160,100,0.35)"/>
-  <!-- rail tracks -->
-  <rect y="222" x="0" width="480" height="4"  fill="rgba(80,60,40,0.3)"/>
-  <rect y="232" x="0" width="480" height="4"  fill="rgba(80,60,40,0.3)"/>
-  <!-- sleepers -->
-  <rect y="218" x="20"  width="8" height="22" fill="rgba(80,60,40,0.2)" rx="1"/>
-  <rect y="218" x="60"  width="8" height="22" fill="rgba(80,60,40,0.2)" rx="1"/>
-  <rect y="218" x="100" width="8" height="22" fill="rgba(80,60,40,0.2)" rx="1"/>
-  <rect y="218" x="140" width="8" height="22" fill="rgba(80,60,40,0.2)" rx="1"/>
-  <rect y="218" x="180" width="8" height="22" fill="rgba(80,60,40,0.2)" rx="1"/>
-  <rect y="218" x="220" width="8" height="22" fill="rgba(80,60,40,0.2)" rx="1"/>
-  <rect y="218" x="260" width="8" height="22" fill="rgba(80,60,40,0.2)" rx="1"/>
-  <rect y="218" x="300" width="8" height="22" fill="rgba(80,60,40,0.2)" rx="1"/>
-  <rect y="218" x="340" width="8" height="22" fill="rgba(80,60,40,0.2)" rx="1"/>
-  <rect y="218" x="380" width="8" height="22" fill="rgba(80,60,40,0.2)" rx="1"/>
-  <rect y="218" x="420" width="8" height="22" fill="rgba(80,60,40,0.2)" rx="1"/>
-  <rect y="218" x="455" width="8" height="22" fill="rgba(80,60,40,0.2)" rx="1"/>
-  <!-- train body -->
-  <rect x="60" y="170" width="240" height="52" rx="8" fill="rgba(240,242,246,0.85)"/>
-  <!-- train nose -->
-  <path d="M60 178 Q36 186 34 210 L60 210 Z" fill="rgba(220,225,235,0.8)"/>
-  <!-- windows row -->
-  <rect x="80"  y="180" width="26" height="16" rx="3" fill="rgba(160,200,230,0.6)"/>
-  <rect x="116" y="180" width="26" height="16" rx="3" fill="rgba(160,200,230,0.6)"/>
-  <rect x="152" y="180" width="26" height="16" rx="3" fill="rgba(160,200,230,0.6)"/>
-  <rect x="188" y="180" width="26" height="16" rx="3" fill="rgba(160,200,230,0.6)"/>
-  <rect x="224" y="180" width="26" height="16" rx="3" fill="rgba(160,200,230,0.6)"/>
-  <rect x="260" y="180" width="26" height="16" rx="3" fill="rgba(160,200,230,0.6)"/>
-  <!-- red stripe -->
-  <rect x="34" y="205" width="266" height="5" fill="rgba(200,60,50,0.5)"/>
-  <!-- wheels -->
-  <circle cx="90"  cy="220" r="10" fill="rgba(60,60,60,0.5)"/>
-  <circle cx="200" cy="220" r="10" fill="rgba(60,60,60,0.5)"/>
-  <circle cx="280" cy="220" r="10" fill="rgba(60,60,60,0.5)"/>
-  <!-- power line pole -->
-  <rect x="390" y="100" width="4" height="130" fill="rgba(80,80,80,0.3)"/>
-  <rect x="370" y="110" width="44" height="3"  fill="rgba(80,80,80,0.25)"/>
-  <!-- wire -->
-  <path d="M0 115 Q195 108 390 112" stroke="rgba(80,80,80,0.2)" stroke-width="1.5" fill="none"/>
-  <path d="M394 112 Q437 110 480 113" stroke="rgba(80,80,80,0.2)" stroke-width="1.5" fill="none"/>
-</svg></div>
-        <div class="offer-body">
-          <span class="offer-tag">Professional Course</span>
-          <div class="offer-title id">Bangun kemampuan AI agent dari dalam tim.</div>
-          <div class="offer-title en">Build AI agent capability from within your team.</div>
-          <ul class="offer-points">
-            <li><span class="id">Konsep OpenClaw dan desain agent</span><span class="en">OpenClaw concepts and agent design</span></li>
-            <li><span class="id">Membangun memory dan workflow</span><span class="en">Building memory and workflows</span></li>
-            <li><span class="id">Integrasi tools dan channel</span><span class="en">Tool and channel integration</span></li>
-            <li><span class="id">Terbuka untuk tim &amp; individu</span><span class="en">Open for teams &amp; individuals</span></li>
+  <!-- ================= FOOTER ================= -->
+  <footer class="max-w-[1240px] mx-auto px-6 pb-6">
+    <div class="relative rounded-[32px] overflow-hidden text-white" style="background:radial-gradient(ellipse at 50% 130%,#8a2d14 0%,#2a0e06 35%,#0a0a0a 70%)">
+      <div class="grid sm:grid-cols-3 gap-10 p-8 sm:p-14 pb-6 relative z-10">
+        <div>
+          <p class="text-xs uppercase tracking-widest text-white/35 mb-4">
+            <span class="en">Product</span>
+            <span class="id">Produk</span>
+          </p>
+          <ul class="space-y-2.5 text-sm text-white/70">
+            <li><a href="#cara-kerja" class="hover:text-white transition-colors"><span class="en">How It Works</span><span class="id">Cara Kerja</span></a></li>
+            <li><a href="#kemampuan" class="hover:text-white transition-colors"><span class="en">Capabilities</span><span class="id">Kemampuan</span></a></li>
+            <li><a href="#showcase" class="hover:text-white transition-colors"><span class="en">Use Cases</span><span class="id">Use Case</span></a></li>
+            <li><a href="#layanan" class="hover:text-white transition-colors"><span class="en">Services</span><span class="id">Layanan</span></a></li>
           </ul>
         </div>
-        <div class="offer-footer">
-          <a href="mailto:hello@etalas.studio?subject=Professional Course Atlas" class="offer-cta id">Mulai sekarang</a>
-          <a href="mailto:hello@etalas.studio?subject=Professional Course Atlas" class="offer-cta en">Start now</a>
-          <a href="mailto:hello@etalas.studio?subject=Professional Course Atlas" class="offer-arrow">→</a>
-        </div>
-      </div>
-
-      <div class="offer-card card-consulting reveal d2" id="konsultansi">
-        <div class="offer-illus"><svg viewBox="0 0 480 270" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
-  <!-- sky gradient -->
-  <rect width="480" height="270" fill="none"/>
-  <!-- clouds -->
-  <ellipse cx="100" cy="55"  rx="60" ry="30" fill="rgba(255,255,255,0.5)"/>
-  <ellipse cx="140" cy="45"  rx="42" ry="25" fill="rgba(255,255,255,0.6)"/>
-  <ellipse cx="70"  cy="62"  rx="35" ry="20" fill="rgba(255,255,255,0.38)"/>
-  <ellipse cx="330" cy="44"  rx="55" ry="28" fill="rgba(255,255,255,0.52)"/>
-  <ellipse cx="370" cy="34"  rx="38" ry="22" fill="rgba(255,255,255,0.62)"/>
-  <ellipse cx="300" cy="52"  rx="30" ry="18" fill="rgba(255,255,255,0.35)"/>
-  <ellipse cx="210" cy="38"  rx="45" ry="22" fill="rgba(255,255,255,0.42)"/>
-  <!-- desert ground -->
-  <rect y="190" width="480" height="80" fill="rgba(180,120,60,0.35)"/>
-  <!-- ground variation -->
-  <ellipse cx="120" cy="195" rx="180" ry="18" fill="rgba(160,100,40,0.18)"/>
-  <ellipse cx="380" cy="198" rx="140" ry="15" fill="rgba(190,130,70,0.15)"/>
-  <!-- scrub bushes -->
-  <ellipse cx="60"  cy="195" rx="22" ry="10" fill="rgba(80,100,40,0.35)"/>
-  <ellipse cx="160" cy="198" rx="16" ry="8"  fill="rgba(80,100,40,0.28)"/>
-  <ellipse cx="400" cy="194" rx="20" ry="9"  fill="rgba(80,100,40,0.32)"/>
-  <ellipse cx="450" cy="197" rx="14" ry="7"  fill="rgba(80,100,40,0.25)"/>
-  <!-- dish support tower -->
-  <rect x="228" y="145" width="8"  height="60"  fill="rgba(80,80,80,0.45)"/>
-  <!-- legs -->
-  <line x1="232" y1="200" x2="200" y2="210" stroke="rgba(80,80,80,0.35)" stroke-width="4"/>
-  <line x1="232" y1="200" x2="264" y2="210" stroke="rgba(80,80,80,0.35)" stroke-width="4"/>
-  <line x1="232" y1="200" x2="232" y2="215" stroke="rgba(80,80,80,0.35)" stroke-width="4"/>
-  <!-- dish bowl — ellipse arc -->
-  <path d="M170 148 Q232 88 294 148" fill="rgba(200,200,210,0.55)" stroke="rgba(120,120,130,0.5)" stroke-width="2"/>
-  <!-- dish ribs -->
-  <line x1="232" y1="88" x2="210" y2="148" stroke="rgba(140,140,150,0.35)" stroke-width="1.5"/>
-  <line x1="232" y1="88" x2="232" y2="148" stroke="rgba(140,140,150,0.35)" stroke-width="1.5"/>
-  <line x1="232" y1="88" x2="254" y2="148" stroke="rgba(140,140,150,0.35)" stroke-width="1.5"/>
-  <!-- signal rings -->
-  <circle cx="232" cy="88" r="20" fill="none" stroke="rgba(140,100,32,0.18)" stroke-width="1.5" stroke-dasharray="4 4"/>
-  <circle cx="232" cy="88" r="35" fill="none" stroke="rgba(140,100,32,0.12)" stroke-width="1"   stroke-dasharray="5 6"/>
-  <circle cx="232" cy="88" r="52" fill="none" stroke="rgba(140,100,32,0.08)" stroke-width="1"   stroke-dasharray="6 8"/>
-  <!-- center focal point -->
-  <circle cx="232" cy="88" r="5" fill="rgba(140,100,32,0.4)"/>
-</svg></div>
-        <div class="offer-body">
-          <span class="offer-tag id">Konsultansi &amp; Do It For You</span>
-          <span class="offer-tag en">Consulting &amp; Do It For You</span>
-          <div class="offer-title id">Kami setup dan jalankan Atlas untuk perusahaanmu.</div>
-          <div class="offer-title en">We set up and run Atlas for your company.</div>
-          <ul class="offer-points">
-            <li><span class="id">Instalasi OpenClaw end-to-end</span><span class="en">End-to-end OpenClaw installation</span></li>
-            <li><span class="id">Knowledge ingestion dari sumber perusahaan</span><span class="en">Knowledge ingestion from company sources</span></li>
-            <li><span class="id">Koneksi tools dan konfigurasi agent</span><span class="en">Tool connections and agent configuration</span></li>
-            <li><span class="id">Training tim internal setelah setup</span><span class="en">Internal team training post-setup</span></li>
+        <div>
+          <p class="text-xs uppercase tracking-widest text-white/35 mb-4">Resources</p>
+          <ul class="space-y-2.5 text-sm text-white/70">
+            <li><a href="#faq" class="hover:text-white transition-colors">FAQ</a></li>
+            <li><a href="#" class="hover:text-white transition-colors">
+              <span class="en">Blog</span>
+              <span class="id">Blog</span>
+            </a></li>
+            <li><a href="#" class="hover:text-white transition-colors">OpenClaw</a></li>
+            <li><a href="#showcase" class="hover:text-white transition-colors">
+              <span class="en">Use Case Examples</span>
+              <span class="id">Use Case Examples</span>
+            </a></li>
           </ul>
         </div>
-        <div class="offer-footer">
-          <a href="mailto:hello@etalas.studio?subject=Konsultansi Atlas" class="offer-cta id">Hubungi kami</a>
-          <a href="mailto:hello@etalas.studio?subject=Atlas Consulting" class="offer-cta en">Contact us</a>
-          <a href="mailto:hello@etalas.studio?subject=Konsultansi Atlas" class="offer-arrow">→</a>
+        <div>
+          <p class="text-xs uppercase tracking-widest text-white/35 mb-4">
+            <span class="en">Company</span>
+            <span class="id">Company</span>
+          </p>
+          <ul class="space-y-2.5 text-sm text-white/70">
+            <li><a href="#" class="hover:text-white transition-colors">
+              <span class="en">About</span>
+              <span class="id">Tentang</span>
+            </a></li>
+            <li><a href="#" class="hover:text-white transition-colors">
+              <span class="en">Changelog</span>
+              <span class="id">Changelog</span>
+            </a></li>
+            <li><a href="#" class="hover:text-white transition-colors">Privacy</a></li>
+            <li><a href="#" class="hover:text-white transition-colors">Terms</a></li>
+          </ul>
         </div>
       </div>
-
+      <div class="relative z-10 flex flex-col sm:flex-row items-center justify-between gap-3 px-8 sm:px-14 py-5 text-xs text-white/40" style="border-top:1px solid rgba(255,255,255,.1)">
+        <span><span class="en">© 2026 Atlas. All rights reserved</span><span class="id">© 2026 Atlas. All rights reserved</span></span>
+        <span>
+          <span class="en">Companies onboarded</span>
+          <span class="id">Perusahaan yang sudah onboard</span>
+          →
+          <span class="text-white/80 font-medium" data-count="128">0</span>
+        </span>
+        <a href="#top" class="text-[#ff8a70] hover:text-[#ff5a3d] transition-colors flex items-center gap-1.5">
+          <span class="en">Back to top</span>
+          <span class="id">Kembali ke atas</span>
+          <iconify-icon icon="solar:arrow-up-linear" stroke-width="1.5"></iconify-icon>
+        </a>
+      </div>
+      <!-- giant cropped wordmark -->
+      <div class="relative h-32 sm:h-52 lg:h-64 overflow-hidden select-none pointer-events-none">
+        <div class="absolute inset-x-0 bottom-0 h-full" style="background:radial-gradient(ellipse at 50% 130%,rgba(255,90,61,.45),transparent 65%)"></div>
+        <p class="absolute left-1/2 -translate-x-1/2 top-2 sm:top-0 text-[10rem] sm:text-[17rem] lg:text-[22rem] leading-[.75] text-[#f3ece9] font-semibold tracking-tight" style="font-family:'Urbanist',sans-serif;text-shadow: rgba(255, 90, 61, 0.35) 0px 0px 120px;">
+          Atlas
+        </p>
+      </div>
     </div>
-  </div>
-</section>
-<footer>
-  <div class="container--wide">
-    <div class="footer-inner">
-      <a href="#" class="footer-logo">Atlas<em>.</em></a>
-      <div class="footer-right">
-        <span class="footer-link" style="cursor:default;color:var(--text3)">AI agent oleh etalas · built on OpenClaw</span>
-        <a href="mailto:hello@etalas.studio" class="footer-link">hello@etalas.studio</a>
-        <a href="https://atlas.etalas.studio" class="footer-link" target="_blank">atlas.etalas.studio ↗</a>
-  </div>
-</footer>
+  </footer>
 
-<script>
-const cur=document.getElementById('cur'),ring=document.getElementById('ring');
-let mx=0,my=0,rx=0,ry=0;
-document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.transform=`translate(${mx}px,${my}px) translate(-50%,-50%)`});
-(function l(){rx+=(mx-rx)*0.1;ry+=(my-ry)*0.1;ring.style.transform=`translate(${rx}px,${ry}px) translate(-50%,-50%)`;requestAnimationFrame(l)})();
-document.querySelectorAll('a,button').forEach(el=>{
-  el.addEventListener('mouseenter',()=>{ring.style.width='44px';ring.style.height='44px'});
-  el.addEventListener('mouseleave',()=>{ring.style.width='28px';ring.style.height='28px'});
-});
+  <script>
+    // ---------- Marquees (Web Animations API) ----------
+    document.querySelectorAll('.marquee-a').forEach(el=>{
+      el.animate([{transform:'translateX(0)'},{transform:'translateX(-50%)'}],{duration:28000,iterations:Infinity});
+    });
+    document.querySelectorAll('.marquee-b').forEach(el=>{
+      el.animate([{transform:'translateX(-50%)'},{transform:'translateX(0)'}],{duration:32000,iterations:Infinity});
+    });
 
-const nav=document.getElementById('nav');
-window.addEventListener('scroll',()=>nav.classList.toggle('scrolled',scrollY>20));
+    // ---------- Blur-to-sharp reveals ----------
+    const revealEls=document.querySelectorAll('[data-reveal]');
+    revealEls.forEach(el=>{el.style.opacity='0';el.style.filter='blur(12px)';el.style.transform='translateY(24px)';el.style.transition='opacity .9s ease, filter .9s ease, transform .9s ease';});
+    const ro=new IntersectionObserver(entries=>{
+      entries.forEach(e=>{if(e.isIntersecting){e.target.style.opacity='1';e.target.style.filter='blur(0)';e.target.style.transform='translateY(0)';ro.unobserve(e.target);}});
+    },{threshold:.12});
+    revealEls.forEach(el=>ro.observe(el));
 
-const io=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');io.unobserve(e.target)}})},{threshold:0.08});
-document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
-document.querySelectorAll('.hero .reveal').forEach((el,i)=>setTimeout(()=>el.classList.add('visible'),80+i*100));
+    // ---------- Smudge word reveal ----------
+    document.querySelectorAll('[data-smudge]').forEach(el=>{
+      el.style.filter='blur(10px)';el.style.letterSpacing='.2em';el.style.opacity='.3';
+      el.style.transition='filter 1.4s ease .3s, letter-spacing 1.4s ease .3s, opacity 1.4s ease .3s';
+      new IntersectionObserver((e,o)=>{if(e[0].isIntersecting){el.style.filter='blur(0)';el.style.letterSpacing='-0.025em';el.style.opacity='1';o.disconnect();}},{threshold:.5}).observe(el);
+    });
 
-function setTheme(t){
-  document.documentElement.setAttribute('data-theme',t);
-  localStorage.setItem('atlas-theme',t);
-  document.getElementById('btnLight').classList.toggle('active',t==='light');
-  document.getElementById('btnDark').classList.toggle('active',t==='dark');
-}
-function setLang(l){
-  document.documentElement.setAttribute('data-lang',l);
-  document.documentElement.setAttribute('lang',l);
-  localStorage.setItem('atlas-lang',l);
-  document.getElementById('btnID').classList.toggle('active',l==='id');
-  document.getElementById('btnEN').classList.toggle('active',l==='en');
-}
-function setTab(id,btn){
-  document.querySelectorAll('.uc-tab').forEach(b=>b.classList.remove('active'));
-  document.querySelectorAll('.uc-pane').forEach(p=>p.classList.remove('active'));
-  btn.classList.add('active');
-  document.getElementById('uc-'+id).classList.add('active');
-}
+    // ---------- Count-up ----------
+    document.querySelectorAll('[data-count]').forEach(el=>{
+      new IntersectionObserver((e,o)=>{
+        if(!e[0].isIntersecting)return;o.disconnect();
+        const target=+el.dataset.count,start=performance.now(),dur=1400;
+        (function tick(t){const p=Math.min((t-start)/dur,1);el.textContent=Math.round(target*(1-Math.pow(1-p,3)));if(p<1)requestAnimationFrame(tick);})(start);
+      },{threshold:.5}).observe(el);
+    });
 
-setTheme(localStorage.getItem('atlas-theme')||'light');
-setLang(localStorage.getItem('atlas-lang')||'id');
-</script>
+    // ---------- FAQ accordion ----------
+    document.querySelectorAll('.faq-item').forEach(item=>{
+      item.addEventListener('click',()=>{
+        const body=item.querySelector('.faq-body'),icon=item.querySelector('.faq-icon');
+        const open=body.style.maxHeight!=='0px'&&body.style.maxHeight!=='';
+        document.querySelectorAll('.faq-item').forEach(other=>{
+          other.querySelector('.faq-body').style.maxHeight='0px';
+          const i=other.querySelector('.faq-icon');i.classList.remove('text-[#ff5a3d]');i.classList.add('text-[#9a9a9a]');
+        });
+        if(!open){body.style.maxHeight=body.scrollHeight+'px';icon.classList.add('text-[#ff5a3d]');icon.classList.remove('text-[#9a9a9a]');}
+      });
+    });
+    // normalize default-open item
+    const openItem=document.querySelector('[data-open] .faq-body');if(openItem)openItem.style.maxHeight=openItem.scrollHeight+'px';
+
+    // ---------- Sticky showcase depth ----------
+    const stacks=[...document.querySelectorAll('[data-stack]')];
+    function stackScroll(){
+      stacks.forEach((card,i)=>{
+        const wrap=card.parentElement,r=wrap.getBoundingClientRect();
+        const progress=Math.min(Math.max((-r.top)/(r.height-window.innerHeight*0.8),0),1);
+        if(i<stacks.length-1){
+          const s=1-progress*0.08,rot=progress*(i%2?2.5:-2.5),blur=progress*4;
+          card.style.transform=`scale(${s}) rotate(${rot}deg)`;card.style.filter=`blur(${blur}px)`;card.style.opacity=1-progress*0.35;
+        }
+      });
+    }
+    window.addEventListener('scroll',stackScroll,{passive:true});stackScroll();
+
+    // ---------- Slow parallax on hero collage ----------
+    const par=document.querySelector('[data-parallax]');
+    window.addEventListener('scroll',()=>{
+      if(!par)return;const r=par.getBoundingClientRect();
+      const shift=(r.top-window.innerHeight/2)*0.04;
+      par.style.backgroundPosition=`center calc(50% + ${shift}px)`;
+    },{passive:true});
+
+    // ---------- Rotating stamp ----------
+    const stamp=document.querySelector('[data-stamp] svg');
+    if(stamp)stamp.animate([{transform:'rotate(0deg)'},{transform:'rotate(360deg)'}],{duration:22000,iterations:Infinity});
+
+    // ---------- Language switching ----------
+    function setLang(l){
+      document.documentElement.setAttribute('data-lang',l);
+      document.documentElement.setAttribute('lang',l);
+      localStorage.setItem('atlas-lang',l);
+      document.getElementById('btnEN').classList.toggle('active',l==='en');
+      document.getElementById('btnID').classList.toggle('active',l==='id');
+    }
+
+    const savedLang=localStorage.getItem('atlas-lang')||'en';
+    setLang(savedLang);
+  </script>
+
+  <style>
+    .tog-btn {
+      padding: 0.5rem 1rem;
+      border-radius: 999px;
+      background: transparent;
+      color: #555;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      border: none;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      text-transform: uppercase;
+    }
+    .tog-btn:hover { color: #111; }
+    .tog-btn.active {
+      background: #fff;
+      color: #111;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+    @keyframes auraWordIn{0%{opacity:0;filter:blur(10px);transform:translateY(18px)}100%{opacity:1;filter:blur(0);transform:translateY(0)}}.aura-word{display:inline-block;opacity:0;will-change:transform,filter}.aura-word.in{animation:auraWordIn .7s cubic-bezier(.22,.68,.34,1) forwards}
+  </style>
+  <script>
+    (function(){document.querySelectorAll('h1,h2,h3').forEach(function(el){var walker=document.createTreeWalker(el,NodeFilter.SHOW_TEXT,null);var nodes=[],n;while(n=walker.nextNode()){if(n.textContent.trim()&&!(n.parentElement&&n.parentElement.closest('.aura-word')))nodes.push(n);}nodes.forEach(function(node){var frag=document.createDocumentFragment();node.textContent.split(/(\s+)/).forEach(function(part){if(!part)return;if(/^\s+$/.test(part)){frag.appendChild(document.createTextNode(part));return;}var s=document.createElement('span');s.className='aura-word';s.textContent=part;frag.appendChild(s);});node.parentNode.replaceChild(frag,node);});var words=el.querySelectorAll('.aura-word');if(!words.length)return;new IntersectionObserver(function(e,o){if(!e[0].isIntersecting)return;o.disconnect();words.forEach(function(w,i){w.style.animationDelay=(i*0.06)+'s';w.classList.add('in');});},{threshold:.25}).observe(el);});})();
+  </script>
 </body>
 </html>
